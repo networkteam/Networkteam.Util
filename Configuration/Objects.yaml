@@ -1,0 +1,53 @@
+Networkteam\Util\Serializer\JsonSerializerInterface:
+  scope: singleton
+  factoryObjectName: Networkteam\Util\Factory\SerializerFactory
+  factoryMethodName: createJsonSerializer
+
+Networkteam\Util\Converter\CurrencyConverterInterface:
+  scope: singleton
+  className: Networkteam\Util\Converter\OpenExchangeRateConverterService
+
+Networkteam\Util\Persistence\SequenceGeneratorInterface:
+  scope: singleton
+  className: Networkteam\Util\Persistence\MysqlSequenceGenerator
+
+Networkteam\Util\Converter\OpenExchangeRateConverterService:
+  arguments:
+    1:
+      setting: Mueggenburg.Networkteam.Util.openExchangeRate.cacheLifetime
+    2:
+      value: EUR
+    3:
+      value: 86400
+  properties:
+    cache:
+      object:
+        factoryObjectName: TYPO3\Flow\Cache\CacheManager
+        factoryMethodName: getCache
+        arguments:
+          1:
+            value: OpenExchangeRate
+  properties:
+    baseUrl:
+      setting: Networkteam.Util.OpenExchangeRateConverter.baseUrl
+    appId:
+      setting: Networkteam.Util.OpenExchangeRateConverter.appId
+    cacheDir:
+      setting: Networkteam.Util.OpenExchangeRateConverter.cacheDir
+    cacheTimeout:
+      setting: Networkteam.Util.OpenExchangeRateConverter.cacheTimeout
+    baseCurrency:
+      setting: Networkteam.Util.OpenExchangeRateConverter.baseCurrency
+
+Networkteam\Util\Log\MailerLoggerInterface:
+  scope: singleton
+  factoryObjectName: TYPO3\Flow\Log\LoggerFactory
+  arguments:
+    1:
+      value: 'Networkteam_Util_Mailer'
+    2:
+      value: 'TYPO3\Flow\Log\Logger'
+    3:
+      value: 'TYPO3\Flow\Log\Backend\FileBackend'
+    4:
+      setting: Networkteam.Util.log.mailerLogger.backendOptions

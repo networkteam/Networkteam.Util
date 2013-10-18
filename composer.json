@@ -1,0 +1,14 @@
+{
+    "name": "networkteam/util",
+    "type": "typo3-flow-package",
+    "description": "",
+    "require": {
+        "typo3/flow": "*",
+		"symfony/serializer": "2.2.*@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "Networkteam\\Util": "Classes"
+        }
+    }
+}
