@@ -67,7 +67,10 @@ class Mailer implements MailerInterface {
 		$mail->setBody($message->getBody(), $message->getFormat());
 
 		if ($result->hasErrors()) {
-			$logMessage = 'Failed sending mail to: ' . implode(',', array_keys($mail->getTo())) . ' with subject: ' . $mail->getSubject() . ' First Error: ' . $result->getFirstError()->getMessage();
+			$logMessage = 'Failed sending mail to: ' . implode(',', array_keys((array)$mail->getTo())) . ' with subject: ' . $mail->getSubject();
+			if ($result->getFirstError() !== FALSE) {
+				$logMessage .= ' First Error: ' . $result->getFirstError()->getMessage();
+			}
 		} else {
 			if (isset($this->settings['Mailer']['bcc'])) {
 				foreach ($this->settings['Mailer']['bcc'] as $bccMail) {
