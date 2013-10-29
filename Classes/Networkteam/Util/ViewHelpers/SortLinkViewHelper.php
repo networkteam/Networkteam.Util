@@ -5,7 +5,7 @@ namespace Networkteam\Util\ViewHelpers;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use Networkteam\Mueggenburg\Offers\Domain\Dto\ListViewConfiguration;
+use Networkteam\Util\Domain\DataTransferObject\ListViewConfiguration;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\ActionRequest;
 use TYPO3\Flow\Mvc\Controller\Argument;
@@ -36,7 +36,7 @@ class SortLinkViewHelper extends AbstractTagBasedViewHelper {
 
 	/**
 	 * @param string $sortProperty
-	 * @param \Networkteam\Mueggenburg\Offers\Domain\Dto\ListViewConfiguration $listViewConfiguration
+	 * @param \Networkteam\Util\Domain\DataTransferObject\ListViewConfiguration $listViewConfiguration
 	 * @return string
 	 */
 	public function render($sortProperty, ListViewConfiguration $listViewConfiguration) {
