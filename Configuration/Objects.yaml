@@ -11,34 +11,6 @@ Networkteam\Util\Persistence\SequenceGeneratorInterface:
   scope: singleton
   className: Networkteam\Util\Persistence\MysqlSequenceGenerator
 
-Networkteam\Util\Converter\OpenExchangeRateConverterService:
-  arguments:
-    1:
-      setting: Mueggenburg.Networkteam.Util.openExchangeRate.cacheLifetime
-    2:
-      value: EUR
-    3:
-      value: 86400
-  properties:
-    cache:
-      object:
-        factoryObjectName: TYPO3\Flow\Cache\CacheManager
-        factoryMethodName: getCache
-        arguments:
-          1:
-            value: OpenExchangeRate
-  properties:
-    baseUrl:
-      setting: Networkteam.Util.OpenExchangeRateConverter.baseUrl
-    appId:
-      setting: Networkteam.Util.OpenExchangeRateConverter.appId
-    cacheDir:
-      setting: Networkteam.Util.OpenExchangeRateConverter.cacheDir
-    cacheTimeout:
-      setting: Networkteam.Util.OpenExchangeRateConverter.cacheTimeout
-    baseCurrency:
-      setting: Networkteam.Util.OpenExchangeRateConverter.baseCurrency
-
 Networkteam\Util\Log\MailerLoggerInterface:
   scope: singleton
   factoryObjectName: TYPO3\Flow\Log\LoggerFactory
@@ -51,3 +23,23 @@ Networkteam\Util\Log\MailerLoggerInterface:
       value: 'TYPO3\Flow\Log\Backend\FileBackend'
     4:
       setting: Networkteam.Util.log.mailerLogger.backendOptions
+
+#Disable DeepArrayConverter routes by default - enable it in project specific package
+Networkteam\Util\Property\TypeConverter\DeepArrayConverter:
+  properties:
+    priority:
+      value: -100
+
+Networkteam\Util\Converter\OpenExchangeRateConverterService:
+  arguments:
+    1:
+      setting: Networkteam.Util.OpenExchangeRateConverter.baseUrl
+    2:
+      setting: Networkteam.Util.OpenExchangeRateConverter.appId
+    3:
+      setting: Networkteam.Util.OpenExchangeRateConverter.cacheDir
+  properties:
+    cacheTimeout:
+      setting: Networkteam.Util.OpenExchangeRateConverter.cacheTimeout
+    baseCurrency:
+      setting: Networkteam.Util.OpenExchangeRateConverter.baseCurrency
