@@ -28,7 +28,7 @@ Networkteam\Util\Log\MailerLoggerInterface:
 Networkteam\Util\Property\TypeConverter\DeepArrayConverter:
   properties:
     priority:
-      value: -100
+      setting: Networkteam.Util.Property.TypeConverter.DeepArrayConverter.priority
 
 Networkteam\Util\Converter\OpenExchangeRateConverterService:
   arguments:
