@@ -87,6 +87,11 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 					$constraint = $query->equals($propertyName, NULL);
 				}
 				break;
+			case 'contains':
+				if ((string) $filter['operand'] !== '') {
+					$constraint = $query->contains($propertyName, $filter['operand']);
+				}
+				break;
 			default:
 				throw new \InvalidArgumentException('Unknown operator "' . $filter['operator'] . '"', 1369911739);
 		}

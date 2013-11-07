@@ -35,9 +35,15 @@ class ListViewConfiguration {
 	/**
 	 * defines the properties which can be filtered
 	 * used to build the filter form
+	 *
 	 * @var array
 	 */
 	protected $filterableProperties = array();
+
+	/**
+	 * @var int
+	 */
+	protected $itemsPerPage = 20;
 
 	/**
 	 * Set the filter configuration
@@ -53,6 +59,20 @@ class ListViewConfiguration {
 	 */
 	public function getFilter() {
 		return $this->filter;
+	}
+
+	/**
+	 * @param int $amount
+	 */
+	public function setItemsPerPage($amount) {
+		$this->itemsPerPage = $amount;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getItemsPerPage() {
+		return $this->itemsPerPage;
 	}
 
 	/**
