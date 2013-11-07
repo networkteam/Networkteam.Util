@@ -41,7 +41,7 @@ class ListViewConfiguration {
 	protected $filterableProperties = array();
 
 	/**
-	 * @var int
+	 * @var integer
 	 */
 	protected $itemsPerPage = 20;
 
@@ -62,14 +62,14 @@ class ListViewConfiguration {
 	}
 
 	/**
-	 * @param int $amount
+	 * @param integer $amount
 	 */
 	public function setItemsPerPage($amount) {
 		$this->itemsPerPage = $amount;
 	}
 
 	/**
-	 * @return int
+	 * @return integer
 	 */
 	public function getItemsPerPage() {
 		return $this->itemsPerPage;
