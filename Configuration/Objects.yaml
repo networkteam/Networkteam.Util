@@ -25,10 +25,10 @@ Networkteam\Util\Log\MailerLoggerInterface:
       setting: Networkteam.Util.log.mailerLogger.backendOptions
 
 #Disable DeepArrayConverter routes by default - enable it in project specific package
-Networkteam\Util\Property\TypeConverter\DeepArrayConverter:
-  properties:
-    priority:
-      setting: Networkteam.Util.Property.TypeConverter.DeepArrayConverter.priority
+#Networkteam\Util\Property\TypeConverter\DeepArrayConverter:
+#  properties:
+#    priority:
+#      value: -100
 
 Networkteam\Util\Converter\OpenExchangeRateConverterService:
   arguments:

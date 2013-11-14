@@ -28,7 +28,7 @@ class DeepArrayConverter extends AbstractTypeConverter {
 	/**
 	 * @var integer
 	 */
-	protected $priority = 10;
+	protected $priority = -100;
 
 	/**
 	 * Actually convert from $source to $targetType, in fact a noop here.
