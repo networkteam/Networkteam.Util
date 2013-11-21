@@ -114,7 +114,7 @@ class TranslationStripper {
 		$text = '';
 		if (isset($arguments['value']) && $arguments['value'] instanceof TextNode) {
 			$text = $arguments['value']->getText();
-		} else if ($arguments['value'] instanceof RootNode) {
+		} else if (isset($arguments['value']) && $arguments['value'] instanceof RootNode) {
 			foreach ($arguments['value']->getChildNodes() as $childNode) {
 				if ($childNode instanceof TextNode) {
 					$text .= $childNode->getText();
@@ -136,16 +136,17 @@ class TranslationStripper {
 	protected function findFileSet($packageKey) {
 		$package = $this->packageManager->getPackage($packageKey);
 		$resourcesPath = $package->getResourcesPath();
+		$dirs = array();
 		$emberTemplatePath = str_replace('@packageResourcesPath', $resourcesPath, $this->emberTemplateRootPathPattern);
-		$templatePath = str_replace('@packageResourcesPath', $resourcesPath, $this->templateRootPathPattern);
-		$partialPath = str_replace('@packageResourcesPath', $resourcesPath, $this->partialRootPathPattern);
-		$layoutPath = str_replace('@packageResourcesPath', $resourcesPath, $this->layoutRootPathPattern);
+		$dirs[] = $templatePath = str_replace('@packageResourcesPath', $resourcesPath, $this->templateRootPathPattern);
+		$dirs[] = $partialPath = str_replace('@packageResourcesPath', $resourcesPath, $this->partialRootPathPattern);
+		$dirs[] = $layoutPath = str_replace('@packageResourcesPath', $resourcesPath, $this->layoutRootPathPattern);
 		$finder = new Finder();
+		if(is_dir($emberTemplatePath)) {
+			$dirs[] = $emberTemplatePath;
+		}
 		$finder->files()
-			->in($emberTemplatePath)
-			->in($templatePath)
-			->in($partialPath)
-			->in($layoutPath)
+			->in($dirs)
 			->name('*.html')
 			->name('*.txt')
 			->name('*.hbs');
