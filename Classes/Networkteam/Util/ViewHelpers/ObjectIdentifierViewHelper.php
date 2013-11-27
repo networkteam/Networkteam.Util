@@ -19,7 +19,13 @@ class ObjectIdentifierViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractVi
 	 * @param object $object
 	 * @return mixed
 	 */
-	public function render($object) {
+	public function render($object = NULL) {
+		if ($object === NULL) {
+			$object = $this->renderChildren();
+			if ($object === NULL) {
+				return '';
+			}
+		}
 		return $this->persistenceManager->getIdentifierByObject($object);
 	}
 }
