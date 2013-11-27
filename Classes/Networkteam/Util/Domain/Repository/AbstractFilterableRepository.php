@@ -24,7 +24,7 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 
 		$filter = $listViewConfiguration->getFilterWithPropertyPaths();
 
-		$constraint = $this->buildFiltersConstraint($filter, $query);
+		$constraint = $this->buildFiltersConstraint($filter, $query, $listViewConfiguration->getLogicalType());
 		if ($constraint !== NULL) {
 			$query->matching($constraint);
 		}
@@ -39,9 +39,10 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 	/**
 	 * @param array $filters
 	 * @param \TYPO3\Flow\Persistence\QueryInterface $query
+	 * @param integer $logicalTypeValue
 	 * @return object A constraint for the filters or NULL if no filters apply
 	 */
-	protected function buildFiltersConstraint($filters, $query) {
+	protected function buildFiltersConstraint(array $filters, $query, $logicalTypeValue = ListViewConfiguration::LOGICAL_TYPE_AND) {
 		$constraints = array();
 		foreach ($filters as $propertyName => $filter) {
 			$constraint = $this->getConstraintForFilter($filter, $propertyName, $query);
@@ -49,11 +50,31 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 				$constraints[] = $constraint;
 			}
 		}
+
 		if (count($constraints) > 0) {
-			return $query->logicalAnd($constraints);
+			$logicalTypeName = $this->getLogicalTypeName($logicalTypeValue);
+			return $query->$logicalTypeName($constraints);
 		} else {
 			return NULL;
 		}
+	}
+
+	/**
+	 * Returns name of logical function to combine constraints with
+	 *
+	 * @param integer $logicalTypeValue
+	 * @return string
+	 */
+	public function getLogicalTypeName($logicalTypeValue) {
+		$typeName = 'logicalAnd';
+
+		if ($logicalTypeValue === ListViewConfiguration::LOGICAL_TYPE_OR) {
+			$typeName = 'logicalOr';
+		} elseif ($logicalTypeValue === ListViewConfiguration::LOGICAL_TYPE_NOT) {
+			$typeName = 'logicalNot';
+		}
+
+		return $typeName;
 	}
 
 	/**
@@ -88,7 +109,7 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 				}
 				break;
 			case 'contains':
-				if ((string) $filter['operand'] !== '') {
+				if ((string)$filter['operand'] !== '') {
 					$constraint = $query->contains($propertyName, $filter['operand']);
 				}
 				break;
@@ -98,6 +119,6 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 
 		return $constraint;
 	}
-
 }
+
 ?>

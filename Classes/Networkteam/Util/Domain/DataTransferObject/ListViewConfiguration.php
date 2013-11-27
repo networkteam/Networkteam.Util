@@ -7,6 +7,21 @@ namespace Networkteam\Util\Domain\DataTransferObject;
 class ListViewConfiguration {
 
 	/**
+	 * All filters set will be connected by OR
+	 */
+	const LOGICAL_TYPE_OR = 1;
+
+	/**
+	 * All filters set will be connected by AND (default)
+	 */
+	const LOGICAL_TYPE_AND = 2;
+
+	/**
+	 * All filters set will be connected by NOT
+	 */
+	const LOGICAL_TYPE_NOT = 3;
+
+	/**
 	 * @var string
 	 */
 	protected $sortDirection = 'ASC';
@@ -46,11 +61,23 @@ class ListViewConfiguration {
 	protected $itemsPerPage = 20;
 
 	/**
-	 * Set the filter configuration
+	 * Logical type to connect all contraints with in the query
+	 *
+	 * @var integer
+	 */
+	protected $logicalType = self::LOGICAL_TYPE_AND;
+
+	/**
+	 * Validate and set the filter configuration
 	 *
 	 * @param array $filter
 	 */
 	public function setFilter($filter) {
+		foreach ($filter as $name => $configuration) {
+			if (!$this->isValidFilterConfiguration($configuration)) {
+				unset($filter[$name]);
+			}
+		}
 		$this->filter = $filter;
 	}
 
@@ -76,6 +103,20 @@ class ListViewConfiguration {
 	}
 
 	/**
+	 * @param integer $type
+	 */
+	public function setLogicalType($type) {
+		$this->logicalType = (int)$type;
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getLogicalType() {
+		return $this->logicalType;
+	}
+
+	/**
 	 * @param string $sortDirection
 	 */
 	public function setSortDirection($sortDirection) {
@@ -98,6 +139,13 @@ class ListViewConfiguration {
 	 */
 	public function setSortProperty($sortField) {
 		$this->sortProperty = $sortField;
+	}
+
+	/**
+	 * Resets logical type to LOGICAL_TYPE_AND
+	 */
+	public function resetLogicalType() {
+		$this->logicalType = self::LOGICAL_TYPE_AND;
 	}
 
 	/**
@@ -155,7 +203,9 @@ class ListViewConfiguration {
 	 * @return void
 	 */
 	public function addFilter($name, $configuration) {
-		$this->filter[$name] = $configuration;
+		if ($this->isValidFilterConfiguration($configuration)) {
+			$this->filter[$name] = $configuration;
+		}
 	}
 
 	/**
@@ -181,6 +231,25 @@ class ListViewConfiguration {
 	 */
 	public function getSortPropertyWithPropertyPath() {
 		return strtr($this->sortProperty, '_', '.');
+	}
+
+	/**
+	 * Checks if given filter configuration array is valid
+	 *
+	 * @param array $configuration
+	 * @return boolean
+	 */
+	protected function isValidFilterConfiguration(array $configuration) {
+		return (isset($configuration['operator']) && (string)$configuration['operator'] !== '' && isset($configuration['operand']));
+	}
+
+	/**
+	 * Deletes a filter
+	 *
+	 * @param $filterName
+	 */
+	public function removeFilter($filterName) {
+		unset($this->filter[$filterName]);
 	}
 }
 
