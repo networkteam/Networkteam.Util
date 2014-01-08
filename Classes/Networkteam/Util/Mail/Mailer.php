@@ -48,13 +48,21 @@ class Mailer implements MailerInterface {
 
 		try {
 			$mail->setFrom($message->getFrom());
-		} catch(\Swift_RfcComplianceException $exception) {
+		} catch (\Swift_RfcComplianceException $exception) {
 			$result->forProperty('sender')->addError(new Error($exception->getMessage(), 1365160468));
 		}
 
 		try {
-			$mail->setTo($message->getRecipient());
-		} catch(\Swift_RfcComplianceException $exception) {
+			$recipientCount = 0;
+			foreach ($message->getRecipient() as $recipient) {
+				if ($recipientCount < 1) {
+					$mail->setTo($recipient);
+				} else {
+					$mail->setCc($recipient);
+				}
+				$recipientCount++;
+			}
+		} catch (\Swift_RfcComplianceException $exception) {
 			$result->forProperty('recipient')->addError(new Error($exception->getMessage(), 1365160498));
 		}
 
