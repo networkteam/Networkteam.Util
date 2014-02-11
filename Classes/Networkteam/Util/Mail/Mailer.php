@@ -16,6 +16,7 @@ use TYPO3\Flow\Annotations as Flow;
  * TODO Rename to SwiftMailerMailer
  */
 class Mailer implements MailerInterface {
+
 	/**
 	 * @var array
 	 */
@@ -75,6 +76,7 @@ class Mailer implements MailerInterface {
 		$mail->setBody($message->getBody(), $message->getFormat());
 
 		if ($result->hasErrors()) {
+			$severity = LOG_ERR;
 			$logMessage = 'Failed sending mail to: ' . implode(',', array_keys((array)$mail->getTo())) . ' with subject: ' . $mail->getSubject();
 			if ($result->getFirstError() !== FALSE) {
 				$logMessage .= ' First Error: ' . $result->getFirstError()->getMessage();
@@ -85,19 +87,25 @@ class Mailer implements MailerInterface {
 					$mail->addBcc($bccMail);
 				}
 			}
-			$recipients = $mail->send();
-			if ($recipients === 0) {
-				$result->addError(new Error('No recipients accepted', 1376582260));
-				$logMessage = 'No Recipients accepted: ' . implode(',', $mail->getFailedRecipients());
-			} else {
-				$logMessage = 'Send mail to: ' . implode(',', array_keys($mail->getTo())) . ' with subject: ' . $mail->getSubject();
+			try {
+				$recipients = $mail->send();
+				$severity = LOG_INFO;
+				if ($recipients === 0) {
+					$result->addError(new Error('No recipients accepted', 1376582260));
+					$logMessage = 'No Recipients accepted: ' . implode(',', $mail->getFailedRecipients());
+				} else {
+					$logMessage = 'Send mail to: ' . implode(',', array_keys($mail->getTo())) . ' with subject: ' . $mail->getSubject();
+				}
+			} catch (\Exception $e) {
+				$logMessage = 'Failed sending mail: ' . $e->getMessage();
+				$severity = LOG_ERR;
 			}
 		}
 
-		$this->logger->log($logMessage, LOG_INFO);
+		$this->logger->log($logMessage, $severity);
 
 		return $result;
 	}
-
 }
+
 ?>
