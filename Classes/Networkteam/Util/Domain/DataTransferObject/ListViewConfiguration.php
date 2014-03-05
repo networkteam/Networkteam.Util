@@ -89,6 +89,14 @@ class ListViewConfiguration {
 	}
 
 	/**
+	 * @param string $name
+	 * @return boolean
+	 */
+	public function hasFilter($name) {
+		return isset($this->filter[$name]);
+	}
+
+	/**
 	 * @param integer $amount
 	 */
 	public function setItemsPerPage($amount) {
