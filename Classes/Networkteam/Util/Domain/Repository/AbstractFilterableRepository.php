@@ -113,6 +113,26 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 					$constraint = $query->contains($propertyName, $filter['operand']);
 				}
 				break;
+			case 'greaterThanOrEqual':
+				if ((string)$filter['operand'] !== '') {
+					// handle value: "Type|Value"
+					if (strpos($filter['operand'], '|') !== FALSE) {
+						list($type, $value) = explode('|', $filter['operand']);
+						switch($type) {
+							case 'DateTime':
+								$typeAwareValue = new \DateTime($value);
+								break;
+							default:
+								throw new \InvalidArgumentException('Unknown type "' . $type . '"', 1394030370);
+						}
+						$constraint = $query->greaterThanOrEqual($propertyName, $typeAwareValue);
+
+					} else {
+						$constraint = $query->greaterThanOrEqual($propertyName, $filter['operand']);
+					}
+				}
+				break;
+
 			default:
 				throw new \InvalidArgumentException('Unknown operator "' . $filter['operator'] . '"', 1369911739);
 		}
