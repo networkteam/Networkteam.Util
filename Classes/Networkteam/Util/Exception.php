@@ -8,5 +8,3 @@ namespace Networkteam\Util;
 class Exception extends \Exception {
 
 }
-
-?>

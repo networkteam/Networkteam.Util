@@ -1,6 +1,6 @@
 <?php
-
 namespace Networkteam\Util\Factory;
+
 /***************************************************************
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
@@ -30,7 +30,7 @@ class SerializerFactory {
 	 * @return \Symfony\Component\Serializer\Serializer
 	 */
 	public function createJsonSerializer() {
-		if(isset($this->serializer['json']) && $this->serializer['json']) {
+		if (isset($this->serializer['json']) && $this->serializer['json']) {
 			return $this->serializer['json'];
 		}
 
@@ -45,7 +45,7 @@ class SerializerFactory {
 	 * @return \JMS\Serializer\Serializer
 	 */
 	public function createJmsSerializer() {
-		if(isset($this->serializer['jms']) && $this->serializer['jms']) {
+		if (isset($this->serializer['jms']) && $this->serializer['jms']) {
 			return $this->serializer['jms'];
 		}
 		$serializer = SerializerBuilder::create()->build();
@@ -54,5 +54,3 @@ class SerializerFactory {
 	}
 
 }
-
-?>

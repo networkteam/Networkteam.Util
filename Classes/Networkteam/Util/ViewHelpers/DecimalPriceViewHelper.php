@@ -18,5 +18,3 @@ class DecimalPriceViewHelper extends AbstractViewHelper {
 		return $price / 100;
 	}
 }
-
-?>

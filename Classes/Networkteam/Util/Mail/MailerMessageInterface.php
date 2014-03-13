@@ -1,5 +1,6 @@
 <?php
 namespace Networkteam\Util\Mail;
+
 /***************************************************************
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
@@ -35,5 +36,3 @@ interface MailerMessageInterface {
 	 */
 	public function getSubject();
 }
-
-?>

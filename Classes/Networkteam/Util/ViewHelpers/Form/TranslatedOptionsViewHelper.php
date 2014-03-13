@@ -50,5 +50,3 @@ class TranslatedOptionsViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractV
 		return $options;
 	}
 }
-
-?>

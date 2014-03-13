@@ -1,5 +1,6 @@
 <?php
 namespace Networkteam\Mueggenburg\Offers\Tests\Unit\Service;
+
 /***************************************************************
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
@@ -82,5 +83,3 @@ class JsonResourceTypeConverterTest extends UnitTestCase {
 	}
 
 }
-
-?>

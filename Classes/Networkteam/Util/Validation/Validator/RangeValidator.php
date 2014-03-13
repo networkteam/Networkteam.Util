@@ -1,5 +1,6 @@
 <?php
 namespace Networkteam\Util\Validation\Validator;
+
 /***************************************************************
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
@@ -9,7 +10,7 @@ use TYPO3\Flow\Validation\Validator\AbstractValidator;
 /**
  * A number range validator
  */
-class RangeValidator extends AbstractValidator{
+class RangeValidator extends AbstractValidator {
 
 	/**
 	 * @var array
@@ -36,4 +37,3 @@ class RangeValidator extends AbstractValidator{
 		}
 	}
 }
-?>

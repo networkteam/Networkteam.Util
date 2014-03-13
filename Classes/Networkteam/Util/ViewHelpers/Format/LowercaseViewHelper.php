@@ -17,5 +17,3 @@ class LowercaseViewHelper extends AbstractTagBasedViewHelper {
 		return strtolower($this->renderChildren());
 	}
 }
-
-?>

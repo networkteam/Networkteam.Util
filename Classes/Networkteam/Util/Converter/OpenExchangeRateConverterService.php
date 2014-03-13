@@ -5,7 +5,7 @@ namespace Networkteam\Util\Converter;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-class OpenExchangeRateConverterService implements CurrencyConverterInterface{
+class OpenExchangeRateConverterService implements CurrencyConverterInterface {
 
 	const CACHEFILENAME = 'openexchange.cache';
 	/**
@@ -53,13 +53,12 @@ class OpenExchangeRateConverterService implements CurrencyConverterInterface{
 		$this->baseCurrency = $baseCurrency;
 	}
 
-
 	/**
 	 * @param string $currency
 	 */
 	public function getExchangeRate($currency) {
 		$convertedCurrencies = $this->getData();
-		if(property_exists($convertedCurrencies->rates, $currency)) {
+		if (property_exists($convertedCurrencies->rates, $currency)) {
 			return $convertedCurrencies->rates->{$currency};
 		} else {
 			throw new InvalidCurrencyException( $currency . ' is not an available Currency');
@@ -97,14 +96,14 @@ class OpenExchangeRateConverterService implements CurrencyConverterInterface{
 		$cacheFile = $this->cacheDir . DIRECTORY_SEPARATOR . self::CACHEFILENAME;
 		$cacheTime = file_exists($cacheFile) ? filemtime($cacheFile) : 0;
 		$useCache = $cacheTime + $this->cacheTimeout > time();
-		if($useCache) {
+		if ($useCache) {
 			$source = $cacheFile;
 		} else {
 			$source = $this->buildLatestUrl();
 		}
-		try{
+		try {
 			$rawData = file_get_contents($source);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			$useCache = TRUE;
 			if (file_exists($cacheFile)) {
 				$rawData = file_get_contents($cacheFile);
@@ -114,7 +113,7 @@ class OpenExchangeRateConverterService implements CurrencyConverterInterface{
 		}
 
 		if ($useCache === FALSE) {
-			if(!file_exists(dirname($cacheFile))) {
+			if (!file_exists(dirname($cacheFile))) {
 				mkdir(dirname($cacheFile), 0777, TRUE);
 				chmod(dirname($cacheFile), 0777);
 			}
@@ -130,7 +129,7 @@ class OpenExchangeRateConverterService implements CurrencyConverterInterface{
 	 */
 	protected function buildLatestUrl() {
 		$baseUrl = $this->baseUrl;
-		if(substr($this->baseUrl, -1) !== '/') {
+		if (substr($this->baseUrl, -1) !== '/') {
 			$baseUrl .= '/';
 		}
 
@@ -165,7 +164,4 @@ class OpenExchangeRateConverterService implements CurrencyConverterInterface{
 		$this->cacheTimeout = $cacheTimeout;
 	}
 
-
 }
-
-?>

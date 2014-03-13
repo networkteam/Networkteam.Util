@@ -1,6 +1,6 @@
 <?php
-
 namespace Networkteam\Util\Property\TypeConverter;
+
 /***************************************************************
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
@@ -66,4 +66,3 @@ class DeepArrayConverter extends AbstractTypeConverter {
 		return $parsedTargetType['elementType'];
 	}
 }
-?>

@@ -114,7 +114,7 @@ class TranslationStripper {
 		$text = '';
 		if (isset($arguments['value']) && $arguments['value'] instanceof TextNode) {
 			$text = $arguments['value']->getText();
-		} else if (isset($arguments['value']) && $arguments['value'] instanceof RootNode) {
+		} elseif (isset($arguments['value']) && $arguments['value'] instanceof RootNode) {
 			foreach ($arguments['value']->getChildNodes() as $childNode) {
 				if ($childNode instanceof TextNode) {
 					$text .= $childNode->getText();
@@ -142,7 +142,7 @@ class TranslationStripper {
 		$dirs[] = $partialPath = str_replace('@packageResourcesPath', $resourcesPath, $this->partialRootPathPattern);
 		$dirs[] = $layoutPath = str_replace('@packageResourcesPath', $resourcesPath, $this->layoutRootPathPattern);
 		$finder = new Finder();
-		if(is_dir($emberTemplatePath)) {
+		if (is_dir($emberTemplatePath)) {
 			$dirs[] = $emberTemplatePath;
 		}
 		$finder->files()
@@ -187,5 +187,3 @@ class TranslationStripper {
 		}
 	}
 }
-
-?>

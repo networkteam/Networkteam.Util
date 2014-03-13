@@ -70,5 +70,3 @@ class JsonResourceTypeConverter extends \TYPO3\Flow\Property\TypeConverter\Abstr
 		}
 	}
 }
-
-?>

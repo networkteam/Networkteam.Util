@@ -7,7 +7,7 @@ namespace Networkteam\Util\ViewHelpers;
 
 use TYPO3\Flow\Annotations as Flow;
 
-class ObjectIdentifierViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper{
+class ObjectIdentifierViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * @var \TYPO3\Flow\Persistence\PersistenceManagerInterface
@@ -29,4 +29,3 @@ class ObjectIdentifierViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractVi
 		return $this->persistenceManager->getIdentifierByObject($object);
 	}
 }
-?>

@@ -1,5 +1,6 @@
 <?php
 namespace Networkteam\Util\Domain\DataTransferObject;
+
 /***************************************************************
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
@@ -260,5 +261,3 @@ class ListViewConfiguration {
 		unset($this->filter[$filterName]);
 	}
 }
-
-?>

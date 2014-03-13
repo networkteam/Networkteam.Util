@@ -44,5 +44,3 @@ class IncludeTemplatesViewHelper extends AbstractTagBasedViewHelper {
 		return implode("\n", $templates);
 	}
 }
-
-?>

@@ -7,7 +7,6 @@ namespace Networkteam\Util\ViewHelpers;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3\Fluid\Core\ViewHelper\Exception;
 
 class AuthenticatedAccountViewHelper extends AbstractViewHelper {
 
@@ -29,5 +28,3 @@ class AuthenticatedAccountViewHelper extends AbstractViewHelper {
 		return $output;
 	}
 }
-
-?>

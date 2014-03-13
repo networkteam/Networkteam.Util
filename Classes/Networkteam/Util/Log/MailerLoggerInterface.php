@@ -8,5 +8,3 @@ namespace Networkteam\Util\Log;
 interface MailerLoggerInterface extends \TYPO3\Flow\Log\LoggerInterface {
 
 }
-
-?>

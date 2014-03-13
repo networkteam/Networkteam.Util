@@ -19,4 +19,3 @@ interface MailerInterface {
 	public function send(MailerMessageInterface $message);
 
 }
-?>

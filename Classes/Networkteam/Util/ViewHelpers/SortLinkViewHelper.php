@@ -8,10 +8,8 @@ namespace Networkteam\Util\ViewHelpers;
 use Networkteam\Util\Domain\DataTransferObject\ListViewConfiguration;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\ActionRequest;
-use TYPO3\Flow\Mvc\Controller\Argument;
 use TYPO3\Flow\Utility\Arrays;
 use TYPO3\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
-use TYPO3\Fluid\Exception;
 
 class SortLinkViewHelper extends AbstractTagBasedViewHelper {
 
@@ -78,5 +76,3 @@ class SortLinkViewHelper extends AbstractTagBasedViewHelper {
 	}
 
 }
-
-?>

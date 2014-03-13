@@ -29,5 +29,3 @@ class HasValidationResultsViewHelper extends AbstractConditionViewHelper {
 		}
 	}
 }
-
-?>

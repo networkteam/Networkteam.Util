@@ -63,5 +63,3 @@ class XliffFileUpdater {
 		return $translationResource;
 	}
 }
-
-?>

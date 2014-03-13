@@ -26,4 +26,3 @@ class MysqlSequenceGenerator implements SequenceGeneratorInterface {
 		return $connection->lastInsertId();
 	}
 }
-?>

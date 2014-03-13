@@ -3,7 +3,7 @@ namespace Networkteam\Util\Mail;
 
 /***************************************************************
  *  (c) 2013 networkteam GmbH - all rights reserved
- ***************************************************************/ 
+ ***************************************************************/
 
 abstract class AbstractRenderingMessage implements MailerMessageInterface {
 
@@ -138,4 +138,3 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 		return $standaloneView;
 	}
 }
-?>

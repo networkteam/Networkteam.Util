@@ -29,5 +29,3 @@ class CurrencyConversionViewHelper extends AbstractViewHelper {
 		return sprintf('%0.2F', round($this->currencyConverter->convert($decimalPrice, $target), 2));
 	}
 }
-
-?>

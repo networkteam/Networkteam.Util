@@ -50,5 +50,3 @@ class PasswordValidator extends AbstractValidator {
 		}
 	}
 }
-
-?>

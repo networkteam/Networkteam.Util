@@ -10,4 +10,3 @@ use Networkteam\Util\Exception;
 class InvalidCurrencyException extends Exception {
 
 }
-?>

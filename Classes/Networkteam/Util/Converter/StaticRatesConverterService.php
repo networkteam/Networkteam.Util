@@ -38,12 +38,11 @@ class StaticRatesConverterService implements \Networkteam\Util\Converter\Currenc
 		$this->baseCurrency = $baseCurrency;
 	}
 
-
 	/**
 	 * @param string $currency
 	 */
 	public function getExchangeRate($currency) {
-		if(isset($this->rates[$currency])) {
+		if (isset($this->rates[$currency])) {
 			return $this->rates[$currency];
 		} else {
 			throw new InvalidCurrencyException($currency . ' is not an available Currency', 1359207864);
@@ -65,6 +64,4 @@ class StaticRatesConverterService implements \Networkteam\Util\Converter\Currenc
 		return $baseValue * $this->getExchangeRate($target);
 	}
 
-
 }
-?>

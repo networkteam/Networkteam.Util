@@ -118,7 +118,7 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 					// handle value: "Type|Value"
 					if (strpos($filter['operand'], '|') !== FALSE) {
 						list($type, $value) = explode('|', $filter['operand']);
-						switch($type) {
+						switch ($type) {
 							case 'DateTime':
 								$typeAwareValue = new \DateTime($value);
 								break;
@@ -140,5 +140,3 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 		return $constraint;
 	}
 }
-
-?>

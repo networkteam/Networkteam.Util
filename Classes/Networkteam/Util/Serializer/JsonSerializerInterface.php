@@ -10,5 +10,3 @@ use Symfony\Component\Serializer\SerializerInterface;
 interface JsonSerializerInterface extends SerializerInterface {
 
 }
-
-?>

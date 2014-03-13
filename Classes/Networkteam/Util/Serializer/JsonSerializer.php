@@ -1,5 +1,6 @@
 <?php
 namespace Networkteam\Util\Serializer;
+
 /***************************************************************
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
@@ -170,5 +171,3 @@ class JsonSerializer {
 		return json_encode($transformedContent);
 	}
 }
-
-?>

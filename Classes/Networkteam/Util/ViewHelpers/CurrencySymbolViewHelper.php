@@ -7,11 +7,11 @@ namespace Networkteam\Util\ViewHelpers;
 
 use TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-class CurrencySymbolViewHelper extends AbstractViewHelper{
+class CurrencySymbolViewHelper extends AbstractViewHelper {
 
 	public function render($currency) {
 		$currencyName = strtoupper($currency);
-		switch($currencyName) {
+		switch ($currencyName) {
 			case 'USD':
 				$symbol = '$';
 				break;
@@ -25,4 +25,3 @@ class CurrencySymbolViewHelper extends AbstractViewHelper{
 	}
 
 }
-?>

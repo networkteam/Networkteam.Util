@@ -7,9 +7,6 @@ namespace Networkteam\Util\Command;
 
 use Networkteam\Util\Translation\TranslationStripper;
 use Networkteam\Util\Translation\XliffFileUpdater;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
-use TYPO3\Fluid\Core\Parser\TemplateParser;
 use TYPO3\Flow\Annotations as Flow;
 
 class TranslationsCommandController extends \TYPO3\Flow\Cli\CommandController {
@@ -48,17 +45,17 @@ class TranslationsCommandController extends \TYPO3\Flow\Cli\CommandController {
 	 */
 	public function listIdsCommand($packageKey, $missingOnly = FALSE) {
 		$translationUpdates = $this->translationStripper->stripIds($packageKey);
-		uasort($translationUpdates, function($a, $b) {
-			if($a == $b) {
+		uasort($translationUpdates, function ($a, $b) {
+			if ($a == $b) {
 				return 0;
 			}
 			return ($a < $b) ? -1 : 1;
 		});
 		foreach ($translationUpdates as $transNode) {
-			if($missingOnly === FALSE) {
+			if ($missingOnly === FALSE) {
 				echo $transNode['id'] . "\n";
 			} else {
-				if($transNode['text'] === '') {
+				if ($transNode['text'] === '') {
 					echo $transNode['id'] . "\n";
 				}
 			}
@@ -66,5 +63,3 @@ class TranslationsCommandController extends \TYPO3\Flow\Cli\CommandController {
 		echo "ids gesamt: " . count($translationUpdates) . "\n";;
 	}
 }
-
-?>

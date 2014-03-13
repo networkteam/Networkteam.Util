@@ -1,14 +1,14 @@
 <?php
 namespace Networkteam\Util\Mail;
 
+/***************************************************************
+ *  (c) 2013 networkteam GmbH - all rights reserved
+ ***************************************************************/
+
 use TYPO3\Flow\Error\Error;
 use TYPO3\Flow\Error\Result;
 use TYPO3\SwiftMailer\Message;
 use TYPO3\Flow\Annotations as Flow;
-
-/***************************************************************
- *  (c) 2013 networkteam GmbH - all rights reserved
- ***************************************************************/
 
 /**
  * Mailer implementation using SwiftMailer
@@ -107,5 +107,3 @@ class Mailer implements MailerInterface {
 		return $result;
 	}
 }
-
-?>

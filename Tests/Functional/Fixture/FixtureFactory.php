@@ -176,7 +176,6 @@ abstract class FixtureFactory {
 	 * @param $overrideProperties
 	 */
 	public function findOrCreate($objectName, $overrideProperties = array()) {
-
 		$object = NULL;
 		if (isset($overrideProperties[$this->identifierPropertyName])) {
 			$object = $this->getExistingObject($overrideProperties[$this->identifierPropertyName]);
@@ -184,7 +183,7 @@ abstract class FixtureFactory {
 			$object = $this->getExistingObject($this->fixtureDefinitions[$objectName][$this->identifierPropertyName]);
 		}
 
-		if($object !== NULL) {
+		if ($object !== NULL) {
 			return $object;
 		}
 
@@ -225,5 +224,3 @@ abstract class FixtureFactory {
 		return $defaultObjectName;
 	}
 }
-
-?>

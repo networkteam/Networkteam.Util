@@ -1,8 +1,10 @@
 <?php
 namespace Networkteam\Util\ViewHelpers;
+
 /***************************************************************
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
+
 class UnlessViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractConditionViewHelper {
 
 	/**
@@ -20,4 +22,3 @@ class UnlessViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractConditionVie
 		}
 	}
 }
-?>

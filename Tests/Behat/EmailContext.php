@@ -1,6 +1,10 @@
 <?php
 namespace Networkteam\Util\Tests\Behat;
 
+/***************************************************************
+ *  (c) 2014 networkteam GmbH - all rights reserved
+ ***************************************************************/
+
 use Behat\Behat\Context\BehatContext,
 	Behat\Behat\Event\ScenarioEvent;
 use Behat\Gherkin\Node\TableNode;
@@ -47,10 +51,10 @@ class EmailContext extends BehatContext {
 		Assert::assertEmpty($messages, 'There should be no sent emails');
 	}
 
-    /**
-     * @Then /^I should have the following emails:$/
-     */
-    public function iShouldHaveTheFollowingEmails(TableNode $table) {
+	/**
+	 * @Then /^I should have the following emails:$/
+	 */
+	public function iShouldHaveTheFollowingEmails(TableNode $table) {
 		$messages = $this->fakeSmtpClient->get('/messages')->send()->json();
 		Assert::assertNotEmpty($messages, 'There should be at least one email');
 
@@ -71,7 +75,7 @@ class EmailContext extends BehatContext {
 		foreach ($rows as $tableRow) {
 			Assert::assertContains($tableRow, $receivedMessages);
 		}
-    }
+	}
 
 	/**
 	 * @param string $email
@@ -90,5 +94,3 @@ class EmailContext extends BehatContext {
 	}
 
 }
-
-?>

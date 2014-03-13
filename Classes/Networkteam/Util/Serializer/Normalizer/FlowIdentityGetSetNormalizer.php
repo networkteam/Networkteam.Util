@@ -1,6 +1,6 @@
 <?php
-
 namespace Networkteam\Util\Serializer\Normalizer;
+
 /***************************************************************
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
@@ -27,12 +27,10 @@ class FlowIdentityGetSetNormalizer extends GetSetMethodNormalizer {
 		$attributes = parent::normalize($object, $format, $context);
 
 		$identifier = $this->persistenceManager->getIdentifierByObject($object);
-		if($identifier){
+		if ($identifier) {
 			$attributes['__identifier'] = $identifier;
 		}
 
 		return $attributes;
 	}
 }
-
-?>
