@@ -15,7 +15,7 @@ interface MailerMessageInterface {
 	public function getFormat();
 
 	/**
-	 * Returns the message Body, can be either html or text
+	 * Returns the message body, can be either HTML or text
 	 *
 	 * @return string
 	 */
@@ -27,7 +27,7 @@ interface MailerMessageInterface {
 	public function getFrom();
 
 	/**
-	 * @return mixed
+	 * @return array An array of recipient addresses (string or array)
 	 */
 	public function getRecipient();
 
@@ -35,4 +35,10 @@ interface MailerMessageInterface {
 	 * @return string
 	 */
 	public function getSubject();
+
+	/**
+	 * @return string A recipient identifier (not necessarily an email address) for logging
+	 */
+	public function getRecipientIdentifier();
+
 }

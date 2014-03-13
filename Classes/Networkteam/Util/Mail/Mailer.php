@@ -76,11 +76,17 @@ class Mailer implements MailerInterface {
 		$mail->setBody($message->getBody(), $message->getFormat());
 
 		if ($result->hasErrors()) {
-			$severity = LOG_ERR;
-			$logMessage = 'Failed sending mail to: ' . implode(',', array_keys((array)$mail->getTo())) . ' with subject: ' . $mail->getSubject();
-			if ($result->getFirstError() !== FALSE) {
-				$logMessage .= ' First Error: ' . $result->getFirstError()->getMessage();
+			$logMessage = 'Failed sending mail to "' . implode('", "', array_keys((array)$mail->getTo())) . '" (' . $message->getRecipientIdentifier() . ') with subject "' . $mail->getSubject() . '"';
+			$flattenedErrors = $result->getFlattenedErrors();
+			if ($flattenedErrors !== array()) {
+				$additionalData = array();
+				foreach ($flattenedErrors as $propertyPath => $errors) {
+					$additionalData[$propertyPath] = implode(', ', array_map(function ($error) {return $error->getMessage();}, $errors));
+				}
+			} else {
+				$additionalData = NULL;
 			}
+			$this->logger->log($logMessage, LOG_ERR, $additionalData);
 		} else {
 			if (isset($this->settings['Mailer']['bcc'])) {
 				foreach ($this->settings['Mailer']['bcc'] as $bccMail) {
@@ -89,20 +95,20 @@ class Mailer implements MailerInterface {
 			}
 			try {
 				$recipients = $mail->send();
-				$severity = LOG_INFO;
 				if ($recipients === 0) {
 					$result->addError(new Error('No recipients accepted', 1376582260));
 					$logMessage = 'No Recipients accepted: ' . implode(',', $mail->getFailedRecipients());
 				} else {
 					$logMessage = 'Send mail to: ' . implode(',', array_keys($mail->getTo())) . ' with subject: ' . $mail->getSubject();
 				}
+				$this->logger->log($logMessage, LOG_INFO);
 			} catch (\Exception $e) {
 				$logMessage = 'Failed sending mail: ' . $e->getMessage();
-				$severity = LOG_ERR;
+
+				$this->logger->log($logMessage, LOG_ERR);
+				$this->logger->logException($e);
 			}
 		}
-
-		$this->logger->log($logMessage, $severity);
 
 		return $result;
 	}

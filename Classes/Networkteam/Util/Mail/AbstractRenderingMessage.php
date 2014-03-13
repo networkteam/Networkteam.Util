@@ -38,9 +38,14 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 	protected $options;
 
 	/**
+	 * @var string
+	 */
+	protected $recipientIdentifier = '';
+
+	/**
 	 * @param string $templatePathAndFilename
 	 */
-	function __construct($templatePathAndFilename) {
+	public function __construct($templatePathAndFilename) {
 		$this->options['templatePathAndFilename'] = $templatePathAndFilename;
 	}
 
@@ -64,7 +69,7 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 	}
 
 	/**
-	 * @return mixed
+	 * @return array
 	 */
 	public function getRecipient() {
 		return $this->recipient;
@@ -85,7 +90,7 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 	}
 
 	/**
-	 * @param mixed $recipient
+	 * @param array $recipient
 	 */
 	public function setRecipient($recipient) {
 		$this->recipient = $recipient;
@@ -137,4 +142,19 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 		}
 		return $standaloneView;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getRecipientIdentifier() {
+		return $this->recipientIdentifier;
+	}
+
+	/**
+	 * @param string $recipientIdentifier
+	 */
+	public function setRecipientIdentifier($recipientIdentifier) {
+		$this->recipientIdentifier = $recipientIdentifier;
+	}
+
 }
