@@ -30,7 +30,7 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 		}
 
 		if ($listViewConfiguration->hasSorting()) {
-			$query->setOrderings(array($listViewConfiguration->getSortPropertyWithPropertyPath() => $listViewConfiguration->getSortDirection()));
+			$query->setOrderings($this->getOrderings($listViewConfiguration));
 		}
 
 		return $query->execute();
@@ -138,5 +138,38 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 		}
 
 		return $constraint;
+	}
+
+	/**
+	 * @param ListViewConfiguration $listViewConfiguration
+	 * @return array
+	 * @throws \InvalidArgumentException
+	 */
+	protected function getOrderings(ListViewConfiguration $listViewConfiguration) {
+		$sortProperties = array();
+		$isSingleSortDirection = TRUE;
+		$sortDirections = array();
+		if (is_array($listViewConfiguration->getSortProperty())) {
+			if (is_array($listViewConfiguration->getSortDirection())) {
+				if (count($listViewConfiguration->getSortProperty()) !== count($listViewConfiguration->getSortDirection())) {
+					throw new \InvalidArgumentException('The count of properties does not match the count of directions, these must match or give the direction as string, then all properties get the same sort direction', 1408113192);
+				}
+				$sortDirections = $listViewConfiguration->getSortDirection();
+				$isSingleSortDirection = FALSE;
+			}
+
+			$rawSortProperties = $listViewConfiguration->getSortProperty();
+			foreach ($rawSortProperties as $index => $sortProperty) {
+				$sortProperty = strtr($sortProperty, '_', '.');
+				$sortProperties[$sortProperty] = $isSingleSortDirection ? $listViewConfiguration->getSortDirection() : $sortDirections[$index];
+			}
+		} else {
+			if (is_array($listViewConfiguration->getSortDirection())) {
+				throw new \InvalidArgumentException('Sort directions mut not be an array but a string', 1408539136);
+			}
+			$sortProperties = array($listViewConfiguration->getSortPropertyWithPropertyPath() => $listViewConfiguration->getSortDirection());
+		}
+
+		return $sortProperties;
 	}
 }
