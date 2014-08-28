@@ -67,7 +67,7 @@ class SortLinkViewHelper extends AbstractTagBasedViewHelper {
 
 		$arguments = Arrays::arrayMergeRecursiveOverrule($request->getArguments(), $linkViewConfigurationArguments);
 
-		$uri = $uriBuilder->uriFor($request->getControllerActionName(), $arguments);
+		$uri = $uriBuilder->reset()->uriFor($request->getControllerActionName(), $arguments);
 
 		$this->tag->addAttribute('href', $uri);
 
