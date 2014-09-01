@@ -28,7 +28,8 @@ class ListViewConfiguration {
 	protected $sortDirection = 'ASC';
 
 	/**
-	 * @var array|string
+	 * Also accepts array
+	 * @var string
 	 */
 	protected $sortProperty;
 
