@@ -28,7 +28,7 @@ class ListViewConfiguration {
 	protected $sortDirection = 'ASC';
 
 	/**
-	 * @var string
+	 * @var array|string
 	 */
 	protected $sortProperty;
 
@@ -144,7 +144,7 @@ class ListViewConfiguration {
 	}
 
 	/**
-	 * @param string $sortField
+	 * @param array|string $sortField
 	 */
 	public function setSortProperty($sortField) {
 		$this->sortProperty = $sortField;
@@ -158,7 +158,7 @@ class ListViewConfiguration {
 	}
 
 	/**
-	 * @return string
+	 * @return array|string
 	 */
 	public function getSortProperty() {
 		return $this->sortProperty;
@@ -168,7 +168,7 @@ class ListViewConfiguration {
 	 * @return boolean
 	 */
 	public function hasSorting() {
-		return (string)$this->sortProperty !== '';
+		return is_array($this->sortProperty) ? (count($this->sortProperty) > 0) : ((string)$this->sortProperty !== '');
 	}
 
 	/**
