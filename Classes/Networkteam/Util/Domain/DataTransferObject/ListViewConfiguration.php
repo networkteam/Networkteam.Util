@@ -145,7 +145,7 @@ class ListViewConfiguration {
 	}
 
 	/**
-	 * @param array|string $sortField
+	 * @param string $sortField
 	 */
 	public function setSortProperty($sortField) {
 		$this->sortProperty = $sortField;
@@ -159,7 +159,7 @@ class ListViewConfiguration {
 	}
 
 	/**
-	 * @return array|string
+	 * @return string
 	 */
 	public function getSortProperty() {
 		return $this->sortProperty;
