@@ -94,7 +94,7 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 		}
 		switch ($filter['operator']) {
 			case 'equals':
-				if ((string)$filter['operand'] !== '') {
+				if ($filter['operand'] !== '') {
 					$constraint = $query->equals($propertyName, $filter['operand']);
 				}
 				break;
@@ -134,7 +134,7 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 				break;
 
 			default:
-				throw new \InvalidArgumentException('Unknown operator "' . $filter['operator'] . '"', 1369911739);
+				throw new \InvalidArgumentException('Unknown operator "' . $filter['operator'] . '", allowed operators are "equals,like,is,contains,greaterThanOrEqual"', 1369911739);
 		}
 
 		return $constraint;
