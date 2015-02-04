@@ -16,7 +16,7 @@ class IfAccessViewHelper extends \TYPO3\Fluid\ViewHelpers\Security\IfAccessViewH
 		$resources = explode('|', $resource);
 
 		foreach ((array)$resources as $resource) {
-			if ($this->hasAccessToResource(trim($resource))) {
+			if ($this->accessDecisionManager->hasAccessToResource(trim($resource))) {
 				$accessGranted = TRUE;
 				break;
 			}
