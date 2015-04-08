@@ -4,7 +4,8 @@
     "description": "",
     "require": {
         "typo3/flow": "*",
-		"symfony/serializer": "2.2.*@dev"
+        "symfony/serializer": "2.2.*@dev",
+        "symfony/translation": "2.2.*@dev"
     },
     "autoload": {
         "psr-0": {
