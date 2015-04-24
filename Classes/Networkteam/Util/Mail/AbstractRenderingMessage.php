@@ -32,12 +32,12 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 	/**
 	 * @var array
 	 */
-	protected $templateData;
+	protected $templateData = array();
 
 	/**
 	 * @var array
 	 */
-	protected $options;
+	protected $options = array();
 
 	/**
 	 * @var string
@@ -121,7 +121,14 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 	/**
 	 * @param array $templateData
 	 */
-	public function setTemplateData($templateData) {
+	public function addTemplateData(array $templateData) {
+		$this->templateData = array_merge($this->templateData, $templateData);
+	}
+
+	/**
+	 * @param array $templateData
+	 */
+	public function setTemplateData(array $templateData) {
 		$this->templateData = $templateData;
 	}
 
