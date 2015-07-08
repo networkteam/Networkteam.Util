@@ -6,19 +6,21 @@ namespace Networkteam\Util\Resource;
  ***************************************************************/
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Resource\ResourceManager;
+use TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException;
 
 class ResourceLocator {
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Resource\Publishing\ResourcePublisher
+	 * @var ResourceManager
 	 */
-	protected $resourcePublisher;
+	protected $resourceManager;
 
 	/**
 	 * @var \TYPO3\Flow\Mvc\Controller\ControllerContext
 	 */
-	protected $context;
+	protected $controllerContext;
 
 	/**
 	 * @Flow\Inject
@@ -31,23 +33,24 @@ class ResourceLocator {
 	 * @param string $package
 	 * @param \TYPO3\Flow\Resource\Resource $resource
 	 * @param boolean $localize
-	 * @param boolean $cacheBuster
+	 * @param boolean $appendCacheBuster
 	 * @return string
 	 * @throws \TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException
 	 */
 	public function getResourceUri($path = NULL, $package = NULL, \TYPO3\Flow\Resource\Resource $resource = NULL, $localize = TRUE, $appendCacheBuster = TRUE) {
 		$cacheBuster = '';
+
 		if ($resource !== NULL) {
-			$uri = $this->resourcePublisher->getPersistentResourceWebUri($resource);
+			$uri = $this->resourceManager->getPublicPersistentResourceUri($resource);
 			if ($uri === FALSE) {
-				$uri = $this->resourcePublisher->getStaticResourcesWebBaseUri() . 'BrokenResource';
+				$uri = '404-Resource-Not-Found';
 			}
 		} else {
 			if ($path === NULL) {
-				throw new \TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException('The ResourceViewHelper did neither contain a valuable "resource" nor "path" argument.', 1353512742);
+				throw new InvalidVariableException('The ResourceViewHelper did neither contain a valuable "resource" nor "path" argument.', 1353512742);
 			}
 			if ($package === NULL) {
-				$package = $this->context->getRequest()->getControllerPackageKey();
+				$package = $this->controllerContext->getRequest()->getControllerPackageKey();
 			}
 			if (strpos($path, 'resource://') === 0) {
 				$matches = array();
@@ -55,7 +58,7 @@ class ResourceLocator {
 					$package = $matches[1];
 					$path = $matches[2];
 				} else {
-					throw new \TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException(sprintf('The path "%s" which was given to the ResourceViewHelper must point to a public resource.', $path), 1353512639);
+					throw new InvalidVariableException(sprintf('The path "%s" which was given to the ResourceViewHelper must point to a public resource.', $path), 1353512639);
 				}
 			}
 			if ($localize === TRUE) {
@@ -66,9 +69,8 @@ class ResourceLocator {
 					$package = $matches[1];
 					$path = $matches[2];
 				}
-
-				$resourcePath = 'resource://' . $package . '/Public/' . $path;
 			}
+
 			if ($appendCacheBuster === TRUE) {
 				$resourcePath = 'resource://' . $package . '/Public/' . $path;
 				if (is_file($resourcePath)) {
@@ -79,9 +81,8 @@ class ResourceLocator {
 				}
 			}
 
-			$uri = $this->resourcePublisher->getStaticResourcesWebBaseUri() . 'Packages/' . $package . '/' . $path . $cacheBuster;
+			$uri = $this->resourceManager->getPublicPackageResourceUri($package, $path) . $cacheBuster;
 		}
-
 		return $uri;
 	}
 
@@ -89,6 +90,6 @@ class ResourceLocator {
 	 * @param \TYPO3\Flow\Mvc\Controller\ControllerContext $context
 	 */
 	public function setContext(\TYPO3\Flow\Mvc\Controller\ControllerContext $context) {
-		$this->context = $context;
+		$this->controllerContext = $context;
 	}
 }
