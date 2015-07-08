@@ -8,24 +8,21 @@ namespace Networkteam\Util\ViewHelpers\Security;
 class IfAccessViewHelper extends \TYPO3\Fluid\ViewHelpers\Security\IfAccessViewHelper {
 
 	/**
-	 * @param string $resource multiple Resources seperated by |
-	 * @return string|void
+	 * Check if any of the given privilege targets is granted
+	 *
+	 * @param string $privilegeTarget One or multiple privilege targets (separated by '|')
+	 * @param array $parameters
+	 * @return string
 	 */
-	public function render($resource) {
-		$accessGranted = FALSE;
-		$resources = explode('|', $resource);
+	public function render($privilegeTarget, array $parameters = array()) {
+		$privilegeTargets = explode('|', $privilegeTarget);
 
-		foreach ((array)$resources as $resource) {
-			if ($this->accessDecisionManager->hasAccessToResource(trim($resource))) {
-				$accessGranted = TRUE;
-				break;
+		foreach ($privilegeTargets as $privilegeTarget) {
+			if ($this->privilegeManager->isPrivilegeTargetGranted($privilegeTarget, $parameters)) {
+				return $this->renderThenChild();
 			}
 		}
 
-		if ($accessGranted) {
-			return $this->renderThenChild();
-		} else {
-			return $this->renderElseChild();
-		}
+		return $this->renderElseChild();
 	}
 }
