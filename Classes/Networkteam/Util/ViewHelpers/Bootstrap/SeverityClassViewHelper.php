@@ -9,6 +9,14 @@ use TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class SeverityClassViewHelper extends AbstractViewHelper {
 
+	
+	/**
+	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
+	 * @see AbstractViewHelper::isOutputEscapingEnabled()
+	 * @var boolean
+	 */
+	protected $escapeOutput = FALSE;
+
 	/**
 	 * returns the bootstrap class for the given severity
 	 *

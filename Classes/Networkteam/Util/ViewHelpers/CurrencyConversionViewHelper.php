@@ -10,6 +10,14 @@ use TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class CurrencyConversionViewHelper extends AbstractViewHelper {
 
+	
+	/**
+	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
+	 * @see AbstractViewHelper::isOutputEscapingEnabled()
+	 * @var boolean
+	 */
+	protected $escapeOutput = FALSE;
+
 	/**
 	 * @var \Networkteam\Util\Converter\CurrencyConverterInterface
 	 * @Flow\Inject
