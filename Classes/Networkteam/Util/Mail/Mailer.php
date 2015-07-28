@@ -99,7 +99,7 @@ class Mailer implements MailerInterface {
 					$result->addError(new Error('No recipients accepted', 1376582260));
 					$logMessage = 'No Recipients accepted: ' . implode(',', $mail->getFailedRecipients());
 				} else {
-					$logMessage = 'Send mail to: ' . implode(',', array_keys($mail->getTo())) . ' with subject: ' . $mail->getSubject();
+					$logMessage = 'Sent mail to: ' . implode(',', array_keys($mail->getTo())) . ' with subject: ' . $mail->getSubject();
 				}
 				$this->logger->log($logMessage, LOG_INFO);
 			} catch (\Exception $e) {
@@ -107,6 +107,8 @@ class Mailer implements MailerInterface {
 
 				$this->logger->log($logMessage, LOG_ERR);
 				$this->logger->logException($e);
+
+				$result->addError(new Error('Error sending email', 1438095110));
 			}
 		}
 
