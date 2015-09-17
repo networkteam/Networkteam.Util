@@ -108,6 +108,13 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 					$constraint = $query->equals($propertyName, NULL);
 				}
 				break;
+			case 'in':
+				if (is_array($filter['operand'])) {
+					$constraint = $query->in($propertyName, implode(',', $filter['operand']));
+				} else {
+					$constraint = $query->in($propertyName, (string)$filter['operand']);
+				}
+				break;
 			case 'contains':
 				if ((string)$filter['operand'] !== '') {
 					$constraint = $query->contains($propertyName, $filter['operand']);
