@@ -29,6 +29,11 @@ class Mailer implements MailerInterface {
 	protected $logger;
 
 	/**
+	 * @var
+	 */
+	protected $message;
+
+	/**
 	 * Inject the settings
 	 *
 	 * @param array $settings
@@ -45,7 +50,7 @@ class Mailer implements MailerInterface {
 	public function send(MailerMessageInterface $message) {
 		$result = new Result();
 
-		$mail = new Message();
+		$mail = $this->getMessage();
 
 		try {
 			$mail->setFrom($message->getFrom());
@@ -59,7 +64,7 @@ class Mailer implements MailerInterface {
 				if ($recipientCount < 1) {
 					$mail->setTo($recipient);
 				} else {
-					$mail->setCc($recipient);
+					$mail->addCc($recipient);
 				}
 				$recipientCount++;
 			}
@@ -81,7 +86,9 @@ class Mailer implements MailerInterface {
 			if ($flattenedErrors !== array()) {
 				$additionalData = array();
 				foreach ($flattenedErrors as $propertyPath => $errors) {
-					$additionalData[$propertyPath] = implode(', ', array_map(function ($error) {return $error->getMessage();}, $errors));
+					$additionalData[$propertyPath] = implode(', ', array_map(function ($error) {
+						return $error->getMessage();
+					}, $errors));
 				}
 			} else {
 				$additionalData = NULL;
@@ -113,5 +120,23 @@ class Mailer implements MailerInterface {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @param Message $message
+	 */
+	public function setMessage(Message $message) {
+		$this->message = $message;
+	}
+
+	/**
+	 * @return Message
+	 */
+	protected function getMessage() {
+		if ($this->message instanceof Message) {
+			return $this->message;
+		}
+
+		return new Message();
 	}
 }
