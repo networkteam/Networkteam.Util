@@ -22,6 +22,6 @@ class DecimalPriceViewHelper extends AbstractViewHelper {
 	 */
 	public function render() {
 		$price = $this->renderChildren();
-		return $price / 100;
+		return ((int)$price) / 100;
 	}
 }

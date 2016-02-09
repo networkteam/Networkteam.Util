@@ -15,11 +15,15 @@ class MailerTest extends UnitTestcase {
 	public function mailerUsesAddCcForAddingRecipients() {
 		$mailer = new \Networkteam\Util\Mail\Mailer();
 		$message = $this->getMockBuilder('TYPO3\SwiftMailer\Message')
-			->setMethods(array('setFrom', 'setTo', 'addCc', 'setBody', 'send', 'setSubject', 'getTo', 'getSubject', 'getRecipientIdentifier'))
+			->setMethods(array('setFrom', 'setTo', 'addCc', 'setBody', 'send', 'setSubject', 'getTo', 'getSubject', 'getRecipientIdentifier', 'setReplyTo'))
 			->getMock();
 
 		$message->expects($this->exactly(2))
 			->method('addCc');
+
+		$message->expects($this->exactly(1))
+			->method('setReplyTo')
+		->with($this->equalTo('my-reply@example.com'));
 
 		$logger = $this->getMock('Networkteam\Util\Log\MailerLoggerInterface');
 		$this->inject($mailer, 'logger', $logger);
@@ -80,5 +84,9 @@ class MailMessage implements \Networkteam\Util\Mail\MailerMessageInterface {
 	 */
 	public function getRecipientIdentifier() {
 		// TODO: Implement getRecipientIdentifier() method.
+	}
+
+	public function getReplyTo() {
+		return 'my-reply@example.com';
 	}
 }

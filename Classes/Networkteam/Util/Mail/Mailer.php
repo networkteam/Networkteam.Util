@@ -80,6 +80,10 @@ class Mailer implements MailerInterface {
 
 		$mail->setBody($message->getBody(), $message->getFormat());
 
+		if ($message->getReplyTo() !== FALSE) {
+			$mail->setReplyTo($message->getReplyTo());
+		}
+
 		if ($result->hasErrors()) {
 			$logMessage = 'Failed sending mail to "' . implode('", "', array_keys((array)$mail->getTo())) . '" (' . $message->getRecipientIdentifier() . ') with subject "' . $mail->getSubject() . '"';
 			$flattenedErrors = $result->getFlattenedErrors();

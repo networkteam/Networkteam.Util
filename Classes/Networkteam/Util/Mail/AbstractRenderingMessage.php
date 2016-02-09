@@ -25,6 +25,11 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 	protected $subject;
 
 	/**
+	 * @var mixed
+	 */
+	protected $replyTo = FALSE;
+
+	/**
 	 * @var string
 	 */
 	protected $templatePathAndFilename;
@@ -109,6 +114,20 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 	 */
 	public function setFrom($from) {
 		$this->from = $from;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getReplyTo() {
+		return $this->replyTo;
+	}
+
+	/**
+	 * @param mixed $replyTo
+	 */
+	public function setReplyTo($replyTo) {
+		$this->replyTo = $replyTo;
 	}
 
 	/**
