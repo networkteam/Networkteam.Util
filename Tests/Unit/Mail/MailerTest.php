@@ -10,83 +10,62 @@ use TYPO3\Flow\Tests\UnitTestCase;
 class MailerTest extends UnitTestcase {
 
 	/**
+	 * @var \TYPO3\SwiftMailer\Message
+	 */
+	protected $mockMessage;
+
+	/**
+	 * @var \Networkteam\Util\Mail\MailerInterface
+	 */
+	protected $mailer;
+
+	public function setUp() {
+		parent::setUp();
+		$this->mockMessage = $this->getMockBuilder('TYPO3\SwiftMailer\Message')
+			->setMethods(array('setFrom', 'setTo', 'addCc', 'setBody', 'send', 'setSubject', 'getTo', 'getSubject', 'getRecipientIdentifier', 'setReplyTo'))
+			->getMock();
+		$this->mailer = new \Networkteam\Util\Mail\Mailer();
+
+		$this->mailer->setMessage($this->mockMessage);
+
+		$logger = $this->getMock('Networkteam\Util\Log\MailerLoggerInterface');
+		$this->inject($this->mailer, 'logger', $logger);
+	}
+
+	/**
 	 * @@test
 	 */
 	public function mailerUsesAddCcForAddingRecipients() {
-		$mailer = new \Networkteam\Util\Mail\Mailer();
-		$message = $this->getMockBuilder('TYPO3\SwiftMailer\Message')
-			->setMethods(array('setFrom', 'setTo', 'addCc', 'setBody', 'send', 'setSubject', 'getTo', 'getSubject', 'getRecipientIdentifier', 'setReplyTo'))
-			->getMock();
-
-		$message->expects($this->exactly(2))
+		$this->mockMessage->expects($this->exactly(2))
 			->method('addCc');
 
-		$message->expects($this->exactly(1))
+		$this->mockMessage->expects($this->exactly(1))
 			->method('setReplyTo')
 		->with($this->equalTo('my-reply@example.com'));
 
-		$logger = $this->getMock('Networkteam\Util\Log\MailerLoggerInterface');
-		$this->inject($mailer, 'logger', $logger);
-
-		$mailer->setMessage($message);
 		$mailMessage = new MailMessage();
-		$mailer->send($mailMessage);
-	}
-}
-
-class MailMessage implements \Networkteam\Util\Mail\MailerMessageInterface {
-
-	/**
-	 * Returns the mimetype of the message(text/html)
-	 *
-	 * @return string
-	 */
-	public function getFormat() {
-		// TODO: Implement getFormat() method.
-	}
-
-	/**
-	 * Returns the message body, can be either HTML or text
-	 *
-	 * @return string
-	 */
-	public function getBody() {
-		// TODO: Implement getBody() method.
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getFrom() {
-		// TODO: Implement getFrom() method.
-	}
-
-	/**
-	 * @return array An array of recipient addresses (string or array)
-	 */
-	public function getRecipient() {
-		return array(
+		$mailMessage->setRecipients(array(
 			'test1@example.com',
 			'test2@example.com',
 			'test3@example.com',
-		);
+		));
+		$mailMessage->setReplyTo('my-reply@example.com');
+
+		$this->mailer->send($mailMessage);
 	}
 
 	/**
-	 * @return string
+	 * @@test
 	 */
-	public function getSubject() {
-		// TODO: Implement getSubject() method.
-	}
+	public function mailerSkipsReplyToIfEmpty() {
+		$this->mockMessage->expects($this->never())
+			->method('setReplyTo');
 
-	/**
-	 * @return string A recipient identifier (not necessarily an email address) for logging
-	 */
-	public function getRecipientIdentifier() {
-		// TODO: Implement getRecipientIdentifier() method.
-	}
+		$mailMessage = new MailMessage();
+		$mailMessage->setRecipients(array(
+			'test1@example.com'
+		));
 
-	public function getReplyTo() {
-		return 'my-reply@example.com';
+		$this->mailer->send($mailMessage);
 	}
 }

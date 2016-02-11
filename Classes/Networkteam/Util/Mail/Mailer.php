@@ -80,7 +80,7 @@ class Mailer implements MailerInterface {
 
 		$mail->setBody($message->getBody(), $message->getFormat());
 
-		if ($message->getReplyTo() !== FALSE) {
+		if ($message->getReplyTo()) {
 			$mail->setReplyTo($message->getReplyTo());
 		}
 

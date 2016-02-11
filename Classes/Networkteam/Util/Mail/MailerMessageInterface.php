@@ -27,9 +27,7 @@ interface MailerMessageInterface {
 	public function getFrom();
 
 	/**
-	 * This should return false if no reply-to is set
-	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function getReplyTo();
 

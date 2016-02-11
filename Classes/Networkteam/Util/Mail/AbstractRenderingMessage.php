@@ -25,9 +25,9 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 	protected $subject;
 
 	/**
-	 * @var mixed
+	 * @var string
 	 */
-	protected $replyTo = FALSE;
+	protected $replyTo;
 
 	/**
 	 * @var string
