@@ -3,10 +3,6 @@ Networkteam\Util\Serializer\JsonSerializerInterface:
   factoryObjectName: Networkteam\Util\Factory\SerializerFactory
   factoryMethodName: createJsonSerializer
 
-Networkteam\Util\Converter\CurrencyConverterInterface:
-  scope: singleton
-  className: Networkteam\Util\Converter\OpenExchangeRateConverterService
-
 Networkteam\Util\Persistence\SequenceGeneratorInterface:
   scope: singleton
   className: Networkteam\Util\Persistence\MysqlSequenceGenerator
@@ -30,16 +26,3 @@ Networkteam\Util\Log\MailerLoggerInterface:
 #    priority:
 #      value: -100
 
-Networkteam\Util\Converter\OpenExchangeRateConverterService:
-  arguments:
-    1:
-      setting: Networkteam.Util.OpenExchangeRateConverter.baseUrl
-    2:
-      setting: Networkteam.Util.OpenExchangeRateConverter.appId
-    3:
-      setting: Networkteam.Util.OpenExchangeRateConverter.cacheDir
-  properties:
-    cacheTimeout:
-      setting: Networkteam.Util.OpenExchangeRateConverter.cacheTimeout
-    baseCurrency:
-      setting: Networkteam.Util.OpenExchangeRateConverter.baseCurrency

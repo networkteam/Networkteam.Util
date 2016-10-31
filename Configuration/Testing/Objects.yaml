@@ -1,2 +1,0 @@
-Networkteam\Util\Converter\CurrencyConverterInterface:
-  className: 'Networkteam\Util\Converter\StaticRatesConverterService'
