@@ -27,14 +27,14 @@ class ResourceViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper
 	 *
 	 * @param string $path The location of the resource, can be either a path relative to the Public resource directory of the package or a resource://... URI
 	 * @param string $package Target package key. If not set, the current package key will be used
-	 * @param \TYPO3\Flow\Resource\Resource $resource If specified, this resource object is used instead of the path and package information
+	 * @param \TYPO3\Flow\ResourceManagement\PersistentResource $resource If specified, this resource object is used instead of the path and package information
 	 * @param boolean $localize Whether resource localization should be attempted or not
 	 * @param boolean $cacheBuster
 	 * @return string The absolute URI to the resource
 	 * @throws \TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException
 	 * @api
 	 */
-	public function render($path = NULL, $package = NULL, \TYPO3\Flow\Resource\Resource $resource = NULL, $localize = TRUE, $cacheBuster = TRUE) {
+	public function render($path = NULL, $package = NULL, \TYPO3\Flow\ResourceManagement\PersistentResource $resource = NULL, $localize = TRUE, $cacheBuster = TRUE) {
 		$this->resourceLocator->setContext($this->controllerContext);
 		return $this->resourceLocator->getResourceUri($path, $package, $resource, $localize, $cacheBuster);
 	}

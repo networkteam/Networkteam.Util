@@ -23,7 +23,7 @@ class JsonResourceTypeConverter extends \TYPO3\Flow\Property\TypeConverter\Abstr
 	/**
 	 * @var string
 	 */
-	protected $targetType = 'TYPO3\Flow\Resource\Resource';
+	protected $targetType = 'TYPO3\Flow\ResourceManagement\PersistentResource';
 
 	/**
 	 * @var integer
@@ -32,7 +32,7 @@ class JsonResourceTypeConverter extends \TYPO3\Flow\Property\TypeConverter\Abstr
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Resource\ResourceManager
+	 * @var \TYPO3\Flow\ResourceManagement\ResourceManager
 	 */
 	protected $resourceManager;
 

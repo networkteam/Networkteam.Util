@@ -6,7 +6,7 @@ namespace Networkteam\Util\Resource;
  ***************************************************************/
 
 use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Resource\ResourceManager;
+use TYPO3\Flow\ResourceManagement\ResourceManager;
 use TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException;
 
 class ResourceLocator {
@@ -31,13 +31,13 @@ class ResourceLocator {
 	/**
 	 * @param string $path
 	 * @param string $package
-	 * @param \TYPO3\Flow\Resource\Resource $resource
+	 * @param \TYPO3\Flow\ResourceManagement\PersistentResource $resource
 	 * @param boolean $localize
 	 * @param boolean $appendCacheBuster
 	 * @return string
 	 * @throws \TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException
 	 */
-	public function getResourceUri($path = NULL, $package = NULL, \TYPO3\Flow\Resource\Resource $resource = NULL, $localize = TRUE, $appendCacheBuster = TRUE) {
+	public function getResourceUri($path = NULL, $package = NULL, \TYPO3\Flow\ResourceManagement\PersistentResource $resource = NULL, $localize = TRUE, $appendCacheBuster = TRUE) {
 		$cacheBuster = '';
 
 		if ($resource !== NULL) {
