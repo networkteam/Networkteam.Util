@@ -7,7 +7,7 @@ namespace Networkteam\Util\Mail;
 
 use Neos\Error\Messages\Error;
 use Neos\Error\Messages\Result;
-use TYPO3\SwiftMailer\Message;
+use Neos\SwiftMailer\Message;
 use Neos\Flow\Annotations as Flow;
 
 /**
