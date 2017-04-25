@@ -5,8 +5,8 @@ namespace Networkteam\Util\Mail;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use Neos\Flow\Error\Error;
-use Neos\Flow\Error\Result;
+use Neos\Error\Messages\Error;
+use Neos\Error\Messages\Result;
 use TYPO3\SwiftMailer\Message;
 use Neos\Flow\Annotations as Flow;
 
@@ -45,7 +45,7 @@ class Mailer implements MailerInterface {
 
 	/**
 	 * @param \Networkteam\Util\Mail\MailerMessageInterface $message
-	 * @return \Neos\Flow\Error\Result
+	 * @return \Neos\Error\Messages\Result
 	 */
 	public function send(MailerMessageInterface $message) {
 		$result = new Result();

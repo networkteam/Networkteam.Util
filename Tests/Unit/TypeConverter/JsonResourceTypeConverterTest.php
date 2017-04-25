@@ -79,7 +79,7 @@ class JsonResourceTypeConverterTest extends UnitTestCase {
 			'mime' => 'text/plain'
 		), 'Neos\Flow\ResourceManagement\PersistentResource');
 
-		$this->assertInstanceOf('Neos\Flow\Error\Error', $result);
+		$this->assertInstanceOf('Neos\Error\Messages\Error', $result);
 	}
 
 }

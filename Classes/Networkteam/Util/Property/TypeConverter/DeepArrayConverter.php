@@ -62,7 +62,7 @@ class DeepArrayConverter extends AbstractTypeConverter {
 	 * @return string
 	 */
 	public function getTypeOfChildProperty($targetType, $propertyName, \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration) {
-		$parsedTargetType = \Neos\Flow\Utility\TypeHandling::parseType($targetType);
+		$parsedTargetType = \Neos\Utility\TypeHandling::parseType($targetType);
 		return $parsedTargetType['elementType'];
 	}
 }

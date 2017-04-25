@@ -76,8 +76,8 @@ abstract class FixtureFactory {
 
 		$object = new $className();
 		foreach ($properties as $propertyName => $propertyValue) {
-			if (\Neos\Flow\Reflection\ObjectAccess::isPropertySettable($object, $propertyName) && !in_array($propertyName, $this->ignoredProperties)) {
-				\Neos\Flow\Reflection\ObjectAccess::setProperty($object, $propertyName, $propertyValue);
+			if (\Neos\Utility\ObjectAccess::isPropertySettable($object, $propertyName) && !in_array($propertyName, $this->ignoredProperties)) {
+				\Neos\Utility\ObjectAccess::setProperty($object, $propertyName, $propertyValue);
 			}
 		}
 

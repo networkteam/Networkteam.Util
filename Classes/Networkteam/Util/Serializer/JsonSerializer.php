@@ -64,14 +64,14 @@ class JsonSerializer {
 		if ($object instanceof \DateTime) {
 			return $object->format(\DateTime::ISO8601);
 		} else {
-			$propertyNames = \Neos\Flow\Reflection\ObjectAccess::getGettablePropertyNames($object);
+			$propertyNames = \Neos\Utility\ObjectAccess::getGettablePropertyNames($object);
 
 			$propertiesToRender = array();
 			foreach ($propertyNames as $propertyName) {
 				if (isset($configuration['_only']) && is_array($configuration['_only']) && !in_array($propertyName, $configuration['_only'])) continue;
 				if (isset($configuration['_exclude']) && is_array($configuration['_exclude']) && in_array($propertyName, $configuration['_exclude'])) continue;
 
-				$propertyValue = \Neos\Flow\Reflection\ObjectAccess::getProperty($object, $propertyName);
+				$propertyValue = \Neos\Utility\ObjectAccess::getProperty($object, $propertyName);
 
 				if (!is_array($propertyValue) && !is_object($propertyValue)) {
 					$propertiesToRender[$propertyName] = $propertyValue;

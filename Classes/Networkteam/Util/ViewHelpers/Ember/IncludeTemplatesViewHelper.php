@@ -31,7 +31,7 @@ class IncludeTemplatesViewHelper extends AbstractTagBasedViewHelper {
 
 		$templates = array();
 		$templateRootPath = 'resource://' . $packageKey . '/Private/Ember/Templates/';
-		$files = \Neos\Flow\Utility\Files::readDirectoryRecursively($templateRootPath, '.hbs');
+		$files = \Neos\Utility\Files::readDirectoryRecursively($templateRootPath, '.hbs');
 
 		foreach ($files as $file) {
 			$this->templateView->setTemplatePathAndFilename($file);

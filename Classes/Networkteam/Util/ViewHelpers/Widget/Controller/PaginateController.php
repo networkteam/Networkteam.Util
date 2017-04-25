@@ -59,7 +59,7 @@ class PaginateController extends \TYPO3\Fluid\Core\Widget\AbstractWidgetControll
 	 */
 	public function initializeAction() {
 		$this->objects = $this->widgetConfiguration['objects'];
-		$this->configuration = \Neos\Flow\Utility\Arrays::arrayMergeRecursiveOverrule($this->configuration, $this->widgetConfiguration['configuration'], TRUE);
+		$this->configuration = \Neos\Utility\Arrays::arrayMergeRecursiveOverrule($this->configuration, $this->widgetConfiguration['configuration'], TRUE);
 		$this->numberOfPages = ceil(count($this->objects) / (integer)$this->configuration['itemsPerPage']);
 		$this->maximumNumberOfLinks = (integer)$this->configuration['maximumNumberOfLinks'];
 	}

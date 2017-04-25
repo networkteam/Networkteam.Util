@@ -6,7 +6,7 @@ namespace Networkteam\Util\TypeConverter;
  ***************************************************************/
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Error\Error;
+use Neos\Error\Messages\Error;
 
 /**
  * An type converter for ResourcePointer objects from JSON based file uploads (no multipart)
@@ -52,7 +52,7 @@ class JsonResourceTypeConverter extends \Neos\Flow\Property\TypeConverter\Abstra
 	 * @param string $targetType
 	 * @param array $convertedChildProperties
 	 * @param \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration
-	 * @return |Neos\Flow\Error\Error if the input format is not supported or could not be converted for other reasons
+	 * @return |Neos\Error\Messages\Error if the input format is not supported or could not be converted for other reasons
 	 */
 	public function convertFrom($source, $targetType, array $convertedChildProperties = array(), \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration = NULL) {
 		if (!isset($source['filename']) || !isset($source['value']) || !isset($source['mime'])) {
