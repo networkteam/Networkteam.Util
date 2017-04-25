@@ -27,7 +27,7 @@ class SwitchViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHe
 	/**
 	 * @var array
 	 */
-	private $childNodes = array();
+	protected $childNodes = array();
 
 	private $backup;
 

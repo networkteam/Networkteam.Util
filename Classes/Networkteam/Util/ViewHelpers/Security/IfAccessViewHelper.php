@@ -14,15 +14,15 @@ class IfAccessViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Security\IfAcces
 	 * @param array $parameters
 	 * @return string
 	 */
-	public function render($privilegeTarget, array $parameters = array()) {
-		$privilegeTargets = explode('|', $privilegeTarget);
+//	public function render($privilegeTarget, array $parameters = array()) {
+//		$privilegeTargets = explode('|', $privilegeTarget);
 
-		foreach ($privilegeTargets as $privilegeTarget) {
-			if ($this->privilegeManager->isPrivilegeTargetGranted($privilegeTarget, $parameters)) {
-				return $this->renderThenChild();
-			}
-		}
+//		foreach ($privilegeTargets as $privilegeTarget) {
+//			if ($this->privilegeManager->isPrivilegeTargetGranted($privilegeTarget, $parameters)) {
+//				return $this->renderThenChild();
+//			}
+//		}
 
-		return $this->renderElseChild();
-	}
+//		return $this->renderElseChild();
+//	}
 }
