@@ -5,7 +5,7 @@ namespace Networkteam\Util\ViewHelpers\Security;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-class IfAccessViewHelper extends \TYPO3\Fluid\ViewHelpers\Security\IfAccessViewHelper {
+class IfAccessViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Security\IfAccessViewHelper {
 
 	/**
 	 * Check if any of the given privilege targets is granted

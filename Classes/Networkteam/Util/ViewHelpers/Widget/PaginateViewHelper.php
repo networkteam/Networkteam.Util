@@ -37,7 +37,7 @@ use Neos\Flow\Annotations as Flow;
  *
  * @api
  */
-class PaginateViewHelper extends \TYPO3\Fluid\Core\Widget\AbstractWidgetViewHelper {
+class PaginateViewHelper extends \Neos\FluidAdaptor\Core\Widget\AbstractWidgetViewHelper {
 
 	/**
 	 * @Flow\Inject

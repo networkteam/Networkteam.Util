@@ -5,7 +5,7 @@ namespace Networkteam\Util\ViewHelpers\Form;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
+use Neos\FluidAdaptor\Core\ViewHelper\AbstractConditionViewHelper;
 
 class HasValidationResultsViewHelper extends AbstractConditionViewHelper {
 

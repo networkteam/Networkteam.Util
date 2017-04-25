@@ -7,7 +7,7 @@ namespace Networkteam\Util\ViewHelpers\Widget\Controller;
 
 /**
  */
-class PaginateController extends \TYPO3\Fluid\Core\Widget\AbstractWidgetController {
+class PaginateController extends \Neos\FluidAdaptor\Core\Widget\AbstractWidgetController {
 
 	/**
 	 * @var \Neos\Flow\Persistence\QueryResultInterface

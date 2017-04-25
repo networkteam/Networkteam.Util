@@ -7,10 +7,10 @@ namespace Networkteam\Util\Translation;
 
 use Symfony\Component\Finder\Finder;
 use Neos\Flow\Annotations as Flow;
-use TYPO3\Fluid\Core\Parser\ParsingState;
-use TYPO3\Fluid\Core\Parser\SyntaxTree\ObjectAccessorNode;
-use TYPO3\Fluid\Core\Parser\SyntaxTree\RootNode;
-use TYPO3\Fluid\Core\Parser\SyntaxTree\TextNode;
+use Neos\FluidAdaptor\Core\Parser\ParsingState;
+use Neos\FluidAdaptor\Core\Parser\SyntaxTree\ObjectAccessorNode;
+use Neos\FluidAdaptor\Core\Parser\SyntaxTree\RootNode;
+use Neos\FluidAdaptor\Core\Parser\SyntaxTree\TextNode;
 
 class TranslationStripper {
 	/**
@@ -53,7 +53,7 @@ class TranslationStripper {
 	protected $packageManager;
 
 	/**
-	 * @var \TYPO3\Fluid\Core\Parser\TemplateParser
+	 * @var \Neos\FluidAdaptor\Core\Parser\TemplateParser
 	 * @Flow\Inject
 	 */
 	protected $templateParser;
@@ -72,7 +72,7 @@ class TranslationStripper {
 
 		$translationUpdates = array();
 		foreach ($this->translationNodes as $transNode) {
-			/** @var $transNode \TYPO3\Fluid\Core\Parser\SyntaxTree\ViewHelperNode */
+			/** @var $transNode \Neos\FluidAdaptor\Core\Parser\SyntaxTree\ViewHelperNode */
 			$arguments = $transNode->getArguments();
 			if (isset($arguments['id']) && ($arguments['id'] instanceof TextNode || $arguments['id'] instanceof ObjectAccessorNode)) {
 				$idValue = $arguments['id'] instanceof ObjectAccessorNode ? $arguments['id']->getObjectPath() : $arguments['id']->getText();
@@ -170,17 +170,17 @@ class TranslationStripper {
 	 * @return array
 	 */
 	protected function parseNodes($nodes) {
-		/** @var $node \TYPO3\Fluid\Core\Parser\SyntaxTree\AbstractNode */
+		/** @var $node \Neos\FluidAdaptor\Core\Parser\SyntaxTree\AbstractNode */
 		foreach ($nodes as $childNode) {
-			/** @var $childNode \TYPO3\Fluid\Core\Parser\SyntaxTree\ViewHelperNode */
+			/** @var $childNode \Neos\FluidAdaptor\Core\Parser\SyntaxTree\ViewHelperNode */
 			if (count($childNode->getChildNodes()) > 0) {
 				$this->parseNodes($childNode->getChildNodes());
 			}
-			if ($childNode instanceof \TYPO3\Fluid\Core\Parser\SyntaxTree\ViewHelperNode) {
+			if ($childNode instanceof \Neos\FluidAdaptor\Core\Parser\SyntaxTree\ViewHelperNode) {
 				if (count($childNode->getArguments()) > 0) {
 					$this->parseNodes($childNode->getArguments());
 				}
-				if ($childNode->getViewHelperClassName() == 'TYPO3\Fluid\ViewHelpers\TranslateViewHelper') {
+				if ($childNode->getViewHelperClassName() == 'Neos\FluidAdaptor\ViewHelpers\TranslateViewHelper') {
 					$this->translationNodes[] = $childNode;
 				}
 			}

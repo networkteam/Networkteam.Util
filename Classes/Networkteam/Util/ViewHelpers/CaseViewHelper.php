@@ -13,7 +13,7 @@ namespace Networkteam\Util\ViewHelpers;
  * @subpackage ViewHelpers
  *
  */
-class CaseViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
+class CaseViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.

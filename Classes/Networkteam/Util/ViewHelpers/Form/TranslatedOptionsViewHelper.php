@@ -7,7 +7,7 @@ namespace Networkteam\Util\ViewHelpers\Form;
 
 use Neos\Flow\Annotations as Flow;
 
-class TranslatedOptionsViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
+class TranslatedOptionsViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
@@ -29,7 +29,7 @@ class TranslatedOptionsViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractV
 	 * @param string $package
 	 * @param string $sourceName
 	 * @param string $locale
-	 * @throws \TYPO3\Fluid\Core\ViewHelper\Exception
+	 * @throws \Neos\FluidAdaptor\Core\ViewHelper\Exception
 	 * @return array
 	 */
 	public function render($prefix = NULL, $translateById = TRUE, $package = NULL, $sourceName = 'Main', $locale = NULL) {
@@ -40,7 +40,7 @@ class TranslatedOptionsViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractV
 			try {
 				$localeObject = new \Neos\Flow\I18n\Locale($locale);
 			} catch (\Neos\Flow\I18n\Exception\InvalidLocaleIdentifierException $e) {
-				throw new \TYPO3\Fluid\Core\ViewHelper\Exception('"' . $locale . '" is not a valid locale identifier.' , 1372342505);
+				throw new \Neos\FluidAdaptor\Core\ViewHelper\Exception('"' . $locale . '" is not a valid locale identifier.' , 1372342505);
 			}
 		}
 

@@ -152,11 +152,11 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 	}
 
 	/**
-	 * @return \TYPO3\Fluid\View\StandaloneView
+	 * @return \Neos\FluidAdaptor\View\StandaloneView
 	 * @throws MissingArgumentException
 	 */
 	protected function createStandaloneView() {
-		$standaloneView = new \TYPO3\Fluid\View\StandaloneView();
+		$standaloneView = new \Neos\FluidAdaptor\View\StandaloneView();
 		if (!isset($this->options['templatePathAndFilename'])) {
 			// TODO change Exception
 			throw new MissingArgumentException('The option "templatePathAndFilename" must be set for the AbstractRenderingMessage.', 1327058829);

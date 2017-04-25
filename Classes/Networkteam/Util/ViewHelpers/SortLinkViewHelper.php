@@ -9,7 +9,7 @@ use Networkteam\Util\Domain\DataTransferObject\ListViewConfiguration;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Utility\Arrays;
-use TYPO3\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use Neos\FluidAdaptor\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 class SortLinkViewHelper extends AbstractTagBasedViewHelper {
 

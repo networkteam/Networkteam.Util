@@ -7,7 +7,7 @@ namespace Networkteam\Util\ViewHelpers\Uri;
 
 use Neos\Flow\Annotations as Flow;
 
-class ResourceViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ResourceViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
@@ -31,7 +31,7 @@ class ResourceViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper
 	 * @param boolean $localize Whether resource localization should be attempted or not
 	 * @param boolean $cacheBuster
 	 * @return string The absolute URI to the resource
-	 * @throws \TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException
+	 * @throws \Neos\FluidAdaptor\Core\ViewHelper\Exception\InvalidVariableException
 	 * @api
 	 */
 	public function render($path = NULL, $package = NULL, \Neos\Flow\ResourceManagement\PersistentResource $resource = NULL, $localize = TRUE, $cacheBuster = TRUE) {

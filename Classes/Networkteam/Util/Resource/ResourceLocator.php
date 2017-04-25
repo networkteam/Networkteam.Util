@@ -7,7 +7,7 @@ namespace Networkteam\Util\Resource;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\ResourceManagement\ResourceManager;
-use TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException;
+use Neos\FluidAdaptor\Core\ViewHelper\Exception\InvalidVariableException;
 
 class ResourceLocator {
 
@@ -35,7 +35,7 @@ class ResourceLocator {
 	 * @param boolean $localize
 	 * @param boolean $appendCacheBuster
 	 * @return string
-	 * @throws \TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException
+	 * @throws \Neos\FluidAdaptor\Core\ViewHelper\Exception\InvalidVariableException
 	 */
 	public function getResourceUri($path = NULL, $package = NULL, \Neos\Flow\ResourceManagement\PersistentResource $resource = NULL, $localize = TRUE, $appendCacheBuster = TRUE) {
 		$cacheBuster = '';

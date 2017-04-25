@@ -14,7 +14,7 @@ namespace Networkteam\Util\ViewHelpers;
  * @package NwtViewhelpers
  * @subpackage ViewHelpers
  */
-class SwitchViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper implements \TYPO3\Fluid\Core\ViewHelper\Facets\ChildNodeAccessInterface {
+class SwitchViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper implements \Neos\FluidAdaptor\Core\ViewHelper\Facets\ChildNodeAccessInterface {
 
 
 	/**
@@ -61,7 +61,7 @@ class SwitchViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper i
 		$context->getViewHelperVariableContainer()->addOrUpdate('Tx_NwtViewhelpers_ViewHelpers_SwitchViewHelper', 'switchBreakRequested', FALSE);
 		$context->getViewHelperVariableContainer()->addOrUpdate('Tx_NwtViewhelpers_ViewHelpers_SwitchViewHelper', 'switchContinueUntilBreak', FALSE);
 		foreach ($this->childNodes as $childNode) {
-			if ($childNode instanceof \TYPO3\Fluid\Core\Parser\SyntaxTree\ViewHelperNode
+			if ($childNode instanceof \Neos\FluidAdaptor\Core\Parser\SyntaxTree\ViewHelperNode
 				&& $childNode->getViewHelperClassName() === 'Networkteam\Util\ViewHelpers\CaseViewHelper'
 			) {
 				$content .= $childNode->evaluate($context);
@@ -84,7 +84,7 @@ class SwitchViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper i
 		}
 	}
 
-	protected function storeBackup(\TYPO3\Fluid\Core\Rendering\RenderingContext $context) {
+	protected function storeBackup(\Neos\FluidAdaptor\Core\Rendering\RenderingContext $context) {
 		$this->backup = array(
 			$context->getViewHelperVariableContainer()->get('Tx_NwtViewhelpers_ViewHelpers_SwitchViewHelper', 'switchCaseValue'),
 			$this->determineBooleanOf($context, 'switchBreakRequested'),
@@ -92,13 +92,13 @@ class SwitchViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper i
 		);
 	}
 
-	protected function restoreBackup(\TYPO3\Fluid\Core\Rendering\RenderingContext $context) {
+	protected function restoreBackup(\Neos\FluidAdaptor\Core\Rendering\RenderingContext $context) {
 		$context->getViewHelperVariableContainer()->add('Tx_NwtViewhelpers_ViewHelpers_SwitchViewHelper', 'switchCaseValue', $this->backup[0]);
 		$context->getViewHelperVariableContainer()->add('Tx_NwtViewhelpers_ViewHelpers_SwitchViewHelper', 'switchBreakRequested', $this->backup[1]);
 		$context->getViewHelperVariableContainer()->add('Tx_NwtViewhelpers_ViewHelpers_SwitchViewHelper', 'switchContinueUntilBreak', $this->backup[2]);
 	}
 
-	protected function determineBooleanOf(\TYPO3\Fluid\Core\Rendering\RenderingContext $context, $var) {
+	protected function determineBooleanOf(\Neos\FluidAdaptor\Core\Rendering\RenderingContext $context, $var) {
 		if ($context->getViewHelperVariableContainer()->exists('Tx_NwtViewhelpers_ViewHelpers_SwitchViewHelper', 'switchBreakRequested')) {
 			return $context->getViewHelperVariableContainer()->get('Tx_NwtViewhelpers_ViewHelpers_SwitchViewHelper', 'switchBreakRequested');
 		}
