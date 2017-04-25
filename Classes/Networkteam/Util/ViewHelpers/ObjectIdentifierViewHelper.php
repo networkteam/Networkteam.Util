@@ -5,7 +5,7 @@ namespace Networkteam\Util\ViewHelpers;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 class ObjectIdentifierViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
 
@@ -17,7 +17,7 @@ class ObjectIdentifierViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractVi
 	protected $escapeOutput = FALSE;
 
 	/**
-	 * @var \TYPO3\Flow\Persistence\PersistenceManagerInterface
+	 * @var \Neos\Flow\Persistence\PersistenceManagerInterface
 	 * @Flow\Inject
 	 */
 	protected $persistenceManager;

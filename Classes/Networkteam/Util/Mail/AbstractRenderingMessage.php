@@ -5,7 +5,7 @@ namespace Networkteam\Util\Mail;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 abstract class AbstractRenderingMessage implements MailerMessageInterface {
 
@@ -50,7 +50,7 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 	protected $recipientIdentifier = '';
 
 	/**
-	 * @var \TYPO3\Flow\Configuration\ConfigurationManager
+	 * @var \Neos\Flow\Configuration\ConfigurationManager
 	 * @Flow\Inject
 	 */
 	protected $configurationManager;
@@ -176,7 +176,7 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 		}
 
 		$actionRequest = $standaloneView->getRequest();
-		$flowSettings = $this->configurationManager->getConfiguration(\TYPO3\Flow\Configuration\ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'TYPO3.Flow');
+		$flowSettings = $this->configurationManager->getConfiguration(\Neos\Flow\Configuration\ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'Neos.Flow');
 		if (isset($flowSettings['http']['baseUri'])) {
 			$actionRequest->getHttpRequest()->setBaseUri($flowSettings['http']['baseUri']);
 		}

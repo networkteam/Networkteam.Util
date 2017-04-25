@@ -6,9 +6,9 @@ namespace Networkteam\Util\Domain\Repository;
  ***************************************************************/
 
 use Networkteam\Util\Domain\DataTransferObject\ListViewConfiguration;
-use TYPO3\Flow\Persistence\QueryInterface;
+use Neos\Flow\Persistence\QueryInterface;
 
-abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doctrine\Repository {
+abstract class AbstractFilterableRepository extends \Neos\Flow\Persistence\Doctrine\Repository {
 
 	/**
 	 * @var array
@@ -17,7 +17,7 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 
 	/**
 	 * @param \Networkteam\Util\Domain\DataTransferObject\ListViewConfiguration $listViewConfiguration
-	 * @return \TYPO3\Flow\Persistence\QueryResultInterface
+	 * @return \Neos\Flow\Persistence\QueryResultInterface
 	 */
 	public function findByListViewConfiguration(ListViewConfiguration $listViewConfiguration) {
 		$query = $this->createQuery();
@@ -38,7 +38,7 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 
 	/**
 	 * @param array $filters
-	 * @param \TYPO3\Flow\Persistence\QueryInterface $query
+	 * @param \Neos\Flow\Persistence\QueryInterface $query
 	 * @param integer $logicalTypeValue
 	 * @return object A constraint for the filters or NULL if no filters apply
 	 */
@@ -80,7 +80,7 @@ abstract class AbstractFilterableRepository extends \TYPO3\Flow\Persistence\Doct
 	/**
 	 * @param array $filter
 	 * @param string $propertyName
-	 * @param \TYPO3\Flow\Persistence\QueryInterface $query
+	 * @param \Neos\Flow\Persistence\QueryInterface $query
 	 * @return object
 	 * @throws \InvalidArgumentException
 	 */

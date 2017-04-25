@@ -5,7 +5,7 @@ namespace Networkteam\Util\ViewHelpers\Form;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 class TranslatedOptionsViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
 
@@ -17,7 +17,7 @@ class TranslatedOptionsViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractV
 	protected $escapeOutput = FALSE;
 
 	/**
-	 * @var \TYPO3\Flow\I18n\Translator
+	 * @var \Neos\Flow\I18n\Translator
 	 * @Flow\Inject
 	 */
 	protected $translator;
@@ -38,8 +38,8 @@ class TranslatedOptionsViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractV
 		$localeObject = NULL;
 		if ($locale !== NULL) {
 			try {
-				$localeObject = new \TYPO3\Flow\I18n\Locale($locale);
-			} catch (\TYPO3\Flow\I18n\Exception\InvalidLocaleIdentifierException $e) {
+				$localeObject = new \Neos\Flow\I18n\Locale($locale);
+			} catch (\Neos\Flow\I18n\Exception\InvalidLocaleIdentifierException $e) {
 				throw new \TYPO3\Fluid\Core\ViewHelper\Exception('"' . $locale . '" is not a valid locale identifier.' , 1372342505);
 			}
 		}

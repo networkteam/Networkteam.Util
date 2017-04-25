@@ -5,7 +5,7 @@ namespace Networkteam\Util\Translation;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 class XliffFileUpdater {
 
@@ -21,7 +21,7 @@ class XliffFileUpdater {
 	protected $xliffFileDumper;
 
 	/**
-	 * @var \TYPO3\Flow\Package\PackageManagerInterface
+	 * @var \Neos\Flow\Package\PackageManagerInterface
 	 * @Flow\Inject
 	 */
 	protected $packageManager;

@@ -11,7 +11,7 @@ Networkteam:
 #        - some mail to bcc the sent mails to
     log:
       mailerLogger:
-        backend: 'TYPO3\Flow\Log\Backend\FileBackend'
+        backend: 'Neos\Flow\Log\Backend\FileBackend'
         backendOptions:
           logFileURL: '%FLOW_PATH_DATA%Logs/Mailer.log'
           createParentDirectories: TRUE

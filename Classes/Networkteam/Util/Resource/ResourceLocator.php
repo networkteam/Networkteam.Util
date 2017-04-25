@@ -5,8 +5,8 @@ namespace Networkteam\Util\Resource;
  *  (c) 2014 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\ResourceManagement\ResourceManager;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\ResourceManagement\ResourceManager;
 use TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException;
 
 class ResourceLocator {
@@ -18,26 +18,26 @@ class ResourceLocator {
 	protected $resourceManager;
 
 	/**
-	 * @var \TYPO3\Flow\Mvc\Controller\ControllerContext
+	 * @var \Neos\Flow\Mvc\Controller\ControllerContext
 	 */
 	protected $controllerContext;
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\Flow\I18n\Service
+	 * @var \Neos\Flow\I18n\Service
 	 */
 	protected $i18nService;
 
 	/**
 	 * @param string $path
 	 * @param string $package
-	 * @param \TYPO3\Flow\ResourceManagement\PersistentResource $resource
+	 * @param \Neos\Flow\ResourceManagement\PersistentResource $resource
 	 * @param boolean $localize
 	 * @param boolean $appendCacheBuster
 	 * @return string
 	 * @throws \TYPO3\Fluid\Core\ViewHelper\Exception\InvalidVariableException
 	 */
-	public function getResourceUri($path = NULL, $package = NULL, \TYPO3\Flow\ResourceManagement\PersistentResource $resource = NULL, $localize = TRUE, $appendCacheBuster = TRUE) {
+	public function getResourceUri($path = NULL, $package = NULL, \Neos\Flow\ResourceManagement\PersistentResource $resource = NULL, $localize = TRUE, $appendCacheBuster = TRUE) {
 		$cacheBuster = '';
 
 		if ($resource !== NULL) {
@@ -87,9 +87,9 @@ class ResourceLocator {
 	}
 
 	/**
-	 * @param \TYPO3\Flow\Mvc\Controller\ControllerContext $context
+	 * @param \Neos\Flow\Mvc\Controller\ControllerContext $context
 	 */
-	public function setContext(\TYPO3\Flow\Mvc\Controller\ControllerContext $context) {
+	public function setContext(\Neos\Flow\Mvc\Controller\ControllerContext $context) {
 		$this->controllerContext = $context;
 	}
 }

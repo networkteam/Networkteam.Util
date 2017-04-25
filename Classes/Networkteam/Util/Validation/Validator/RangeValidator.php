@@ -5,7 +5,7 @@ namespace Networkteam\Util\Validation\Validator;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Validation\Validator\AbstractValidator;
+use Neos\Flow\Validation\Validator\AbstractValidator;
 
 /**
  * A number range validator
@@ -27,7 +27,7 @@ class RangeValidator extends AbstractValidator {
 	 * @param mixed $value
 	 *
 	 * @return void
-	 * @throws \TYPO3\Flow\Validation\Exception\InvalidValidationOptionsException if invalid validation options have been specified in the constructor
+	 * @throws \Neos\Flow\Validation\Exception\InvalidValidationOptionsException if invalid validation options have been specified in the constructor
 	 */
 	protected function isValid($value) {
 		$minimum = intval($this->options['minimum']);

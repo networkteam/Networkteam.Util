@@ -5,7 +5,7 @@ namespace Networkteam\Util\Tests\Functional\Fixture;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 /**
  * Base test fixture factory
@@ -42,7 +42,7 @@ abstract class FixtureFactory {
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Persistence\PersistenceManagerInterface
+	 * @var \Neos\Flow\Persistence\PersistenceManagerInterface
 	 */
 	protected $persistenceManager;
 
@@ -76,8 +76,8 @@ abstract class FixtureFactory {
 
 		$object = new $className();
 		foreach ($properties as $propertyName => $propertyValue) {
-			if (\TYPO3\Flow\Reflection\ObjectAccess::isPropertySettable($object, $propertyName) && !in_array($propertyName, $this->ignoredProperties)) {
-				\TYPO3\Flow\Reflection\ObjectAccess::setProperty($object, $propertyName, $propertyValue);
+			if (\Neos\Flow\Reflection\ObjectAccess::isPropertySettable($object, $propertyName) && !in_array($propertyName, $this->ignoredProperties)) {
+				\Neos\Flow\Reflection\ObjectAccess::setProperty($object, $propertyName, $propertyValue);
 			}
 		}
 

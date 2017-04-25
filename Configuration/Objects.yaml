@@ -9,14 +9,14 @@ Networkteam\Util\Persistence\SequenceGeneratorInterface:
 
 Networkteam\Util\Log\MailerLoggerInterface:
   scope: singleton
-  factoryObjectName: TYPO3\Flow\Log\LoggerFactory
+  factoryObjectName: Neos\Flow\Log\LoggerFactory
   arguments:
     1:
       value: 'Networkteam_Util_Mailer'
     2:
-      value: 'TYPO3\Flow\Log\Logger'
+      value: 'Neos\Flow\Log\Logger'
     3:
-      value: 'TYPO3\Flow\Log\Backend\FileBackend'
+      value: 'Neos\Flow\Log\Backend\FileBackend'
     4:
       setting: Networkteam.Util.log.mailerLogger.backendOptions
 

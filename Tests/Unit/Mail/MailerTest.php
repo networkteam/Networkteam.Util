@@ -5,7 +5,7 @@ namespace Networkteam\Util\Tests\Unit\Mail;
  *  (c) 2015 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Tests\UnitTestCase;
+use Neos\Flow\Tests\UnitTestCase;
 
 class MailerTest extends UnitTestcase {
 

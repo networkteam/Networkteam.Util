@@ -6,7 +6,7 @@ namespace Networkteam\Util\Translation;
  ***************************************************************/
 
 use Symfony\Component\Finder\Finder;
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 use TYPO3\Fluid\Core\Parser\ParsingState;
 use TYPO3\Fluid\Core\Parser\SyntaxTree\ObjectAccessorNode;
 use TYPO3\Fluid\Core\Parser\SyntaxTree\RootNode;
@@ -47,7 +47,7 @@ class TranslationStripper {
 	protected $translationNodes = array();
 
 	/**
-	 * @var \TYPO3\Flow\Package\PackageManagerInterface
+	 * @var \Neos\Flow\Package\PackageManagerInterface
 	 * @Flow\Inject
 	 */
 	protected $packageManager;

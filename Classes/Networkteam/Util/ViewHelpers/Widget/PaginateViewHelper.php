@@ -6,7 +6,7 @@ namespace Networkteam\Util\ViewHelpers\Widget;
  ***************************************************************/
 
 use Networkteam\Util\ViewHelpers\Widget\Controller\PaginateController;
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 /**
  * This ViewHelper renders a Pagination of objects.
@@ -48,12 +48,12 @@ class PaginateViewHelper extends \TYPO3\Fluid\Core\Widget\AbstractWidgetViewHelp
 	/**
 	 * Render this view helper
 	 *
-	 * @param \TYPO3\Flow\Persistence\QueryResultInterface $objects
+	 * @param \Neos\Flow\Persistence\QueryResultInterface $objects
 	 * @param string $as
 	 * @param array $configuration
 	 * @return string
 	 */
-	public function render(\TYPO3\Flow\Persistence\QueryResultInterface $objects, $as, array $configuration = array('itemsPerPage' => 10, 'insertAbove' => FALSE, 'insertBelow' => TRUE, 'maximumNumberOfLinks' => 99)) {
+	public function render(\Neos\Flow\Persistence\QueryResultInterface $objects, $as, array $configuration = array('itemsPerPage' => 10, 'insertAbove' => FALSE, 'insertBelow' => TRUE, 'maximumNumberOfLinks' => 99)) {
 		$response = $this->initiateSubRequest();
 		return $response->getContent();
 	}

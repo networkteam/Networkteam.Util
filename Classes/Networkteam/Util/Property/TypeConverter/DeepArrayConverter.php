@@ -5,8 +5,8 @@ namespace Networkteam\Util\Property\TypeConverter;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Property\TypeConverter\AbstractTypeConverter;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Property\TypeConverter\AbstractTypeConverter;
 
 /**
  * Converter which transforms arrays to arrays.
@@ -36,10 +36,10 @@ class DeepArrayConverter extends AbstractTypeConverter {
 	 * @param array $source
 	 * @param string $targetType
 	 * @param array $convertedChildProperties
-	 * @param \TYPO3\Flow\Property\PropertyMappingConfigurationInterface $configuration
+	 * @param \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration
 	 * @return array
 	 */
-	public function convertFrom($source, $targetType, array $convertedChildProperties = array(), \TYPO3\Flow\Property\PropertyMappingConfigurationInterface $configuration = NULL) {
+	public function convertFrom($source, $targetType, array $convertedChildProperties = array(), \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration = NULL) {
 		return $convertedChildProperties;
 	}
 
@@ -58,11 +58,11 @@ class DeepArrayConverter extends AbstractTypeConverter {
 	 *
 	 * @param string $targetType
 	 * @param string $propertyName
-	 * @param \TYPO3\Flow\Property\PropertyMappingConfigurationInterface $configuration
+	 * @param \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration
 	 * @return string
 	 */
-	public function getTypeOfChildProperty($targetType, $propertyName, \TYPO3\Flow\Property\PropertyMappingConfigurationInterface $configuration) {
-		$parsedTargetType = \TYPO3\Flow\Utility\TypeHandling::parseType($targetType);
+	public function getTypeOfChildProperty($targetType, $propertyName, \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration) {
+		$parsedTargetType = \Neos\Flow\Utility\TypeHandling::parseType($targetType);
 		return $parsedTargetType['elementType'];
 	}
 }
