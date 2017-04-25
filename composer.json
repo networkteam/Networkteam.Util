@@ -1,9 +1,9 @@
 {
     "name": "networkteam/util",
-    "type": "typo3-flow-package",
-    "description": "",
+    "type": "neos-package",
+    "description": "networkteam utils for flow",
     "require": {
-        "typo3/flow": "*",
+        "neos/flow": "*",
         "symfony/serializer": "2.2.*@dev",
         "symfony/translation": "2.2.*@dev"
     },
