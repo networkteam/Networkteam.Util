@@ -21,7 +21,7 @@ class SerializerFactory {
 	protected $serializer;
 
 	/**
-	 * @var \TYPO3\Flow\Object\ObjectManagerInterface
+	 * @var \TYPO3\Flow\ObjectManagement\ObjectManagerInterface
 	 * @Flow\Inject
 	 */
 	protected $objectManager;
