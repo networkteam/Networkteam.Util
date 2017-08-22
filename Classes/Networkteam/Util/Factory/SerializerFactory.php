@@ -6,7 +6,7 @@ namespace Networkteam\Util\Factory;
  ***************************************************************/
 
 use JMS\Serializer\SerializerBuilder;
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
@@ -21,7 +21,7 @@ class SerializerFactory {
 	protected $serializer;
 
 	/**
-	 * @var \TYPO3\Flow\Object\ObjectManagerInterface
+	 * @var \Neos\Flow\ObjectManagement\ObjectManagerInterface
 	 * @Flow\Inject
 	 */
 	protected $objectManager;

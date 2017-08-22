@@ -5,8 +5,8 @@ namespace Networkteam\Util\Validation\Validator;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Validation\Validator\AbstractValidator;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Validation\Validator\AbstractValidator;
 
 class PasswordValidator extends AbstractValidator {
 
@@ -23,7 +23,7 @@ class PasswordValidator extends AbstractValidator {
 	 *
 	 * @param mixed $value
 	 * @return void
-	 * @throws \TYPO3\Flow\Validation\Exception\InvalidValidationOptionsException if invalid validation options have been specified in the constructor
+	 * @throws \Neos\Flow\Validation\Exception\InvalidValidationOptionsException if invalid validation options have been specified in the constructor
 	 *
 	 */
 	protected function isValid($passwords) {

@@ -5,9 +5,9 @@ namespace Networkteam\Util\ViewHelpers\Form;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
-class TranslatedOptionsViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
+class TranslatedOptionsViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
@@ -17,7 +17,7 @@ class TranslatedOptionsViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractV
 	protected $escapeOutput = FALSE;
 
 	/**
-	 * @var \TYPO3\Flow\I18n\Translator
+	 * @var \Neos\Flow\I18n\Translator
 	 * @Flow\Inject
 	 */
 	protected $translator;
@@ -29,7 +29,7 @@ class TranslatedOptionsViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractV
 	 * @param string $package
 	 * @param string $sourceName
 	 * @param string $locale
-	 * @throws \TYPO3\Fluid\Core\ViewHelper\Exception
+	 * @throws \Neos\FluidAdaptor\Core\ViewHelper\Exception
 	 * @return array
 	 */
 	public function render($prefix = NULL, $translateById = TRUE, $package = NULL, $sourceName = 'Main', $locale = NULL) {
@@ -38,9 +38,9 @@ class TranslatedOptionsViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractV
 		$localeObject = NULL;
 		if ($locale !== NULL) {
 			try {
-				$localeObject = new \TYPO3\Flow\I18n\Locale($locale);
-			} catch (\TYPO3\Flow\I18n\Exception\InvalidLocaleIdentifierException $e) {
-				throw new \TYPO3\Fluid\Core\ViewHelper\Exception('"' . $locale . '" is not a valid locale identifier.' , 1372342505);
+				$localeObject = new \Neos\Flow\I18n\Locale($locale);
+			} catch (\Neos\Flow\I18n\Exception\InvalidLocaleIdentifierException $e) {
+				throw new \Neos\FluidAdaptor\Core\ViewHelper\Exception('"' . $locale . '" is not a valid locale identifier.' , 1372342505);
 			}
 		}
 

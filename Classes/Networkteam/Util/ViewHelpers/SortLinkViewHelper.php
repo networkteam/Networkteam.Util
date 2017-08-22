@@ -6,10 +6,10 @@ namespace Networkteam\Util\ViewHelpers;
  ***************************************************************/
 
 use Networkteam\Util\Domain\DataTransferObject\ListViewConfiguration;
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Mvc\ActionRequest;
-use TYPO3\Flow\Utility\Arrays;
-use TYPO3\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Mvc\ActionRequest;
+use Neos\Utility\Arrays;
+use Neos\FluidAdaptor\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 class SortLinkViewHelper extends AbstractTagBasedViewHelper {
 
@@ -60,7 +60,7 @@ class SortLinkViewHelper extends AbstractTagBasedViewHelper {
 
 		$linkViewConfigurationArguments = array('listViewConfiguration' => array('sortProperty' => $sortProperty, 'sortDirection' => $sortDirection));
 
-		/** @var  $request \TYPO3\Flow\Mvc\ActionRequest */
+		/** @var  $request \Neos\Flow\Mvc\ActionRequest */
 		$request = $this->controllerContext->getRequest();
 
 		$arguments = Arrays::arrayMergeRecursiveOverrule($request->getArguments(), $linkViewConfigurationArguments);

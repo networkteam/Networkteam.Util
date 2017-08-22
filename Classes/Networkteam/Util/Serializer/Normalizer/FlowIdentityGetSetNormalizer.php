@@ -5,13 +5,13 @@ namespace Networkteam\Util\Serializer\Normalizer;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 class FlowIdentityGetSetNormalizer extends GetSetMethodNormalizer {
 
 	/**
-	 * @var \TYPO3\Flow\Persistence\PersistenceManagerInterface
+	 * @var \Neos\Flow\Persistence\PersistenceManagerInterface
 	 * @Flow\Inject
 	 */
 	protected $persistenceManager;

@@ -5,12 +5,12 @@ namespace Networkteam\Util\Tests\Unit\Mail;
  *  (c) 2015 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Tests\UnitTestCase;
+use Neos\Flow\Tests\UnitTestCase;
 
 class MailerTest extends UnitTestcase {
 
 	/**
-	 * @var \TYPO3\SwiftMailer\Message
+	 * @var \Neos\SwiftMailer\Message
 	 */
 	protected $mockMessage;
 
@@ -21,7 +21,7 @@ class MailerTest extends UnitTestcase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->mockMessage = $this->getMockBuilder('TYPO3\SwiftMailer\Message')
+		$this->mockMessage = $this->getMockBuilder('Neos\SwiftMailer\Message')
 			->setMethods(array('setFrom', 'setTo', 'addCc', 'setBody', 'send', 'setSubject', 'getTo', 'getSubject', 'getRecipientIdentifier', 'setReplyTo'))
 			->getMock();
 		$this->mailer = new \Networkteam\Util\Mail\Mailer();

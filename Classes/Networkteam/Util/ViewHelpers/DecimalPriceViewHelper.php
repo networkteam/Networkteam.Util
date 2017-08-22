@@ -5,7 +5,7 @@ namespace Networkteam\Util\ViewHelpers;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper;
+use Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper;
 
 class DecimalPriceViewHelper extends AbstractViewHelper {
 

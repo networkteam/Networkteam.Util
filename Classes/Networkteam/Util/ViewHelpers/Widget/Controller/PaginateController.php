@@ -7,10 +7,10 @@ namespace Networkteam\Util\ViewHelpers\Widget\Controller;
 
 /**
  */
-class PaginateController extends \TYPO3\Fluid\Core\Widget\AbstractWidgetController {
+class PaginateController extends \Neos\FluidAdaptor\Core\Widget\AbstractWidgetController {
 
 	/**
-	 * @var \TYPO3\Flow\Persistence\QueryResultInterface
+	 * @var \Neos\Flow\Persistence\QueryResultInterface
 	 */
 	protected $objects;
 
@@ -59,7 +59,7 @@ class PaginateController extends \TYPO3\Fluid\Core\Widget\AbstractWidgetControll
 	 */
 	public function initializeAction() {
 		$this->objects = $this->widgetConfiguration['objects'];
-		$this->configuration = \TYPO3\Flow\Utility\Arrays::arrayMergeRecursiveOverrule($this->configuration, $this->widgetConfiguration['configuration'], TRUE);
+		$this->configuration = \Neos\Utility\Arrays::arrayMergeRecursiveOverrule($this->configuration, $this->widgetConfiguration['configuration'], TRUE);
 		$this->numberOfPages = ceil(count($this->objects) / (integer)$this->configuration['itemsPerPage']);
 		$this->maximumNumberOfLinks = (integer)$this->configuration['maximumNumberOfLinks'];
 	}

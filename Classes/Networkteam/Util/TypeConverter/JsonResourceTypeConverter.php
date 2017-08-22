@@ -5,15 +5,15 @@ namespace Networkteam\Util\TypeConverter;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Error\Error;
+use Neos\Flow\Annotations as Flow;
+use Neos\Error\Messages\Error;
 
 /**
  * An type converter for ResourcePointer objects from JSON based file uploads (no multipart)
  *
  * @Flow\Scope("singleton")
  */
-class JsonResourceTypeConverter extends \TYPO3\Flow\Property\TypeConverter\AbstractTypeConverter {
+class JsonResourceTypeConverter extends \Neos\Flow\Property\TypeConverter\AbstractTypeConverter {
 
 	/**
 	 * @var array<string>
@@ -23,7 +23,7 @@ class JsonResourceTypeConverter extends \TYPO3\Flow\Property\TypeConverter\Abstr
 	/**
 	 * @var string
 	 */
-	protected $targetType = 'TYPO3\Flow\Resource\Resource';
+	protected $targetType = 'Neos\Flow\ResourceManagement\PersistentResource';
 
 	/**
 	 * @var integer
@@ -32,7 +32,7 @@ class JsonResourceTypeConverter extends \TYPO3\Flow\Property\TypeConverter\Abstr
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Resource\ResourceManager
+	 * @var \Neos\Flow\ResourceManagement\ResourceManager
 	 */
 	protected $resourceManager;
 
@@ -51,10 +51,10 @@ class JsonResourceTypeConverter extends \TYPO3\Flow\Property\TypeConverter\Abstr
 	 * @param array $source The upload info (expected keys: filename, value, mime)
 	 * @param string $targetType
 	 * @param array $convertedChildProperties
-	 * @param \TYPO3\Flow\Property\PropertyMappingConfigurationInterface $configuration
-	 * @return |TYPO3\Flow\Error\Error if the input format is not supported or could not be converted for other reasons
+	 * @param \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration
+	 * @return |Neos\Error\Messages\Error if the input format is not supported or could not be converted for other reasons
 	 */
-	public function convertFrom($source, $targetType, array $convertedChildProperties = array(), \TYPO3\Flow\Property\PropertyMappingConfigurationInterface $configuration = NULL) {
+	public function convertFrom($source, $targetType, array $convertedChildProperties = array(), \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration = NULL) {
 		if (!isset($source['filename']) || !isset($source['value']) || !isset($source['mime'])) {
 			return NULL;
 		}

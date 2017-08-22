@@ -5,24 +5,51 @@ namespace Networkteam\Util\ViewHelpers\Security;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-class IfAccessViewHelper extends \TYPO3\Fluid\ViewHelpers\Security\IfAccessViewHelper {
+use \TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
-	/**
-	 * Check if any of the given privilege targets is granted
-	 *
-	 * @param string $privilegeTarget One or multiple privilege targets (separated by '|')
-	 * @param array $parameters
-	 * @return string
-	 */
-	public function render($privilegeTarget, array $parameters = array()) {
-		$privilegeTargets = explode('|', $privilegeTarget);
+class IfAccessViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Security\IfAccessViewHelper
+{
 
-		foreach ($privilegeTargets as $privilegeTarget) {
-			if ($this->privilegeManager->isPrivilegeTargetGranted($privilegeTarget, $parameters)) {
-				return $this->renderThenChild();
-			}
-		}
+    CONST PRIVILEGE_TARGET_SEPARATOR = '|';
 
-		return $this->renderElseChild();
-	}
+    CONST CONDITION_MODE_AND = 'and';
+
+    CONST CONDITION_MODE_OR= 'or';
+
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $description = sprintf('One or more privilege target identifier (separated by "%s")',self::PRIVILEGE_TARGET_SEPARATOR);
+        $this->overrideArgument('privilegeTarget', 'string', $description, true);
+        $this->registerArgument('mode', 'string', 'Condition mode for multiple privelege targets', false, self::CONDITION_MODE_OR);
+    }
+
+    /**
+     * The condition evaluates to true if one of the privilege targets is granted
+     *
+     * @param null $arguments
+     * @param RenderingContextInterface $renderingContext
+     * @return boolean
+     */
+    protected static function evaluateCondition($arguments = null, RenderingContextInterface $renderingContext)
+    {
+        $privilegeManager = static::getPrivilegeManager($renderingContext);
+        $privilegeTargets = explode(self::PRIVILEGE_TARGET_SEPARATOR, $arguments['privilegeTarget']);
+
+        $privilegeTargetGrantedCount = 0;
+        foreach ($privilegeTargets as $privilegeTarget) {
+            $isPrivilegeTargetGranted = $privilegeManager->isPrivilegeTargetGranted($privilegeTarget, $arguments['parameters']);
+
+            if ($isPrivilegeTargetGranted) {
+                $privilegeTargetGrantedCount++;
+            }
+        }
+
+        if (isset($arguments['mode']) && $arguments['mode'] === self::CONDITION_MODE_AND)
+        {
+            return $privilegeTargetGrantedCount === count($privilegeTargets);
+        } else {
+            return $privilegeTargetGrantedCount > 0;
+        }
+    }
 }

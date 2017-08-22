@@ -7,9 +7,9 @@ namespace Networkteam\Util\Command;
 
 use Networkteam\Util\Translation\TranslationStripper;
 use Networkteam\Util\Translation\XliffFileUpdater;
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
-class TranslationsCommandController extends \TYPO3\Flow\Cli\CommandController {
+class TranslationsCommandController extends \Neos\Flow\Cli\CommandController {
 
 	/**
 	 * @var \Networkteam\Util\Translation\TranslationStripper

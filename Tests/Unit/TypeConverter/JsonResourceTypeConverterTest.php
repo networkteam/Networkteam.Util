@@ -5,7 +5,7 @@ namespace Networkteam\Mueggenburg\Offers\Tests\Unit\Service;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Tests\UnitTestCase;
+use Neos\Flow\Tests\UnitTestCase;
 
 class JsonResourceTypeConverterTest extends UnitTestCase {
 
@@ -18,7 +18,7 @@ class JsonResourceTypeConverterTest extends UnitTestCase {
 			'filename' => 'abc.csv',
 			'value' => 'data:abc',
 			'mime' => 'application/csv'
-		), 'TYPO3\Flow\Resource\Resource');
+		), 'Neos\Flow\ResourceManagement\PersistentResource');
 
 		$this->assertTrue($result);
 	}
@@ -33,7 +33,7 @@ class JsonResourceTypeConverterTest extends UnitTestCase {
 				'filename' => 'abc.csv'
 			),
 			'tmp_name' => 'tmp_abc'
-		), 'TYPO3\Flow\Resource\Resource');
+		), 'Neos\Flow\ResourceManagement\PersistentResource');
 
 		$this->assertFalse($result);
 	}
@@ -44,8 +44,8 @@ class JsonResourceTypeConverterTest extends UnitTestCase {
 	public function convertFromBuildsResourceFromCorrectValues() {
 		$content = 'My little pony';
 
-		$mockResource = $this->getMock('TYPO3\Flow\Resource\Resource');
-		$mockResourceManager = $this->getMock('TYPO3\Flow\Resource\ResourceManager');
+		$mockResource = $this->getMock('Neos\Flow\ResourceManagement\PersistentResource');
+		$mockResourceManager = $this->getMock('Neos\Flow\ResourceManagement\ResourceManager');
 
 		$typeConverter = new \Networkteam\Util\TypeConverter\JsonResourceTypeConverter();
 		$this->inject($typeConverter, 'resourceManager', $mockResourceManager);
@@ -56,7 +56,7 @@ class JsonResourceTypeConverterTest extends UnitTestCase {
 			'filename' => 'file.txt',
 			'value' => 'data:text/plain;base64,' . base64_encode($content),
 			'mime' => 'text/plain'
-		), 'TYPO3\Flow\Resource\Resource');
+		), 'Neos\Flow\ResourceManagement\PersistentResource');
 
 		$this->assertSame($mockResource, $result);
 	}
@@ -66,7 +66,7 @@ class JsonResourceTypeConverterTest extends UnitTestCase {
 	 * @dataProvider
 	 */
 	public function convertFromBuildsReturnsErrorForInvalidValue() {
-		$mockResourceManager = $this->getMock('TYPO3\Flow\Resource\ResourceManager');
+		$mockResourceManager = $this->getMock('Neos\Flow\ResourceManagement\ResourceManager');
 
 		$typeConverter = new \Networkteam\Util\TypeConverter\JsonResourceTypeConverter();
 		$this->inject($typeConverter, 'resourceManager', $mockResourceManager);
@@ -77,9 +77,9 @@ class JsonResourceTypeConverterTest extends UnitTestCase {
 			'filename' => 'file.txt',
 			'value' => 'undefined',
 			'mime' => 'text/plain'
-		), 'TYPO3\Flow\Resource\Resource');
+		), 'Neos\Flow\ResourceManagement\PersistentResource');
 
-		$this->assertInstanceOf('TYPO3\Flow\Error\Error', $result);
+		$this->assertInstanceOf('Neos\Error\Messages\Error', $result);
 	}
 
 }

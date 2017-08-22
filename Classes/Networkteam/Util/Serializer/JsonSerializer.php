@@ -5,7 +5,7 @@ namespace Networkteam\Util\Serializer;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 
 /**
  * Serialize the given data into JSON like the JsonView
@@ -15,7 +15,7 @@ use TYPO3\Flow\Annotations as Flow;
 class JsonSerializer {
 
 	/**
-	 * @var \TYPO3\Flow\Persistence\PersistenceManagerInterface
+	 * @var \Neos\Flow\Persistence\PersistenceManagerInterface
 	 * @Flow\Inject
 	 */
 	protected $persistenceManager;
@@ -64,14 +64,14 @@ class JsonSerializer {
 		if ($object instanceof \DateTime) {
 			return $object->format(\DateTime::ISO8601);
 		} else {
-			$propertyNames = \TYPO3\Flow\Reflection\ObjectAccess::getGettablePropertyNames($object);
+			$propertyNames = \Neos\Utility\ObjectAccess::getGettablePropertyNames($object);
 
 			$propertiesToRender = array();
 			foreach ($propertyNames as $propertyName) {
 				if (isset($configuration['_only']) && is_array($configuration['_only']) && !in_array($propertyName, $configuration['_only'])) continue;
 				if (isset($configuration['_exclude']) && is_array($configuration['_exclude']) && in_array($propertyName, $configuration['_exclude'])) continue;
 
-				$propertyValue = \TYPO3\Flow\Reflection\ObjectAccess::getProperty($object, $propertyName);
+				$propertyValue = \Neos\Utility\ObjectAccess::getProperty($object, $propertyName);
 
 				if (!is_array($propertyValue) && !is_object($propertyValue)) {
 					$propertiesToRender[$propertyName] = $propertyValue;

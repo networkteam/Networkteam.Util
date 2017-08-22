@@ -5,7 +5,7 @@ namespace Networkteam\Util\ViewHelpers;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-class UnlessViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractConditionViewHelper {
+class UnlessViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractConditionViewHelper {
 
 	/**
 	 * renders <f:then> child if $condition is true, otherwise renders <f:else> child.
