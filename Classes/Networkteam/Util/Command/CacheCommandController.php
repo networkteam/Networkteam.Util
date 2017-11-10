@@ -5,15 +5,15 @@ namespace Networkteam\Util\Command;
  *  (c) 2017 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Cache\Backend\SimpleFileBackend;
-use TYPO3\Flow\Cache\Backend\TransientMemoryBackend;
-use TYPO3\Flow\Cache\Backend\NullBackend;
+use Neos\Flow\Annotations as Flow;
+use Neos\Cache\Backend\SimpleFileBackend;
+use Neos\Cache\Backend\TransientMemoryBackend;
+use Neos\Cache\Backend\NullBackend;
 
-class CacheCommandController extends \TYPO3\Flow\Cli\CommandController {
+class CacheCommandController extends \Neos\Flow\Cli\CommandController {
 
 	/**
-	 * @var \TYPO3\Flow\Cache\CacheManager
+	 * @var \Neos\Flow\Cache\CacheManager
 	 * @Flow\Inject
 	 */
 	protected $cacheManager;
