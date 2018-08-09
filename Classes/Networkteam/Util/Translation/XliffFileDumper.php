@@ -53,4 +53,18 @@ class XliffFileDumper extends FileDumper {
 	protected function getExtension() {
 		return 'xlf';
 	}
+
+    /**
+     * Transforms a domain of a message catalogue to its string representation.
+     *
+     * @param MessageCatalogue $messages
+     * @param string $domain
+     * @param array $options
+     *
+     * @return string representation
+     */
+    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = array())
+    {
+        // TODO: Implement formatCatalogue() method.
+    }
 }

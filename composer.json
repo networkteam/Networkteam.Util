@@ -3,7 +3,7 @@
     "type": "neos-package",
     "description": "networkteam utils for flow",
     "require": {
-        "neos/flow": "~4.0",
+        "neos/flow": "~5.0",
         "symfony/serializer": "2.2.*@dev",
         "symfony/translation": "2.2.*@dev"
     },
@@ -87,7 +87,10 @@
             "Neos.Fusion-20170120013047",
             "Neos.Flow-20170125103800",
             "Neos.Seo-20170127154600",
-            "Neos.Flow-20170127183102"
+            "Neos.Flow-20170127183102",
+            "Neos.Fusion-20180211175500",
+            "Neos.Fusion-20180211184832",
+            "Neos.Flow-20180415105700"
         ]
     }
 }
