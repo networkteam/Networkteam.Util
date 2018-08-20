@@ -8,8 +8,4 @@ namespace Networkteam\Util\Log;
 interface MailerLoggerInterface extends \TYPO3\Flow\Log\LoggerInterface {
 
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> [TASK] Logging for sending Mails
 ?>
