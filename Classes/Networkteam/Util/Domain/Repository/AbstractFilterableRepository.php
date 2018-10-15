@@ -23,7 +23,6 @@ abstract class AbstractFilterableRepository extends \Neos\Flow\Persistence\Doctr
 		$query = $this->createQuery();
 
 		$filter = $listViewConfiguration->getFilterWithPropertyPaths();
-
 		$constraint = $this->buildFiltersConstraint($filter, $query, $listViewConfiguration->getLogicalType());
 		if ($constraint !== NULL) {
 			$query->matching($constraint);
@@ -101,6 +100,16 @@ abstract class AbstractFilterableRepository extends \Neos\Flow\Persistence\Doctr
 			case 'like':
 				if ((string)$filter['operand'] !== '') {
 					$constraint = $query->like($propertyName, '%' . $filter['operand'] . '%');
+				}
+				break;
+			case 'startsWith':
+				if ((string)$filter['operand'] !== '') {
+					$constraint = $query->like($propertyName, $filter['operand'] . '%');
+				}
+				break;
+			case 'endsWith':
+				if ((string)$filter['operand'] !== '') {
+					$constraint = $query->like($propertyName, '%' . $filter['operand']);
 				}
 				break;
 			case 'is':
