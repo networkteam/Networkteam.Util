@@ -84,6 +84,10 @@ class Mailer implements MailerInterface {
 			$mail->setReplyTo($message->getReplyTo());
 		}
 
+		foreach ($message->getHeaders() as $header) {
+			$mail->getHeaders()->addTextHeader($header->getName(), $header->getValue());
+		}
+
 		if ($result->hasErrors()) {
 			$logMessage = 'Failed sending mail to "' . implode('", "', array_keys((array)$mail->getTo())) . '" (' . $message->getRecipientIdentifier() . ') with subject "' . $mail->getSubject() . '"';
 			$flattenedErrors = $result->getFlattenedErrors();
@@ -104,6 +108,13 @@ class Mailer implements MailerInterface {
 					$mail->addBcc($bccMail);
 				}
 			}
+
+			if (isset($this->settings['Mailer']['overrideRecipients'])) {
+				$mail->setBcc([]);
+				$mail->setCc([]);
+				$mail->setTo($this->settings['Mailer']['overrideRecipients']);
+			}
+
 			try {
 				$recipients = $mail->send();
 				if ($recipients === 0) {
