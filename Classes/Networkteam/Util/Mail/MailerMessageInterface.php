@@ -46,4 +46,8 @@ interface MailerMessageInterface {
 	 */
 	public function getRecipientIdentifier();
 
+	/**
+	 * @return array<MailHeader>
+	 */
+	public function getHeaders();
 }
