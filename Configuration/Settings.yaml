@@ -9,6 +9,8 @@ Networkteam:
 #    Mailer:
 #      bcc:
 #        - some mail to bcc the sent mails to
+#      overrideRecipients:
+#        - some@anotherdomain will override all recipients set in a mailmessage to only this one
     log:
       mailerLogger:
         backend: 'Neos\Flow\Log\Backend\FileBackend'

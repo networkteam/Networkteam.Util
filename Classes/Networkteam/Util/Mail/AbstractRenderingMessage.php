@@ -198,4 +198,8 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 		$this->recipientIdentifier = $recipientIdentifier;
 	}
 
+	public function getHeaders()
+	{
+		return array();
+	}
 }
