@@ -1,3 +1,15 @@
+Neos:
+  Flow:
+    log:
+      httpLogger:
+        backend: 'Neos\Flow\Log\Backend\FileBackend'
+        backendOptions:
+          logFileURL: '%FLOW_PATH_DATA%Logs/Http.log'
+          createParentDirectories: TRUE
+          severityThreshold: '%LOG_INFO%'
+          maximumLogFileSize: 10485760
+          logFilesToKeep: 1
+
 Networkteam:
   Util:
     OpenExchangeRateConverter:

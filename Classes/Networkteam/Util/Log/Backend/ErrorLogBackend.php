@@ -1,26 +1,17 @@
 <?php
 namespace Networkteam\Util\Log\Backend;
 
+use Neos\Flow\Cli\CommandRequestHandler;
+use Neos\Flow\Core\Bootstrap;
 use Neos\Flow\Log\Backend\AbstractBackend;
-use Neos\Flow\Log\Exception\CouldNotOpenResourceException;
+use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 
 /**
- * An extended console log backend with additional prefix and output of package key, class and method
+ * An error log backend with the same capabilities as the console backend
+ *
  */
-class ConsoleBackend extends AbstractBackend
+class ErrorLogBackend extends AbstractBackend
 {
-
-    /**
-     * Stream name to use (stdout, stderr)
-     *
-     * @var string
-     */
-    protected $streamName = 'stdout';
-
-    /**
-     * @var resource
-     */
-    protected $streamHandle;
 
     /**
      * @var string
@@ -28,27 +19,19 @@ class ConsoleBackend extends AbstractBackend
     protected $prefix = '';
 
     /**
-     * @var bool
+     * @var int
      */
-    protected $ansi = false;
+    protected $messageType = 0;
 
     /**
-     * Carries out all actions necessary to prepare the logging backend, such as opening
-     * the log file or opening a database connection.
-     *
-     * @return void
-     * @throws CouldNotOpenResourceException
-     * @api
+     * @var bool
      */
+    protected $ansi;
+
+    private $disableForCommands = true;
+
     public function open()
     {
-        $this->streamHandle = fopen('php://' . $this->streamName, 'w');
-        if (!is_resource($this->streamHandle)) {
-            throw new CouldNotOpenResourceException(
-                'Could not open stream "' . $this->streamName . '" for write access.',
-                1310986609
-            );
-        }
     }
 
     /**
@@ -75,6 +58,17 @@ class ConsoleBackend extends AbstractBackend
             return;
         }
 
+        // TODO error_log will log to output in commands used to compile changes in Development context
+        if ($this->disableForCommands && (Bootstrap::$staticObjectManager instanceof ObjectManagerInterface)) {
+            $bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
+            /* @var Bootstrap $bootstrap */
+            $requestHandler = $bootstrap->getActiveRequestHandler();
+
+            if ($requestHandler instanceof CommandRequestHandler) {
+                return;
+            }
+        }
+
         if ($this->ansi) {
             $output = LogFormatter::formatAnsi(
                 $this->prefix,
@@ -97,35 +91,22 @@ class ConsoleBackend extends AbstractBackend
             );
         }
 
-        if (is_resource($this->streamHandle)) {
-            fputs($this->streamHandle, $output . PHP_EOL);
-        }
+        error_log($output, $this->messageType);
     }
 
-    /**
-     * Carries out all actions necessary to cleanly close the logging backend, such as
-     * closing the log file or disconnecting from a database.
-     *
-     * Note: for this backend we do nothing here and rely on PHP to close the stream handle
-     * when the request ends. This is to allow full logging until request end.
-     *
-     * @return void
-     * @api
-     * @todo revise upon resolution of http://forge.typo3.org/issues/9861
-     */
     public function close()
     {
     }
 
     /**
-     * Set the stream name (stdout, stderr) to use
+     * Set the message type for error_log(...)
      *
-     * @param string $streamName
+     * @param int $messageType
      * @return void
      */
-    public function setStreamName(string $streamName): void
+    public function setMessageType(int $messageType): void
     {
-        $this->streamName = $streamName;
+        $this->messageType = $messageType;
     }
 
     /**
@@ -147,5 +128,4 @@ class ConsoleBackend extends AbstractBackend
     {
         $this->ansi = $ansi;
     }
-
 }

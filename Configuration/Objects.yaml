@@ -16,9 +16,17 @@ Networkteam\Util\Log\MailerLoggerInterface:
     2:
       value: 'Neos\Flow\Log\Logger'
     3:
-      value: 'Neos\Flow\Log\Backend\FileBackend'
+      value: Networkteam.Util.log.mailerLogger.backend
     4:
       setting: Networkteam.Util.log.mailerLogger.backendOptions
+
+Networkteam\Util\Log\HttpLoggerInterface:
+  scope: singleton
+  factoryObjectName: Neos\Flow\Log\PsrLoggerFactoryInterface
+  factoryMethodName: get
+  arguments:
+    1:
+      value: httpLogger
 
 #Disable DeepArrayConverter routes by default - enable it in project specific package
 #Networkteam\Util\Property\TypeConverter\DeepArrayConverter:
