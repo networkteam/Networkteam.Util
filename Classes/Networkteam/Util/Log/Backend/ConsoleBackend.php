@@ -41,7 +41,7 @@ class ConsoleBackend extends AbstractBackend
      * @throws CouldNotOpenResourceException
      * @api
      */
-    public function open()
+    public function open(): void
     {
         $this->severityLabels = [
             LOG_EMERG   => 'EMERGENCY',
@@ -72,7 +72,7 @@ class ConsoleBackend extends AbstractBackend
      * @return void
      * @api
      */
-    public function append($message, $severity = LOG_INFO, $additionalData = null, $packageKey = null, $className = null, $methodName = null)
+    public function append(string $message, int $severity = LOG_INFO, $additionalData = null, string $packageKey = null, string $className = null, string $methodName = null): void
     {
         if ($severity > $this->severityThreshold) {
             return;
@@ -111,7 +111,7 @@ class ConsoleBackend extends AbstractBackend
      * @api
      * @todo revise upon resolution of http://forge.typo3.org/issues/9861
      */
-    public function close()
+    public function close(): void
     {
     }
 
