@@ -6,6 +6,7 @@ namespace Networkteam\Util\ViewHelpers\Uri;
  ***************************************************************/
 
 use Neos\Flow\Annotations as Flow;
+use \Neos\Flow\ResourceManagement\PersistentResource as PersistentResource;
 
 class ResourceViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper {
 
@@ -23,19 +24,36 @@ class ResourceViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractView
 	protected $resourceLocator;
 
 	/**
-	 * Render the URI to the resource. The filename is used from child content.
+	 * Initialize the arguments.
 	 *
-	 * @param string $path The location of the resource, can be either a path relative to the Public resource directory of the package or a resource://... URI
-	 * @param string $package Target package key. If not set, the current package key will be used
-	 * @param \Neos\Flow\ResourceManagement\PersistentResource $resource If specified, this resource object is used instead of the path and package information
-	 * @param boolean $localize Whether resource localization should be attempted or not
-	 * @param boolean $cacheBuster
+	 * @return void
+	 * @throws \Neos\FluidAdaptor\Core\ViewHelper\Exception
+	 */
+	public function initializeArguments()
+	{
+		parent::initializeArguments();
+		$this->registerArgument('path', 'string', 'path to render', true);
+		$this->registerArgument('package', 'string', 'package', false);
+		$this->registerArgument('resource', PersistentResource::class, 'property to search', false);
+		$this->registerArgument('localize', 'boolean', 'attemped resource location', false);
+		$this->registerArgument('cacheBuster', 'boolean', 'cache buster', false);
+	}
+
+	/**
+	 * Render the URI to the resource. The filename is used from child content.
 	 * @return string The absolute URI to the resource
 	 * @throws \Neos\FluidAdaptor\Core\ViewHelper\Exception\InvalidVariableException
 	 * @api
 	 */
-	public function render($path = NULL, $package = NULL, \Neos\Flow\ResourceManagement\PersistentResource $resource = NULL, $localize = TRUE, $cacheBuster = TRUE) {
+	public function render() : string
+	{
 		$this->resourceLocator->setContext($this->controllerContext);
+		$path = $this->arguments['path'];
+		$package = $this->arguments['package'];
+		$resource = $this->arguments['resource'];
+		$localize = $this->arguments['localize'];
+		$cacheBuster = $this->arguments['cacheBuster'];
+
 		return $this->resourceLocator->getResourceUri($path, $package, $resource, $localize, $cacheBuster);
 	}
 }
