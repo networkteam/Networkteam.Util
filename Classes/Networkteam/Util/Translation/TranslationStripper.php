@@ -47,7 +47,7 @@ class TranslationStripper {
 	protected $translationNodes = array();
 
 	/**
-	 * @var \Neos\Flow\Package\PackageManagerInterface
+	 * @var \Neos\Flow\Package\PackageManager
 	 * @Flow\Inject
 	 */
 	protected $packageManager;

@@ -11,7 +11,7 @@ use Neos\Flow\Annotations as Flow;
 class MysqlSequenceGenerator implements SequenceGeneratorInterface {
 
 	/**
-	 * @var \Doctrine\Common\Persistence\ObjectManager
+	 * @var \Doctrine\ORM\EntityManagerInterface
 	 * @Flow\Inject
 	 */
 	protected $entityManager;

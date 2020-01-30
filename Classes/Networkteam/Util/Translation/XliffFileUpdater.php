@@ -21,7 +21,7 @@ class XliffFileUpdater {
 	protected $xliffFileDumper;
 
 	/**
-	 * @var \Neos\Flow\Package\PackageManagerInterface
+	 * @var \Neos\Flow\Package\PackageManager
 	 * @Flow\Inject
 	 */
 	protected $packageManager;
