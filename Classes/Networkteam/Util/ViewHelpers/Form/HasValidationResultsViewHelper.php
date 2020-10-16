@@ -5,27 +5,37 @@ namespace Networkteam\Util\ViewHelpers\Form;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
+use Neos\Error\Messages\Result;
+use Neos\FluidAdaptor\Core\Rendering\RenderingContext;
 use Neos\FluidAdaptor\Core\ViewHelper\AbstractConditionViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
-class HasValidationResultsViewHelper extends AbstractConditionViewHelper {
+class HasValidationResultsViewHelper extends AbstractConditionViewHelper
+{
 
-	/**
-	 * Iterates through selected errors of the request.
-	 *
-	 * @param string $for The name of the error name (e.g. argument name or property name). This can also be a property path (like blog.title), and will then only display the validation errors of that property.
-	 * @return string Rendered string
-	 * @api
-	 */
-	public function render($for = '') {
-		$validationResults = $this->controllerContext->getRequest()->getInternalArgument('__submittedArgumentValidationResults');
-		if ($validationResults !== NULL) {
-			$validationResults = $validationResults->forProperty($for);
-		}
+    public function initializeArguments()
+    {
+        $this->registerArgument('then', 'mixed', 'Value to be returned if the condition if met.', false);
+        $this->registerArgument('else', 'mixed', 'Value to be returned if the condition if not met.', false);
+        $this->registerArgument('for', 'string', 'The name of the error name (e.g. argument name or property name). This can also be a property path (like blog.title), and will then only display the validation errors of that property.', false, null);
+    }
 
-		if ($validationResults !== NULL && $validationResults->hasErrors()) {
-			return $this->renderThenChild();
-		} else {
-			return $this->renderElseChild();
-		}
-	}
+    protected static function evaluateCondition(
+        $arguments = null,
+        RenderingContextInterface $renderingContext
+    ) {
+        /** @var  $renderingContext RenderingContext */
+        $controllerContext = $renderingContext->getControllerContext();
+
+        /** @var Result $validationResults */
+        $validationResults = $controllerContext->getRequest()->getInternalArgument('__submittedArgumentValidationResults');
+
+        $forProperty = $arguments['for'] ?? null;
+
+        if ($validationResults !== null && $forProperty !== null) {
+            $validationResults = $validationResults->forProperty($forProperty);
+        }
+
+        return $validationResults !== null && $validationResults->hasErrors();
+    }
 }
