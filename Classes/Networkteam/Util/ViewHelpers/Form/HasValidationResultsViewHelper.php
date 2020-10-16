@@ -20,6 +20,15 @@ class HasValidationResultsViewHelper extends AbstractConditionViewHelper
         $this->registerArgument('for', 'string', 'The name of the error name (e.g. argument name or property name). This can also be a property path (like blog.title), and will then only display the validation errors of that property.', false, null);
     }
 
+    public function render()
+    {
+        if (static::evaluateCondition($this->arguments, $this->renderingContext)) {
+            return $this->renderThenChild();
+        }
+
+        return $this->renderElseChild();
+    }
+
     protected static function evaluateCondition(
         $arguments = null,
         RenderingContextInterface $renderingContext
