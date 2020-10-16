@@ -5,20 +5,14 @@ namespace Networkteam\Util\ViewHelpers;
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-class UnlessViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractConditionViewHelper {
+use Neos\FluidAdaptor\Core\ViewHelper\AbstractConditionViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
-	/**
-	 * renders <f:then> child if $condition is true, otherwise renders <f:else> child.
-	 *
-	 * @param boolean $condition View helper condition
-	 * @return string the rendered string
-	 * @api
-	 */
-	public function render($condition) {
-		if (!$condition) {
-			return $this->renderThenChild();
-		} else {
-			return $this->renderElseChild();
-		}
-	}
+class UnlessViewHelper extends AbstractConditionViewHelper
+{
+
+    protected static function evaluateCondition($arguments = null, RenderingContextInterface $renderingContext)
+    {
+        return !(boolean)$arguments['condition'];
+    }
 }
