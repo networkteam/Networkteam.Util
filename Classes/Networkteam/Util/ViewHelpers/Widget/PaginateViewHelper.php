@@ -5,21 +5,18 @@ namespace Networkteam\Util\ViewHelpers\Widget;
  *  (c) 2014 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-use Networkteam\Util\ViewHelpers\Widget\Controller\PaginateController;
+use Neos\Flow\Persistence\QueryResultInterface;
 use Neos\Flow\Annotations as Flow;
 
 /**
  * This ViewHelper renders a Pagination of objects.
- *
  * = Examples =
- *
  * <code title="simple configuration">
  * <f:widget.paginate objects="{blogs}" as="paginatedBlogs" configuration="{itemsPerPage: 5}">
  *   // use {paginatedBlogs} as you used {blogs} before, most certainly inside
  *   // a <f:for> loop.
  * </f:widget.paginate>
  * </code>
- *
  * <code title="full configuration">
  * <f:widget.paginate objects="{blogs}" as="paginatedBlogs" configuration="{itemsPerPage: 5, insertAbove: 1, insertBelow: 0, maximumNumberOfLinks: 10}">
  *   // This example will display at the maximum 10 links and tries to the settings
@@ -27,7 +24,6 @@ use Neos\Flow\Annotations as Flow;
  * </f:widget.paginate>
  * </code>
  * = Performance characteristics =
- *
  * In the above example, it looks like {blogs} contains all Blog objects, thus
  * you might wonder if all objects were fetched from the database.
  * However, the blogs are NOT fetched from the database until you actually use them,
@@ -37,24 +33,25 @@ use Neos\Flow\Annotations as Flow;
  *
  * @api
  */
-class PaginateViewHelper extends \Neos\FluidAdaptor\Core\Widget\AbstractWidgetViewHelper {
+class PaginateViewHelper extends \Neos\FluidAdaptor\Core\Widget\AbstractWidgetViewHelper
+{
 
-	/**
-	 * @Flow\Inject
-	 * @var \Networkteam\Util\ViewHelpers\Widget\Controller\PaginateController
-	 */
-	protected $controller;
+    /**
+     * @Flow\Inject
+     * @var \Networkteam\Util\ViewHelpers\Widget\Controller\PaginateController
+     */
+    protected $controller;
 
-	/**
-	 * Render this view helper
-	 *
-	 * @param \Neos\Flow\Persistence\QueryResultInterface $objects
-	 * @param string $as
-	 * @param array $configuration
-	 * @return string
-	 */
-	public function render(\Neos\Flow\Persistence\QueryResultInterface $objects, $as, array $configuration = array('itemsPerPage' => 10, 'insertAbove' => FALSE, 'insertBelow' => TRUE, 'maximumNumberOfLinks' => 99)) {
-		$response = $this->initiateSubRequest();
-		return $response->getContent();
-	}
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('objects', QueryResultInterface::class, 'Objects', true);
+        $this->registerArgument('as', 'string', 'as', true);
+        $this->registerArgument('configuration', 'array', 'Widget configuration', false, ['itemsPerPage' => 10, 'insertAbove' => false, 'insertBelow' => true, 'maximumNumberOfLinks' => 99]);
+    }
+
+    public function render(): string
+    {
+        return  $this->initiateSubRequest();
+    }
 }

@@ -7,21 +7,25 @@ namespace Networkteam\Util\ViewHelpers;
 
 use Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper;
 
-class DecimalPriceViewHelper extends AbstractViewHelper {
+class DecimalPriceViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
-	 * @see AbstractViewHelper::isOutputEscapingEnabled()
-	 * @var boolean
-	 */
-	protected $escapeOutput = FALSE;
+    /**
+     * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
+     *
+     * @see AbstractViewHelper::isOutputEscapingEnabled()
+     * @var boolean
+     */
+    protected $escapeOutput = false;
 
-	/**
-	 * renders the children and divides the result by 100
-	 * @return float
-	 */
-	public function render() {
-		$price = $this->renderChildren();
-		return ((int)$price) / 100;
-	}
+    /**
+     * renders the children and divides the result by 100
+     *
+     * @return float
+     */
+    public function render()
+    {
+        $price = $this->renderChildren();
+        return ((int)$price) / 100;
+    }
 }

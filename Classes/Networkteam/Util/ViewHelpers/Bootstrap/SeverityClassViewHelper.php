@@ -7,35 +7,49 @@ namespace Networkteam\Util\ViewHelpers\Bootstrap;
 
 use Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper;
 
-class SeverityClassViewHelper extends AbstractViewHelper {
+class SeverityClassViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
-	 * @see AbstractViewHelper::isOutputEscapingEnabled()
-	 * @var boolean
-	 */
-	protected $escapeOutput = FALSE;
+    const SEVERITY_NOTICE = 'Notice';
+    const SEVERITY_WARNING = 'Warning';
+    const SEVERITY_ERROR = 'Error';
+    const SEVERITY_OK = 'OK';
 
-	/**
-	 * returns the bootstrap class for the given severity
-	 *
-	 * @param $severity
-	 * @return string
-	 */
-	public function render($severity) {
-		switch ($severity) {
-			case 'OK':
-				return 'alert alert-success';
-				break;
-			case 'Warning':
-				return 'alert';
-				break;
-			case 'Notice':
-				return 'alert alert-info';
-				break;
-			case 'Error':
-				return 'alert alert-error';
-				break;
-		}
-	}
+    /**
+     * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
+     *
+     * @see AbstractViewHelper::isOutputEscapingEnabled()
+     * @var boolean
+     */
+    protected $escapeOutput = false;
+
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('severity', 'string', 'One of self::SEVERITY_*');
+    }
+
+    /**
+     * Returns the bootstrap class for the given severity
+     *
+     * @param string $severity
+     * @return string
+     */
+    public function render(string $severity): string
+    {
+        switch ($severity) {
+            case self::SEVERITY_OK:
+                return 'alert alert-success';
+                break;
+            case self::SEVERITY_WARNING:
+                return 'alert';
+                break;
+            case self::SEVERITY_NOTICE:
+                return 'alert alert-info';
+                break;
+            case self::SEVERITY_ERROR:
+                return 'alert alert-error';
+                break;
+        }
+    }
 }
