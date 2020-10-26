@@ -7,13 +7,15 @@ namespace Networkteam\Util\ViewHelpers\Format;
 
 use Neos\FluidAdaptor\Core\ViewHelper\AbstractTagBasedViewHelper;
 
-class LowercaseViewHelper extends AbstractTagBasedViewHelper {
+class LowercaseViewHelper extends AbstractTagBasedViewHelper
+{
 
-	/**
-	 * @param string $value
-	 * @return string
-	 */
-	public function render() {
-		return strtolower($this->renderChildren());
-	}
+    /**
+     * @param string $value
+     * @return string
+     */
+    public function render()
+    {
+        return strtolower($this->renderChildren());
+    }
 }

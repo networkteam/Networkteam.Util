@@ -8,30 +8,34 @@ namespace Networkteam\Util\ViewHelpers;
 use Neos\Flow\Annotations as Flow;
 use Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper;
 
-class AuthenticatedAccountViewHelper extends AbstractViewHelper {
+class AuthenticatedAccountViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
-	 * @see AbstractViewHelper::isOutputEscapingEnabled()
-	 * @var boolean
-	 */
-	protected $escapeOutput = FALSE;
+    /**
+     * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
+     *
+     * @see AbstractViewHelper::isOutputEscapingEnabled()
+     * @var boolean
+     */
+    protected $escapeOutput = false;
 
-	/**
-	 * @Flow\Inject
-	 * @var \Neos\Flow\Security\Context
-	 */
-	protected $securityContext;
+    /**
+     * @Flow\Inject
+     * @var \Neos\Flow\Security\Context
+     */
+    protected $securityContext;
 
-	/**
-	 * @param string $as Variable name to store the account
-	 *
-	 * @return string
-	 */
-	public function render($as = 'account') {
-		$this->templateVariableContainer->add($as, $this->securityContext->getAccount());
-		$output = $this->renderChildren();
-		$this->templateVariableContainer->remove($as);
-		return $output;
-	}
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('as', 'string', 'Variable name to store the account', false, 'account');
+    }
+
+    public function render()
+    {
+        $this->templateVariableContainer->add($this->arguments['as'], $this->securityContext->getAccount());
+        $output = $this->renderChildren();
+        $this->templateVariableContainer->remove($this->arguments['as']);
+        return $output;
+    }
 }

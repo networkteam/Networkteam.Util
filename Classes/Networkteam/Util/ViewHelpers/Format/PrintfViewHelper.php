@@ -4,26 +4,32 @@ namespace Networkteam\Util\ViewHelpers\Format;
 /***************************************************************
  *  (c) 2014 networkteam GmbH - all rights reserved
  ***************************************************************/
+class PrintfViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper
+{
 
-class PrintfViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper {
+    /**
+     * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
+     *
+     * @see AbstractViewHelper::isOutputEscapingEnabled()
+     * @var boolean
+     */
+    protected $escapeOutput = false;
 
-	/**
-	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
-	 * @see AbstractViewHelper::isOutputEscapingEnabled()
-	 * @var boolean
-	 */
-	protected $escapeOutput = FALSE;
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('arguments', 'array', 'sprintf arguments');
+        $this->registerArgument('format', 'string', 'sprintf format');
+    }
 
-	/**
-	 * @param array $arguments
-	 * @param string $format
-	 * @return int
-	 */
-	public function render(array $arguments, $format = NULL) {
-		if ($format === NULL) {
-			$format = $this->renderChildren();
-		}
+    public function render(): string
+    {
+        if ($this->hasArgument('format')) {
+            $format = $this->arguments['format'];
+        } else {
+            $format = $this->renderChildren();
+        }
 
-		return vsprintf($format, $arguments);
-	}
+        return vsprintf($format, $this->arguments['arguments']);
+    }
 }

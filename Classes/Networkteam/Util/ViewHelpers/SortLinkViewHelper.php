@@ -11,68 +11,75 @@ use Neos\Flow\Mvc\ActionRequest;
 use Neos\Utility\Arrays;
 use Neos\FluidAdaptor\Core\ViewHelper\AbstractTagBasedViewHelper;
 
-class SortLinkViewHelper extends AbstractTagBasedViewHelper {
+class SortLinkViewHelper extends AbstractTagBasedViewHelper
+{
 
-	/**
-	 * @var string
-	 */
-	protected $tagName = 'a';
+    /**
+     * @var string
+     */
+    protected $tagName = 'a';
 
-	/**
-	 * Initialize arguments
-	 *
-	 * @return void
-	 * @api
-	 */
-	public function initializeArguments() {
-		$this->registerUniversalTagAttributes();
-		$this->registerTagAttribute('name', 'string', 'Specifies the name of an anchor');
-		$this->registerTagAttribute('rel', 'string', 'Specifies the relationship between the current document and the linked document');
-		$this->registerTagAttribute('rev', 'string', 'Specifies the relationship between the linked document and the current document');
-		$this->registerTagAttribute('target', 'string', 'Specifies where to open the linked document');
-	}
+    /**
+     * Initialize arguments
+     *
+     * @return void
+     * @api
+     */
+    public function initializeArguments()
+    {
+        $this->registerUniversalTagAttributes();
+        $this->registerTagAttribute('name', 'string', 'Specifies the name of an anchor');
+        $this->registerTagAttribute('rel', 'string', 'Specifies the relationship between the current document and the linked document');
+        $this->registerTagAttribute('rev', 'string', 'Specifies the relationship between the linked document and the current document');
+        $this->registerTagAttribute('target', 'string', 'Specifies where to open the linked document');
+        $this->registerArgument('sortProperty', 'string', '');
+        $this->registerArgument('listViewConfiguration', ListViewConfiguration::class, '');
+    }
 
-	/**
-	 * @param string $sortProperty
-	 * @param \Networkteam\Util\Domain\DataTransferObject\ListViewConfiguration $listViewConfiguration
-	 * @return string
-	 */
-	public function render($sortProperty, ListViewConfiguration $listViewConfiguration) {
-		$uriBuilder = $this->controllerContext->getUriBuilder();
+    public function render(): string
+    {
+        $sortProperty = $this->arguments['sortProperty'];
+        $listViewConfiguration = $this->arguments['listViewConfiguration'];
+        $uriBuilder = $this->controllerContext->getUriBuilder();
 
-		$className = 'sort-asc';
-		$sortDirection = 'ASC';
-		$iconHtml = '';
+        $className = 'sort-asc';
+        $sortDirection = 'ASC';
+        $iconHtml = '';
 
-		if ($listViewConfiguration->getSortProperty() === $sortProperty) {
-			if ($listViewConfiguration->getSortDirection() === 'ASC') {
-				$className = 'sorted sort-asc';
-				$sortDirection = 'DESC';
-				$iconHtml = '<i class="icon-chevron-up"></i>';
-			} else {
-				$className = 'sorted sort-desc';
-				$sortDirection = 'ASC';
-				$iconHtml = '<i class="icon-chevron-down"></i>';
-			}
-		}
+        if ($listViewConfiguration->getSortProperty() === $sortProperty) {
+            if ($listViewConfiguration->getSortDirection() === 'ASC') {
+                $className = 'sorted sort-asc';
+                $sortDirection = 'DESC';
+                $iconHtml = '<i class="icon-chevron-up"></i>';
+            } else {
+                $className = 'sorted sort-desc';
+                $sortDirection = 'ASC';
+                $iconHtml = '<i class="icon-chevron-down"></i>';
+            }
+        }
 
-		$this->tag->addAttribute('class', $this->tag->getAttribute('class') . $className);
+        $this->tag->addAttribute('class', $this->tag->getAttribute('class') . $className);
 
-		$linkViewConfigurationArguments = array('listViewConfiguration' => array('sortProperty' => $sortProperty, 'sortDirection' => $sortDirection));
+        $linkViewConfigurationArguments = array(
+            'listViewConfiguration' => array(
+                'sortProperty' => $sortProperty,
+                'sortDirection' => $sortDirection
+            )
+        );
 
-		/** @var  $request \Neos\Flow\Mvc\ActionRequest */
-		$request = $this->controllerContext->getRequest();
+        /** @var  $request \Neos\Flow\Mvc\ActionRequest */
+        $request = $this->controllerContext->getRequest();
 
-		$arguments = Arrays::arrayMergeRecursiveOverrule($request->getArguments(), $linkViewConfigurationArguments);
+        $arguments = Arrays::arrayMergeRecursiveOverrule($request->getArguments(), $linkViewConfigurationArguments);
 
-		$uri = $uriBuilder->reset()->uriFor($request->getControllerActionName(), $arguments);
+        $uri = $uriBuilder->reset()->uriFor($request->getControllerActionName(), $arguments);
 
-		$this->tag->addAttribute('href', $uri);
+        $this->tag->addAttribute('href', $uri);
 
-		$this->tag->setContent($this->renderChildren() . $iconHtml);
-		$this->tag->forceClosingTag(TRUE);
+        $this->tag->setContent($this->renderChildren() . $iconHtml);
+        $this->tag->forceClosingTag(true);
 
-		return $this->tag->render();
-	}
+        return $this->tag->render();
+    }
 
 }
