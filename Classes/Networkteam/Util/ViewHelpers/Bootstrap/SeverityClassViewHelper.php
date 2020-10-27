@@ -35,9 +35,9 @@ class SeverityClassViewHelper extends AbstractViewHelper
      * @param string $severity
      * @return string
      */
-    public function render(string $severity): string
+    public function render(): string
     {
-        switch ($severity) {
+        switch ($this->arguments['severity']) {
             case self::SEVERITY_OK:
                 return 'alert alert-success';
                 break;
