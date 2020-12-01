@@ -4,8 +4,8 @@
     "description": "networkteam utils for flow",
     "require": {
         "neos/flow": "~6.0",
-        "symfony/serializer": "2.2.*@dev",
-        "symfony/translation": "2.2.*@dev"
+        "symfony/serializer": "~2.2",
+        "symfony/translation": "~2.2"
     },
     "autoload": {
         "psr-0": {
