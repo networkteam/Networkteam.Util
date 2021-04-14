@@ -9,16 +9,11 @@ Networkteam\Util\Persistence\SequenceGeneratorInterface:
 
 Networkteam\Util\Log\MailerLoggerInterface:
   scope: singleton
-  factoryObjectName: Neos\Flow\Log\LoggerFactory
+  factoryObjectName: Neos\Flow\Log\PsrLoggerFactoryInterface
+  factoryMethodName: get
   arguments:
     1:
-      value: 'Networkteam_Util_Mailer'
-    2:
-      value: 'Neos\Flow\Log\Logger'
-    3:
-      value: 'Neos\Flow\Log\Backend\FileBackend'
-    4:
-      setting: Networkteam.Util.log.mailerLogger.backendOptions
+      value: networkteamUtilMailerLogger
 
 #Disable DeepArrayConverter routes by default - enable it in project specific package
 #Networkteam\Util\Property\TypeConverter\DeepArrayConverter:

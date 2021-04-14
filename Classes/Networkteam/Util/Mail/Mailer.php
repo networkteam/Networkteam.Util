@@ -15,143 +15,154 @@ use Neos\Flow\Annotations as Flow;
  *
  * TODO Rename to SwiftMailerMailer
  */
-class Mailer implements MailerInterface {
+class Mailer implements MailerInterface
+{
 
-	/**
-	 * @var array
-	 */
-	protected $settings;
+    /**
+     * @var array
+     */
+    protected $settings;
 
-	/**
-	 * @var \Networkteam\Util\Log\MailerLoggerInterface
-	 * @Flow\Inject
-	 */
-	protected $logger;
+    /**
+     * @var \Networkteam\Util\Log\MailerLoggerInterface
+     * @Flow\Inject
+     */
+    protected $logger;
 
-	/**
-	 * @var
-	 */
-	protected $message;
+    /**
+     * @var \Neos\Flow\Log\ThrowableStorageInterface
+     * @Flow\Inject
+     */
+    protected $throwableStorage;
 
-	/**
-	 * Inject the settings
-	 *
-	 * @param array $settings
-	 * @return void
-	 */
-	public function injectSettings(array $settings) {
-		$this->settings = $settings;
-	}
+    /**
+     * @var
+     */
+    protected $message;
 
-	/**
-	 * @param \Networkteam\Util\Mail\MailerMessageInterface $message
-	 * @return \Neos\Error\Messages\Result
-	 */
-	public function send(MailerMessageInterface $message) {
-		$result = new Result();
+    /**
+     * Inject the settings
+     *
+     * @param array $settings
+     * @return void
+     */
+    public function injectSettings(array $settings)
+    {
+        $this->settings = $settings;
+    }
 
-		$mail = $this->getMessage();
+    /**
+     * @param \Networkteam\Util\Mail\MailerMessageInterface $message
+     * @return \Neos\Error\Messages\Result
+     */
+    public function send(MailerMessageInterface $message)
+    {
+        $result = new Result();
 
-		try {
-			$mail->setFrom($message->getFrom());
-		} catch (\Swift_RfcComplianceException $exception) {
-			$result->forProperty('sender')->addError(new Error($exception->getMessage(), 1365160468));
-		}
+        $mail = $this->getMessage();
 
-		try {
-			$recipientCount = 0;
-			foreach ($message->getRecipient() as $recipient) {
-				if ($recipientCount < 1) {
-					$mail->setTo($recipient);
-				} else {
-					$mail->addCc($recipient);
-				}
-				$recipientCount++;
-			}
-		} catch (\Swift_RfcComplianceException $exception) {
-			$result->forProperty('recipient')->addError(new Error($exception->getMessage(), 1365160498));
-		}
+        try {
+            $mail->setFrom($message->getFrom());
+        } catch (\Swift_RfcComplianceException $exception) {
+            $result->forProperty('sender')->addError(new Error($exception->getMessage(), 1365160468));
+        }
 
-		if ((string)$message->getSubject() === '') {
-			$result->forProperty('subject')->addError(new Error('Missing subject for mail', 1365172209));
-		}
+        try {
+            $recipientCount = 0;
+            foreach ($message->getRecipient() as $recipient) {
+                if ($recipientCount < 1) {
+                    $mail->setTo($recipient);
+                } else {
+                    $mail->addCc($recipient);
+                }
+                $recipientCount++;
+            }
+        } catch (\Swift_RfcComplianceException $exception) {
+            $result->forProperty('recipient')->addError(new Error($exception->getMessage(), 1365160498));
+        }
 
-		$mail->setSubject($message->getSubject());
+        if ((string)$message->getSubject() === '') {
+            $result->forProperty('subject')->addError(new Error('Missing subject for mail', 1365172209));
+        }
 
-		$mail->setBody($message->getBody(), $message->getFormat());
+        $mail->setSubject($message->getSubject());
 
-		if ($message->getReplyTo()) {
-			$mail->setReplyTo($message->getReplyTo());
-		}
+        $mail->setBody($message->getBody(), $message->getFormat());
 
-		foreach ($message->getHeaders() as $header) {
-			$mail->getHeaders()->addTextHeader($header->getName(), $header->getValue());
-		}
+        if ($message->getReplyTo()) {
+            $mail->setReplyTo($message->getReplyTo());
+        }
 
-		if ($result->hasErrors()) {
-			$logMessage = 'Failed sending mail to "' . implode('", "', array_keys((array)$mail->getTo())) . '" (' . $message->getRecipientIdentifier() . ') with subject "' . $mail->getSubject() . '"';
-			$flattenedErrors = $result->getFlattenedErrors();
-			if ($flattenedErrors !== array()) {
-				$additionalData = array();
-				foreach ($flattenedErrors as $propertyPath => $errors) {
-					$additionalData[$propertyPath] = implode(', ', array_map(function ($error) {
-						return $error->getMessage();
-					}, $errors));
-				}
-			} else {
-				$additionalData = NULL;
-			}
-			$this->logger->log($logMessage, LOG_ERR, $additionalData);
-		} else {
-			if (isset($this->settings['Mailer']['bcc'])) {
-				foreach ($this->settings['Mailer']['bcc'] as $bccMail) {
-					$mail->addBcc($bccMail);
-				}
-			}
+        foreach ($message->getHeaders() as $header) {
+            $mail->getHeaders()->addTextHeader($header->getName(), $header->getValue());
+        }
 
-			if (isset($this->settings['Mailer']['overrideRecipients'])) {
-				$mail->setBcc([]);
-				$mail->setCc([]);
-				$mail->setTo($this->settings['Mailer']['overrideRecipients']);
-			}
+        if ($result->hasErrors()) {
+            $logMessage = 'Failed sending mail to "' . implode('", "',
+                    array_keys((array)$mail->getTo())) . '" (' . $message->getRecipientIdentifier() . ') with subject "' . $mail->getSubject() . '"';
+            $flattenedErrors = $result->getFlattenedErrors();
+            if ($flattenedErrors !== array()) {
+                $additionalData = array();
+                foreach ($flattenedErrors as $propertyPath => $errors) {
+                    $additionalData[$propertyPath] = implode(', ', array_map(function ($error) {
+                        return $error->getMessage();
+                    }, $errors));
+                }
+            } else {
+                $additionalData = null;
+            }
+            $this->logger->error($logMessage, $additionalData);
+        } else {
+            if (isset($this->settings['Mailer']['bcc'])) {
+                foreach ($this->settings['Mailer']['bcc'] as $bccMail) {
+                    $mail->addBcc($bccMail);
+                }
+            }
 
-			try {
-				$recipients = $mail->send();
-				if ($recipients === 0) {
-					$result->addError(new Error('No recipients accepted', 1376582260));
-					$logMessage = 'No Recipients accepted: ' . implode(',', $mail->getFailedRecipients());
-				} else {
-					$logMessage = 'Sent mail to: ' . implode(',', array_keys($mail->getTo())) . ' with subject: ' . $mail->getSubject();
-				}
-				$this->logger->log($logMessage, LOG_INFO);
-			} catch (\Exception $e) {
-				$logMessage = 'Failed sending mail: ' . $e->getMessage();
+            if (isset($this->settings['Mailer']['overrideRecipients'])) {
+                $mail->setBcc([]);
+                $mail->setCc([]);
+                $mail->setTo($this->settings['Mailer']['overrideRecipients']);
+            }
 
-				$this->logger->log($logMessage, LOG_ERR);
-				$this->logger->logException($e);
+            try {
+                $recipients = $mail->send();
+                if ($recipients === 0) {
+                    $result->addError(new Error('No recipients accepted', 1376582260));
+                    $logMessage = 'No Recipients accepted: ' . implode(',', $mail->getFailedRecipients());
+                } else {
+                    $logMessage = 'Sent mail to: ' . implode(',',
+                            array_keys($mail->getTo())) . ' with subject: ' . $mail->getSubject();
+                }
+                $this->logger->info($logMessage);
+            } catch (\Exception $e) {
+                $message = $this->throwableStorage->logThrowable($e);
+                $this->logger->error('Failed sending mail: ' . $message);
 
-				$result->addError(new Error('Error sending email', 1438095110));
-			}
-		}
+                $result->addError(new Error('Error sending email', 1438095110));
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * @param Message $message
-	 */
-	public function setMessage(Message $message) {
-		$this->message = $message;
-	}
+    /**
+     * @param Message $message
+     */
+    public function setMessage(Message $message)
+    {
+        $this->message = $message;
+    }
 
-	/**
-	 * @return Message
-	 */
-	protected function getMessage() {
-		if ($this->message instanceof Message) {
-			return $this->message;
-		}
+    /**
+     * @return Message
+     */
+    protected function getMessage()
+    {
+        if ($this->message instanceof Message) {
+            return $this->message;
+        }
 
-		return new Message();
-	}
+        return new Message();
+    }
 }

@@ -11,12 +11,18 @@ Networkteam:
 #        - some mail to bcc the sent mails to
 #      overrideRecipients:
 #        - some@anotherdomain will override all recipients set in a mailmessage to only this one
+
+Neos:
+  Flow:
     log:
-      mailerLogger:
-        backend: 'Neos\Flow\Log\Backend\FileBackend'
-        backendOptions:
-          logFileURL: '%FLOW_PATH_DATA%Logs/Mailer.log'
-          createParentDirectories: TRUE
-          severityThreshold: '%LOG_INFO%'
-          maximumLogFileSize: 10485760
-          logFilesToKeep: 1
+      psr3:
+        'Neos\Flow\Log\PsrLoggerFactory':
+          networkteamUtilMailerLogger:
+            default:
+              class: Neos\Flow\Log\Backend\FileBackend
+              options:
+                logFileURL: '%FLOW_PATH_DATA%Logs/Mailer.log'
+                createParentDirectories: true
+                severityThreshold: '%LOG_INFO%'
+                maximumLogFileSize: 10485760
+                logFilesToKeep: 1
