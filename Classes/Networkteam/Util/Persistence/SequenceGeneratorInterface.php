@@ -7,9 +7,6 @@ namespace Networkteam\Util\Persistence;
 
 interface SequenceGeneratorInterface {
 
-	/**
-	 * @return int
-	 */
-	public function next($sequenceName);
+	public function next($sequenceName): int;
 
 }

@@ -16,10 +16,8 @@ class MysqlSequenceGenerator implements SequenceGeneratorInterface {
 	 */
 	protected $entityManager;
 
-	/**
-	 * @return int
-	 */
-	public function next($sequenceName) {
+	public function next($sequenceName): int
+    {
 		/* @var $connection \Doctrine\DBAL\Connection */
 		$connection = $this->entityManager->getConnection();
 		$connection->insert('networkteam_sequence', array('sequencename' => $sequenceName), array('string'));

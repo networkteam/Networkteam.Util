@@ -25,9 +25,7 @@ class RangeValidator extends AbstractValidator {
 	 * to Result.
 	 *
 	 * @param mixed $value
-	 *
 	 * @return void
-	 * @throws \Neos\Flow\Validation\Exception\InvalidValidationOptionsException if invalid validation options have been specified in the constructor
 	 */
 	protected function isValid($value) {
 		$minimum = intval($this->options['minimum']);
