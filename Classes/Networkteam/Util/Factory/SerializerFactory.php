@@ -7,50 +7,48 @@ namespace Networkteam\Util\Factory;
 
 use JMS\Serializer\SerializerBuilder;
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 /**
  * @Flow\Scope("singleton")
  */
-class SerializerFactory {
+class SerializerFactory
+{
 
-	/**
-	 * @var \Symfony\Component\Serializer\Serializer
-	 */
-	protected $serializer;
+    /**
+     * @var Serializer
+     */
+    protected $serializer;
 
-	/**
-	 * @var \Neos\Flow\ObjectManagement\ObjectManagerInterface
-	 * @Flow\Inject
-	 */
-	protected $objectManager;
+    /**
+     * @var ObjectManagerInterface
+     * @Flow\Inject
+     */
+    protected $objectManager;
 
-	/**
-	 * @return \Symfony\Component\Serializer\Serializer
-	 */
-	public function createJsonSerializer() {
-		if (isset($this->serializer['json']) && $this->serializer['json']) {
-			return $this->serializer['json'];
-		}
+    public function createJsonSerializer(): Serializer
+    {
+        if (isset($this->serializer['json']) && $this->serializer['json']) {
+            return $this->serializer['json'];
+        }
 
-		$normalizers[] = $this->objectManager->get('Networkteam\Util\Serializer\Normalizer\FlowIdentityGetSetNormalizer');
+        $normalizers[] = $this->objectManager->get('Networkteam\Util\Serializer\Normalizer\FlowIdentityGetSetNormalizer');
 
-		$encoders[] = new JsonEncoder();
+        $encoders[] = new JsonEncoder();
 
-		return $this->serializer['json'] = new Serializer($normalizers, $encoders);
-	}
+        return $this->serializer['json'] = new Serializer($normalizers, $encoders);
+    }
 
-	/**
-	 * @return \JMS\Serializer\Serializer
-	 */
-	public function createJmsSerializer() {
-		if (isset($this->serializer['jms']) && $this->serializer['jms']) {
-			return $this->serializer['jms'];
-		}
-		$serializer = SerializerBuilder::create()->build();
+    public function createJmsSerializer(): \JMS\Serializer\Serializer
+    {
+        if (isset($this->serializer['jms']) && $this->serializer['jms']) {
+            return $this->serializer['jms'];
+        }
+        $serializer = SerializerBuilder::create()->build();
 
-		return $this->serializer['jms'] = $serializer;
-	}
+        return $this->serializer['jms'] = $serializer;
+    }
 
 }

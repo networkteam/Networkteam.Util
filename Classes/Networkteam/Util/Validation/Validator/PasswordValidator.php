@@ -23,11 +23,9 @@ class PasswordValidator extends AbstractValidator {
 	 *
 	 * @param mixed $value
 	 * @return void
-	 * @throws \Neos\Flow\Validation\Exception\InvalidValidationOptionsException if invalid validation options have been specified in the constructor
-	 *
 	 */
-	protected function isValid($passwords) {
-		if (!is_array($passwords) || count($passwords) < 2) {
+	protected function isValid($value) {
+		if (!is_array($value) || count($value) < 2) {
 			$this->addError('The given value was not an array of passwords.', 1372340267);
 			return;
 		}
@@ -36,16 +34,16 @@ class PasswordValidator extends AbstractValidator {
 		$minimumLength = $this->options['minimumLength'];
 
 		// check for empty password
-		if ($passwords[0] === '' && !$this->options['allowEmpty']) {
+		if ($value[0] === '' && !$this->options['allowEmpty']) {
 			$this->addError('The password is to weak.', 1221560717);
 		}
 		// check for password length
-		if (strlen($passwords[0]) < $minimumLength && !$this->options['allowEmpty']) {
+		if (strlen($value[0]) < $minimumLength && !$this->options['allowEmpty']) {
 			$this->addError('The password is to short, minimum length is ' . $minimumLength, 1221560719, array($minimumLength));
 		}
 
 		// check that the passwords are the same
-		if (strcmp($passwords[0], $passwords[1]) != 0) {
+		if (strcmp($value[0], $value[1]) != 0) {
 			$this->addError('The password do not match!', 1372861059);
 		}
 	}

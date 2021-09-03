@@ -6,31 +6,34 @@ namespace Networkteam\Util\Serializer\Normalizer;
  ***************************************************************/
 
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Normalizer\scalar;
 
-class FlowIdentityGetSetNormalizer extends GetSetMethodNormalizer {
+class FlowIdentityGetSetNormalizer extends GetSetMethodNormalizer
+{
 
-	/**
-	 * @var \Neos\Flow\Persistence\PersistenceManagerInterface
-	 * @Flow\Inject
-	 */
-	protected $persistenceManager;
+    /**
+     * @var PersistenceManagerInterface
+     * @Flow\Inject
+     */
+    protected $persistenceManager;
 
-	/**
-	 * @param object $object
-	 * @param null $format
-	 * @param array $context
-	 *
-	 * @return array|\Symfony\Component\Serializer\Normalizer\scalar
-	 */
-	public function normalize($object, $format = NULL, array $context = array()) {
-		$attributes = parent::normalize($object, $format, $context);
+    /**
+     * @param object $object
+     * @param string $format
+     * @param array $context
+     * @return array|scalar
+     */
+    public function normalize($object, $format = null, array $context = [])
+    {
+        $attributes = parent::normalize($object, $format, $context);
 
-		$identifier = $this->persistenceManager->getIdentifierByObject($object);
-		if ($identifier) {
-			$attributes['__identifier'] = $identifier;
-		}
+        $identifier = $this->persistenceManager->getIdentifierByObject($object);
+        if ($identifier) {
+            $attributes['__identifier'] = $identifier;
+        }
 
-		return $attributes;
-	}
+        return $attributes;
+    }
 }

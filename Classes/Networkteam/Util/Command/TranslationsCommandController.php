@@ -29,7 +29,7 @@ class TranslationsCommandController extends \Neos\Flow\Cli\CommandController {
 	 * @param string $locale
 	 * @param string $catalog
 	 */
-	public function updateXliffFileCommand($packageKey, $locale = 'en', $catalog = 'Main') {
+	public function updateXliffFileCommand(string $packageKey, string $locale = 'en', string $catalog = 'Main') {
 		$translationUpdates = $this->translationStripper->stripIds($packageKey);
 
 		$this->xliffFileUpdater->updateCatalogue($translationUpdates, $packageKey, $locale, $catalog);
@@ -43,7 +43,7 @@ class TranslationsCommandController extends \Neos\Flow\Cli\CommandController {
 	 * @param string $packageKey
 	 * @param bool $missingOnly
 	 */
-	public function listIdsCommand($packageKey, $missingOnly = FALSE) {
+	public function listIdsCommand(string $packageKey, bool $missingOnly = false) {
 		$translationUpdates = $this->translationStripper->stripIds($packageKey);
 		uasort($translationUpdates, function ($a, $b) {
 			if ($a == $b) {
@@ -52,7 +52,7 @@ class TranslationsCommandController extends \Neos\Flow\Cli\CommandController {
 			return ($a < $b) ? -1 : 1;
 		});
 		foreach ($translationUpdates as $transNode) {
-			if ($missingOnly === FALSE) {
+			if ($missingOnly === false) {
 				echo $transNode['id'] . "\n";
 			} else {
 				if ($transNode['text'] === '') {

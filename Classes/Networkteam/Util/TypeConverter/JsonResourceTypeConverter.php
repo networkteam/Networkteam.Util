@@ -7,6 +7,8 @@ namespace Networkteam\Util\TypeConverter;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Error\Messages\Error;
+use Neos\Flow\Property\PropertyMappingConfigurationInterface;
+use Neos\Flow\ResourceManagement\ResourceManager;
 
 /**
  * An type converter for ResourcePointer objects from JSON based file uploads (no multipart)
@@ -32,7 +34,7 @@ class JsonResourceTypeConverter extends \Neos\Flow\Property\TypeConverter\Abstra
 
 	/**
 	 * @Flow\Inject
-	 * @var \Neos\Flow\ResourceManagement\ResourceManager
+	 * @var ResourceManager
 	 */
 	protected $resourceManager;
 
@@ -47,14 +49,8 @@ class JsonResourceTypeConverter extends \Neos\Flow\Property\TypeConverter\Abstra
 
 	/**
 	 * Converts the given array into a ResourcePointer
-	 *
-	 * @param array $source The upload info (expected keys: filename, value, mime)
-	 * @param string $targetType
-	 * @param array $convertedChildProperties
-	 * @param \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration
-	 * @return |Neos\Error\Messages\Error if the input format is not supported or could not be converted for other reasons
 	 */
-	public function convertFrom($source, $targetType, array $convertedChildProperties = array(), \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration = NULL) {
+	public function convertFrom($source, $targetType, array $convertedChildProperties = array(), PropertyMappingConfigurationInterface $configuration = NULL) {
 		if (!isset($source['filename']) || !isset($source['value']) || !isset($source['mime'])) {
 			return NULL;
 		}
@@ -62,11 +58,6 @@ class JsonResourceTypeConverter extends \Neos\Flow\Property\TypeConverter\Abstra
 			return new Error('Expected data URI as value' , 1369211873);
 		}
 		$content = file_get_contents($source['value']);
-		$resource = $this->resourceManager->createResourceFromContent($content, $source['filename']);
-		if ($resource === FALSE) {
-			return new Error('The resource manager could not create a Resource instance.' , 1264517906);
-		} else {
-			return $resource;
-		}
+		return $this->resourceManager->importResourceFromContent($content, $source['filename']);
 	}
 }
