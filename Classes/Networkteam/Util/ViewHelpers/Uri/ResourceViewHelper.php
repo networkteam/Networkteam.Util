@@ -37,8 +37,8 @@ class ResourceViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractView
         $this->registerArgument('path', 'string', 'path to render', true);
         $this->registerArgument('package', 'string', 'package', false);
         $this->registerArgument('resource', PersistentResource::class, 'property to search', false);
-        $this->registerArgument('localize', 'boolean', 'attemped resource location', false);
-        $this->registerArgument('cacheBuster', 'boolean', 'cache buster', false);
+        $this->registerArgument('localize', 'boolean', 'attemped resource location', false, true);
+        $this->registerArgument('cacheBuster', 'boolean', 'cache buster', false, true);
     }
 
     /**
