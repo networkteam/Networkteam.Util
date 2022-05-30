@@ -1,4 +1,5 @@
 <?php
+
 namespace Networkteam\Util\Tests\Unit\Mail;
 
 /***************************************************************
@@ -6,8 +7,11 @@ namespace Networkteam\Util\Tests\Unit\Mail;
  ***************************************************************/
 
 use Neos\Flow\Tests\UnitTestCase;
+use Psr\Log\LoggerInterface;
 
-class MailerTest extends UnitTestcase {
+
+class MailerTest extends UnitTestCase
+{
 
 	/**
 	 * @var \Neos\SwiftMailer\Message
@@ -19,7 +23,8 @@ class MailerTest extends UnitTestcase {
 	 */
 	protected $mailer;
 
-	public function setUp() {
+	public function setUp(): void
+	{
 		parent::setUp();
 		$this->mockMessage = $this->getMockBuilder('Neos\SwiftMailer\Message')
 			->setMethods(array('setFrom', 'setTo', 'addCc', 'setBody', 'send', 'setSubject', 'getTo', 'getSubject', 'getRecipientIdentifier', 'setReplyTo'))
@@ -28,20 +33,23 @@ class MailerTest extends UnitTestcase {
 
 		$this->mailer->setMessage($this->mockMessage);
 
-		$logger = $this->getMock('Networkteam\Util\Log\MailerLoggerInterface');
+		$logger = $this->getMockBuilder('Networkteam\Util\Log\MailerLoggerInterface')
+			->getMock();
+
 		$this->inject($this->mailer, 'logger', $logger);
 	}
 
 	/**
 	 * @@test
 	 */
-	public function mailerUsesAddCcForAddingRecipients() {
+	public function mailerUsesAddCcForAddingRecipients()
+	{
 		$this->mockMessage->expects($this->exactly(2))
 			->method('addCc');
 
 		$this->mockMessage->expects($this->exactly(1))
 			->method('setReplyTo')
-		->with($this->equalTo('my-reply@example.com'));
+			->with($this->equalTo('my-reply@example.com'));
 
 		$mailMessage = new MailMessage();
 		$mailMessage->setRecipients(array(
@@ -49,6 +57,9 @@ class MailerTest extends UnitTestcase {
 			'test2@example.com',
 			'test3@example.com',
 		));
+
+		$mailMessage->setHeaders([]);
+
 		$mailMessage->setReplyTo('my-reply@example.com');
 
 		$this->mailer->send($mailMessage);
@@ -57,7 +68,8 @@ class MailerTest extends UnitTestcase {
 	/**
 	 * @@test
 	 */
-	public function mailerSkipsReplyToIfEmpty() {
+	public function mailerSkipsReplyToIfEmpty()
+	{
 		$this->mockMessage->expects($this->never())
 			->method('setReplyTo');
 
@@ -65,6 +77,8 @@ class MailerTest extends UnitTestcase {
 		$mailMessage->setRecipients(array(
 			'test1@example.com'
 		));
+
+		$mailMessage->setHeaders([]);
 
 		$this->mailer->send($mailMessage);
 	}
