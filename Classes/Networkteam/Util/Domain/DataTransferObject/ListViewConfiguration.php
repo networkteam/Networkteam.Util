@@ -23,14 +23,31 @@ class ListViewConfiguration {
 	const LOGICAL_TYPE_NOT = 3;
 
 	/**
-	 * @var string
+     * Can be string or array. If array is used structure must match structure of sortProperty
+     *
+     * Example for array:
+     *
+     *   [
+     *     0 => 'ASC',
+     *     1 => 'DESC'
+     *   ]
+     *
+	 * @var string|array
 	 */
 	protected $sortDirection = 'ASC';
 
-	/**
-	 * Also accepts array
-	 * @var string
-	 */
+    /**
+     * Can be string or array. If array is used structure must match structure of sortDirection
+     *
+     * Example for array:
+     *
+     *   [
+     *     0 => 'foo',
+     *     1 => 'bar'
+     *   ]
+     *
+     * @var string|array
+     */
 	protected $sortProperty;
 
 	/**
@@ -55,7 +72,7 @@ class ListViewConfiguration {
 	 *
 	 * @var array
 	 */
-	protected $filterableProperties = array();
+	protected $filterableProperties = [];
 
 	/**
 	 * @var integer
@@ -121,12 +138,18 @@ class ListViewConfiguration {
 		}
 	}
 
-	public function getSortDirection(): string
+    /**
+     * @return string|array
+     */
+	public function getSortDirection()
     {
 		return $this->sortDirection;
 	}
 
-	public function setSortProperty(string $sortField): void
+    /**
+     * @param string|array $sortField
+     */
+	public function setSortProperty($sortField): void
     {
 		$this->sortProperty = $sortField;
 	}
@@ -139,7 +162,10 @@ class ListViewConfiguration {
 		$this->logicalType = self::LOGICAL_TYPE_AND;
 	}
 
-	public function getSortProperty(): string
+    /**
+     * @return string|array
+     */
+	public function getSortProperty()
     {
 		return $this->sortProperty;
 	}
