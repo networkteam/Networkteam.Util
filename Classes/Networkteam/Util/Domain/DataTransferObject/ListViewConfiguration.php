@@ -32,7 +32,7 @@ class ListViewConfiguration {
      *     1 => 'DESC'
      *   ]
      *
-	 * @var string|array
+	 * @var mixed
 	 */
 	protected $sortDirection = 'ASC';
 
@@ -46,7 +46,7 @@ class ListViewConfiguration {
      *     1 => 'bar'
      *   ]
      *
-     * @var string|array
+     * @var mixed
      */
 	protected $sortProperty;
 
@@ -129,17 +129,29 @@ class ListViewConfiguration {
 		return $this->logicalType;
 	}
 
-	public function setSortDirection(string $sortDirection): void
+    /**
+     * Can be string|array
+     *
+     * @param mixed $sortDirection
+     */
+	public function setSortDirection($sortDirection): void
     {
-		if (in_array($sortDirection, array('ASC', 'DESC'))) {
-			$this->sortDirection = $sortDirection;
-		} else {
-			$this->sortDirection = 'ASC';
-		}
+		if (is_array($sortDirection)) {
+            $this->sortDirection = array_map(
+                function($direction) {
+                    return in_array($direction, ['ASC', 'DESC']) ? $direction : 'ASC';
+                },
+                $sortDirection
+            );
+        } else {
+            $this->sortDirection = in_array($sortDirection, ['ASC', 'DESC']) ? $sortDirection : 'ASC';
+        }
 	}
 
     /**
-     * @return string|array
+     * Can be string|array
+     *
+     * @return mixed
      */
 	public function getSortDirection()
     {
@@ -147,7 +159,9 @@ class ListViewConfiguration {
 	}
 
     /**
-     * @param string|array $sortField
+     * Can be string|array
+     *
+     * @param mixed $sortField
      */
 	public function setSortProperty($sortField): void
     {
