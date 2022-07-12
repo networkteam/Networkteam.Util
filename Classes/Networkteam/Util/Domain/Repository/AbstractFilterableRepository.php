@@ -86,7 +86,7 @@ abstract class AbstractFilterableRepository extends \Neos\Flow\Persistence\Doctr
      * @return object
      * @throws \InvalidArgumentException
      */
-    protected function getConstraintForFilter(array $filter, string $propertyName, QueryInterface $query): object
+    protected function getConstraintForFilter(array $filter, string $propertyName, QueryInterface $query)
     {
         $constraint = null;
         if (!isset($this->filterableProperties[$propertyName])) {
