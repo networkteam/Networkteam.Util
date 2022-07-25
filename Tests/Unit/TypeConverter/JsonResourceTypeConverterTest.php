@@ -1,5 +1,6 @@
 <?php
-namespace Networkteam\Mueggenburg\Offers\Tests\Unit\Service;
+
+namespace Networkteam\Util\Tests\Unit\Service;
 
 /***************************************************************
  *  (c) 2013 networkteam GmbH - all rights reserved
@@ -7,12 +8,14 @@ namespace Networkteam\Mueggenburg\Offers\Tests\Unit\Service;
 
 use Neos\Flow\Tests\UnitTestCase;
 
-class JsonResourceTypeConverterTest extends UnitTestCase {
+class JsonResourceTypeConverterTest extends UnitTestCase
+{
 
 	/**
 	 * @test
 	 */
-	public function canConvertReturnsTrueForCorrectValues() {
+	public function canConvertReturnsTrueForCorrectValues()
+	{
 		$typeConverter = new \Networkteam\Util\TypeConverter\JsonResourceTypeConverter();
 		$result = $typeConverter->canConvertFrom(array(
 			'filename' => 'abc.csv',
@@ -26,7 +29,8 @@ class JsonResourceTypeConverterTest extends UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function canConvertReturnsFalseForMultipartValues() {
+	public function canConvertReturnsFalseForMultipartValues()
+	{
 		$typeConverter = new \Networkteam\Util\TypeConverter\JsonResourceTypeConverter();
 		$result = $typeConverter->canConvertFrom(array(
 			'submittedFile' => array(
@@ -41,16 +45,17 @@ class JsonResourceTypeConverterTest extends UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function convertFromBuildsResourceFromCorrectValues() {
+	public function convertFromBuildsResourceFromCorrectValues()
+	{
 		$content = 'My little pony';
 
-		$mockResource = $this->getMock('Neos\Flow\ResourceManagement\PersistentResource');
-		$mockResourceManager = $this->getMock('Neos\Flow\ResourceManagement\ResourceManager');
+		$mockResource = $this->getMockBuilder('Neos\Flow\ResourceManagement\PersistentResource')->getMock();
+		$mockResourceManager = $this->getMockBuilder('Neos\Flow\ResourceManagement\ResourceManager')->getMock();
 
 		$typeConverter = new \Networkteam\Util\TypeConverter\JsonResourceTypeConverter();
 		$this->inject($typeConverter, 'resourceManager', $mockResourceManager);
 
-		$mockResourceManager->expects($this->once())->method('createResourceFromContent')->with($content, 'file.txt')->will($this->returnValue($mockResource));
+		$mockResourceManager->expects($this->once())->method('importResourceFromContent')->with($content, 'file.txt')->will($this->returnValue($mockResource));
 
 		$result = $typeConverter->convertFrom(array(
 			'filename' => 'file.txt',
@@ -65,13 +70,14 @@ class JsonResourceTypeConverterTest extends UnitTestCase {
 	 * @test
 	 * @dataProvider
 	 */
-	public function convertFromBuildsReturnsErrorForInvalidValue() {
-		$mockResourceManager = $this->getMock('Neos\Flow\ResourceManagement\ResourceManager');
+	public function convertFromBuildsReturnsErrorForInvalidValue()
+	{
+		$mockResourceManager = $this->getMockBuilder('Neos\Flow\ResourceManagement\ResourceManager')->getMock();
 
 		$typeConverter = new \Networkteam\Util\TypeConverter\JsonResourceTypeConverter();
 		$this->inject($typeConverter, 'resourceManager', $mockResourceManager);
 
-		$mockResourceManager->expects($this->never())->method('createResourceFromContent');
+		$mockResourceManager->expects($this->never())->method('importResourceFromContent');
 
 		$result = $typeConverter->convertFrom(array(
 			'filename' => 'file.txt',
@@ -81,5 +87,4 @@ class JsonResourceTypeConverterTest extends UnitTestCase {
 
 		$this->assertInstanceOf('Neos\Error\Messages\Error', $result);
 	}
-
 }
