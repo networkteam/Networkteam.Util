@@ -122,7 +122,9 @@
     },
     "require-dev": {
         "phpstan/phpstan": "^1.8",
-        "neos/fluid-adaptor": "*"
+        "neos/fluid-adaptor": "*",
+        "jms/serializer": "*",
+        "neos/swiftmailer": "*"
     },
     "config": {
         "allow-plugins": {
