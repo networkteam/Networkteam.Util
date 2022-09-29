@@ -29,7 +29,7 @@ class JsonSerializer
      * @param array $configuration Configuration for transforming the value
      * @return array The transformed value
      */
-    protected function transformValue($value, array $configuration)
+    protected function transformValue(mixed $value, array $configuration) : array
     {
         if (is_array($value) || $value instanceof \ArrayAccess) {
             $array = array();
@@ -53,7 +53,7 @@ class JsonSerializer
         } elseif (is_object($value)) {
             return $this->transformObject($value, $configuration);
         } else {
-            return $value;
+            return [$value];
         }
     }
 

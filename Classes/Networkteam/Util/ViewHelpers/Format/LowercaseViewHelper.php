@@ -11,7 +11,6 @@ class LowercaseViewHelper extends AbstractTagBasedViewHelper
 {
 
     /**
-     * @param string $value
      * @return string
      */
     public function render()

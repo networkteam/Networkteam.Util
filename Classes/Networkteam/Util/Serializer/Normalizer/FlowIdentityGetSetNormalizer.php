@@ -8,7 +8,6 @@ namespace Networkteam\Util\Serializer\Normalizer;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
-use Symfony\Component\Serializer\Normalizer\scalar;
 
 class FlowIdentityGetSetNormalizer extends GetSetMethodNormalizer
 {
@@ -23,7 +22,7 @@ class FlowIdentityGetSetNormalizer extends GetSetMethodNormalizer
      * @param object $object
      * @param string $format
      * @param array $context
-     * @return array|scalar
+     * @return array
      */
     public function normalize($object, $format = null, array $context = [])
     {

@@ -6,6 +6,7 @@ namespace Networkteam\Util\Translation;
  ***************************************************************/
 
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Package\FlowPackageInterface;
 
 class XliffFileUpdater {
 
@@ -53,13 +54,17 @@ class XliffFileUpdater {
 	 * @param $locale
 	 * @param $catalogue
 	 *
-	 * @return string
+	 * @return ?string
 	 */
 	protected function getTranslationResourcePath($packageKey, $locale, $catalogue) {
 		$package = $this->packageManager->getPackage($packageKey);
+
+		if (!$package instanceof FlowPackageInterface) {
+			return null;
+		}
+
 		$resourcesPath = $package->getResourcesPath();
 		$translationResource = $resourcesPath . 'Private/Translations/' . $locale . '/' . $catalogue . '.xlf';
-
 		return $translationResource;
 	}
 }

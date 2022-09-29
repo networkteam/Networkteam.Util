@@ -67,7 +67,6 @@ class SortLinkViewHelper extends AbstractTagBasedViewHelper
             )
         );
 
-        /** @var  $request \Neos\Flow\Mvc\ActionRequest */
         $request = $this->controllerContext->getRequest();
 
         $arguments = Arrays::arrayMergeRecursiveOverrule($request->getArguments(), $linkViewConfigurationArguments);

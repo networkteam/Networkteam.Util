@@ -62,29 +62,29 @@ class ListViewConfiguration {
 	 *   )
 	 * )
 	 *
-	 * @var array
+	 * @var array<string, array<string, string>>
 	 */
-	protected $filter = [];
+	protected array $filter = [];
 
 	/**
 	 * defines the properties which can be filtered
 	 * used to build the filter form
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
-	protected $filterableProperties = [];
+	protected array $filterableProperties = [];
 
 	/**
-	 * @var integer
+	 * @var int
 	 */
-	protected $itemsPerPage = 20;
+	protected int $itemsPerPage = 20;
 
 	/**
-	 * Logical type to connect all contraints with in the query
+	 * Logical type to connect all constraints with in the query
 	 *
-	 * @var integer
+	 * @var int
 	 */
-	protected $logicalType = self::LOGICAL_TYPE_AND;
+	protected int $logicalType = self::LOGICAL_TYPE_AND;
 
 	/**
 	 * Validate and set the filter configuration

@@ -13,8 +13,6 @@ use Neos\Flow\Annotations as Flow;
 
 /**
  * Mailer implementation using SwiftMailer
- *
- * TODO Rename to SwiftMailerMailer
  */
 class Mailer implements MailerInterface
 {
@@ -37,9 +35,9 @@ class Mailer implements MailerInterface
 	protected $throwableStorage;
 
 	/**
-	 * @var
+	 * @var Message
 	 */
-	protected $message;
+	protected Message $message;
 
 	/**
 	 * Inject the settings
@@ -102,12 +100,10 @@ class Mailer implements MailerInterface
 			$logMessage = 'Failed sending mail to "' . implode('", "',
 					array_keys((array)$mail->getTo())) . '" (' . $message->getRecipientIdentifier() . ') with subject "' . $mail->getSubject() . '"';
 			$flattenedErrors = $result->getFlattenedErrors();
-			if ($flattenedErrors !== array()) {
-				$additionalData = array();
-				foreach ($flattenedErrors as $propertyPath => $errors) {
-					$additionalData[$propertyPath] = implode(', ', array_map(function ($error) {
-						return $error->getMessage();
-					}, $errors));
+			if ($flattenedErrors !== []) {
+				$additionalData = [];
+				foreach ($flattenedErrors as $propertyPath => $error) {
+					$additionalData[$propertyPath] = $error;
 				}
 			} else {
 				$additionalData = null;
@@ -160,10 +156,6 @@ class Mailer implements MailerInterface
 	 */
 	protected function getMessage()
 	{
-		if ($this->message instanceof Message) {
-			return $this->message;
-		}
-
-		return new Message();
+		return $this->message;
 	}
 }

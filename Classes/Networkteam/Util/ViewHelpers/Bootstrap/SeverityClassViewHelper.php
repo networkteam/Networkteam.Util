@@ -32,7 +32,6 @@ class SeverityClassViewHelper extends AbstractViewHelper
     /**
      * Returns the bootstrap class for the given severity
      *
-     * @param string $severity
      * @return string
      */
     public function render(): string
