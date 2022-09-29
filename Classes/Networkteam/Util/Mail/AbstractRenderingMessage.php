@@ -175,12 +175,6 @@ abstract class AbstractRenderingMessage implements MailerMessageInterface {
 			$standaloneView->assignMultiple($this->options['variables']);
 		}
 
-		$actionRequest = $standaloneView->getRequest();
-		$flowSettings = $this->configurationManager->getConfiguration(\Neos\Flow\Configuration\ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'Neos.Flow');
-		if (isset($flowSettings['http']['baseUri'])) {
-			$actionRequest->getHttpRequest()->setBaseUri($flowSettings['http']['baseUri']);
-		}
-
 		return $standaloneView;
 	}
 
