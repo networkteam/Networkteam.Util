@@ -8,8 +8,8 @@
         "symfony/translation": "~2.2"
     },
     "autoload": {
-        "psr-0": {
-            "Networkteam\\Util": "Classes"
+        "psr-4": {
+            "Networkteam\\Util\\": "Classes"
         }
     },
     "extra": {

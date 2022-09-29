@@ -6,7 +6,7 @@ parameters:
         -
             message: "#^Call to an undefined method DOMNode\\:\\:setAttribute\\(\\)\\.$#"
             count: 5
-            path: Classes/Networkteam/Util/Translation/XliffFileDumper.php
+            path: Classes/Translation/XliffFileDumper.php
 
     paths:
         - Classes
