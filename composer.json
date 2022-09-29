@@ -124,7 +124,8 @@
         "phpstan/phpstan": "^1.8",
         "neos/fluid-adaptor": "*",
         "jms/serializer": "*",
-        "neos/swiftmailer": "*"
+        "neos/swiftmailer": "*",
+        "ext-dom": "*"
     },
     "config": {
         "allow-plugins": {

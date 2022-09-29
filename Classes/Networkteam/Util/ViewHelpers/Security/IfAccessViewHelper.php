@@ -31,7 +31,7 @@ class IfAccessViewHelper extends \Neos\FluidAdaptor\ViewHelpers\Security\IfAcces
      * @param RenderingContextInterface $renderingContext
      * @return boolean
      */
-    protected static function evaluateCondition($arguments = null, RenderingContextInterface $renderingContext)
+    protected static function evaluateCondition($arguments, RenderingContextInterface $renderingContext)
     {
         $privilegeManager = static::getPrivilegeManager($renderingContext);
         $privilegeTargets = explode(self::PRIVILEGE_TARGET_SEPARATOR, $arguments['privilegeTarget']);

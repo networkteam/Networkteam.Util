@@ -40,16 +40,13 @@ class SeverityClassViewHelper extends AbstractViewHelper
         switch ($this->arguments['severity']) {
             case self::SEVERITY_OK:
                 return 'alert alert-success';
-                break;
             case self::SEVERITY_WARNING:
                 return 'alert';
-                break;
-            case self::SEVERITY_NOTICE:
-                return 'alert alert-info';
-                break;
             case self::SEVERITY_ERROR:
                 return 'alert alert-error';
-                break;
+            case self::SEVERITY_NOTICE:
+            default:
+                return 'alert alert-info';
         }
     }
 }

@@ -30,7 +30,7 @@ class HasValidationResultsViewHelper extends AbstractConditionViewHelper
     }
 
     protected static function evaluateCondition(
-        $arguments = null,
+        $arguments,
         RenderingContextInterface $renderingContext
     ) {
         /** @var  $renderingContext RenderingContext */
