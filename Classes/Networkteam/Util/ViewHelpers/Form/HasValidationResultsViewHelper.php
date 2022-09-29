@@ -13,38 +13,43 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 class HasValidationResultsViewHelper extends AbstractConditionViewHelper
 {
 
-    public function initializeArguments()
-    {
-        $this->registerArgument('then', 'mixed', 'Value to be returned if the condition if met.', false);
-        $this->registerArgument('else', 'mixed', 'Value to be returned if the condition if not met.', false);
-        $this->registerArgument('for', 'string', 'The name of the error name (e.g. argument name or property name). This can also be a property path (like blog.title), and will then only display the validation errors of that property.', false, null);
-    }
+	public function initializeArguments()
+	{
+		$this->registerArgument('then', 'mixed', 'Value to be returned if the condition if met.', false);
+		$this->registerArgument('else', 'mixed', 'Value to be returned if the condition if not met.', false);
+		$this->registerArgument('for', 'string', 'The name of the error name (e.g. argument name or property name). This can also be a property path (like blog.title), and will then only display the validation errors of that property.', false, null);
+	}
 
-    public function render()
-    {
-        if (static::evaluateCondition($this->arguments, $this->renderingContext)) {
-            return $this->renderThenChild();
-        }
+	public function render()
+	{
+		if (static::evaluateCondition($this->arguments, $this->renderingContext)) {
+			return $this->renderThenChild();
+		}
 
-        return $this->renderElseChild();
-    }
+		return $this->renderElseChild();
+	}
 
-    protected static function evaluateCondition(
-        $arguments,
-        RenderingContextInterface $renderingContext
-    ) {
-        /** @var  $renderingContext RenderingContext */
-        $controllerContext = $renderingContext->getControllerContext();
+	protected static function evaluateCondition(
+		$arguments,
+		RenderingContextInterface $renderingContext
+	)
+	{
 
-        /** @var Result $validationResults */
-        $validationResults = $controllerContext->getRequest()->getInternalArgument('__submittedArgumentValidationResults');
+		if (!$renderingContext instanceof RenderingContext) {
+			return false;
+		}
 
-        $forProperty = $arguments['for'] ?? null;
+		$controllerContext = $renderingContext->getControllerContext();
 
-        if ($validationResults !== null && $forProperty !== null) {
-            $validationResults = $validationResults->forProperty($forProperty);
-        }
+		/** @var Result $validationResults */
+		$validationResults = $controllerContext->getRequest()->getInternalArgument('__submittedArgumentValidationResults');
 
-        return $validationResults !== null && $validationResults->hasErrors();
-    }
+		$forProperty = $arguments['for'] ?? null;
+
+		if ($validationResults !== null && $forProperty !== null) {
+			$validationResults = $validationResults->forProperty($forProperty);
+		}
+
+		return $validationResults !== null && $validationResults->hasErrors();
+	}
 }

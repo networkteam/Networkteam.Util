@@ -1,4 +1,5 @@
 <?php
+
 namespace Networkteam\Util\Translation;
 
 /***************************************************************
@@ -8,49 +9,62 @@ namespace Networkteam\Util\Translation;
 use Symfony\Component\Translation\Dumper\FileDumper;
 use Symfony\Component\Translation\MessageCatalogue;
 
-class XliffFileDumper extends FileDumper {
+class XliffFileDumper extends FileDumper
+{
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function format(MessageCatalogue $messages, $domain) {
-        $dom = new \DOMDocument('1.0', 'utf-8');
-        $dom->formatOutput = TRUE;
+	/**
+	 * {@inheritDoc}
+	 */
+	public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = array())
+	{
+		$dom = new \DOMDocument('1.0', 'utf-8');
+		$dom->formatOutput = TRUE;
 
-        $xliff = $dom->appendChild($dom->createElement('xliff'));
-        $xliff->setAttribute('version', '1.2');
-        $xliff->setAttribute('xmlns', 'urn:oasis:names:tc:xliff:document:1.2');
+		$xliff = $dom->createElement('xliff');
+		$xliff = $dom->appendChild($xliff);
 
-        $xliffFile = $xliff->appendChild($dom->createElement('file'));
-        $xliffFile->setAttribute('source-language', $messages->getLocale());
-        $xliffFile->setAttribute('datatype', 'plaintext');
-        $xliffFile->setAttribute('original', 'file.ext');
+		$xliff->setAttribute('version', '1.2');
+		$xliff->setAttribute('xmlns', 'urn:oasis:names:tc:xliff:document:1.2');
 
-        $xliffBody = $xliffFile->appendChild($dom->createElement('body'));
-        foreach ($messages->all($domain) as $source => $target) {
-            $translation = $dom->createElement('trans-unit');
+		$xliffFile = $xliff->appendChild($dom->createElement('file'));
+		$xliffFile->setAttribute('source-language', $messages->getLocale());
+		$xliffFile->setAttribute('datatype', 'plaintext');
+		$xliffFile->setAttribute('original', 'file.ext');
 
-            $translation->setAttribute('id', $source);
-            $translation->setAttribute('resname', $source);
+		$xliffBody = $xliffFile->appendChild($dom->createElement('body'));
+		foreach ($messages->all($domain) as $source => $target) {
+			$translation = $dom->createElement('trans-unit');
 
-            $s = $translation->appendChild($dom->createElement('source'));
-            $s->appendChild($dom->createTextNode($target));
+			$translation->setAttribute('id', $source);
+			$translation->setAttribute('resname', $source);
 
-            $t = $translation->appendChild($dom->createElement('target'));
-            $t->appendChild($dom->createTextNode($target));
+			$s = $translation->appendChild($dom->createElement('source'));
+			$s->appendChild($dom->createTextNode($target));
 
-            $xliffBody->appendChild($translation);
-        }
+			$t = $translation->appendChild($dom->createElement('target'));
+			$t->appendChild($dom->createTextNode($target));
 
-        $xmlString = $dom->saveXML();
-            // Replace whitespaces with tabs
-        return str_replace('  ', "\t", $xmlString);
-    }
+			$xliffBody->appendChild($translation);
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function getExtension() {
-        return 'xlf';
-    }
+		$xmlString = $dom->saveXML();
+		// Replace whitespaces with tabs
+		return str_replace('  ', "\t", $xmlString);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function format(MessageCatalogue $messages, $domain)
+	{
+		return $this->formatCatalogue($messages, $domain);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function getExtension()
+	{
+		return 'xlf';
+	}
 }

@@ -26,7 +26,7 @@ class IncludeTemplatesViewHelper extends AbstractTagBasedViewHelper
         if ($this->hasArgument('package')) {
             $packageKey = $this->arguments['package'];
         } else {
-            $packageKey = $this->renderingContext->getControllerContext()->getRequest()->getControllerPackageKey();
+            $packageKey = $this->controllerContext->getRequest()->getControllerPackageKey();
         }
 
         $this->templateView = new \Neos\FluidAdaptor\View\TemplateView();
