@@ -55,6 +55,6 @@ class CaseViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelp
             }
             return $this->renderChildren();
         }
-        return null;
+        return [];
     }
 }

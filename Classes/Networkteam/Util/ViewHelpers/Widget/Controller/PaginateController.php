@@ -68,7 +68,7 @@ class PaginateController extends \Neos\FluidAdaptor\Core\Widget\AbstractWidgetCo
         $this->objects = $this->widgetConfiguration['objects'];
         $this->configuration = \Neos\Utility\Arrays::arrayMergeRecursiveOverrule($this->configuration,
             $this->widgetConfiguration['configuration'], true);
-        $this->numberOfPages = ceil(count($this->objects) / (integer)$this->configuration['itemsPerPage']);
+        $this->numberOfPages = (int)(ceil(count($this->objects) / (integer)$this->configuration['itemsPerPage']));
         $this->maximumNumberOfLinks = (integer)$this->configuration['maximumNumberOfLinks'];
     }
 
@@ -142,8 +142,8 @@ class PaginateController extends \Neos\FluidAdaptor\Core\Widget\AbstractWidgetCo
         if ($maximumNumberOfLinks > $this->numberOfPages) {
             $maximumNumberOfLinks = $this->numberOfPages;
         }
-        $delta = floor($maximumNumberOfLinks / 2);
-        $this->displayRangeStart = $this->currentPage - $delta;
+        $delta = (int)floor($maximumNumberOfLinks / 2);
+        $this->displayRangeStart = (int)ceil($this->currentPage - $delta);
         $this->displayRangeEnd = $this->currentPage + $delta + ($maximumNumberOfLinks % 2 === 0 ? 1 : 0);
         if ($this->displayRangeStart < 1) {
             $this->displayRangeEnd -= $this->displayRangeStart - 1;
@@ -151,7 +151,7 @@ class PaginateController extends \Neos\FluidAdaptor\Core\Widget\AbstractWidgetCo
         if ($this->displayRangeEnd > $this->numberOfPages) {
             $this->displayRangeStart -= ($this->displayRangeEnd - $this->numberOfPages);
         }
-        $this->displayRangeStart = (integer)max($this->displayRangeStart, 1);
-        $this->displayRangeEnd = (integer)min($this->displayRangeEnd, $this->numberOfPages);
+        $this->displayRangeStart = (int)max($this->displayRangeStart, 1);
+        $this->displayRangeEnd = (int)min($this->displayRangeEnd, $this->numberOfPages);
     }
 }

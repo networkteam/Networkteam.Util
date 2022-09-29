@@ -21,7 +21,7 @@ class CacheCommandController extends \Neos\Flow\Cli\CommandController {
 	/**
 	 * Clears all non file caches
 	 */
-	public function clearNonFileCachesCommand() {
+	public function clearNonFileCachesCommand() : void {
 		$caches = $this->cacheManager->getCacheConfigurations();
 		foreach($caches as $name => $configuration) {
 			$cache = $this->cacheManager->getCache($name);
