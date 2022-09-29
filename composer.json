@@ -123,5 +123,10 @@
     "require-dev": {
         "phpstan/phpstan": "^1.8",
         "neos/fluid-adaptor": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "neos/composer-plugin": true
+        }
     }
 }
