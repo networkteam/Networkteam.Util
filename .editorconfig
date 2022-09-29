@@ -2,6 +2,9 @@
 indent_size = 4
 indent_style = tab
 
+[*.neon]
+indent_style = space
+
 [*.json]
 indent_style = space
 

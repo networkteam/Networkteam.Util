@@ -2,7 +2,13 @@ parameters:
     bootstrapFiles:
         - .Build/vendor/autoload.php
 
+    ignoreErrors:
+        -
+            message: "#^Call to an undefined method DOMNode\\:\\:setAttribute\\(\\)\\.$#"
+            count: 5
+            path: Classes/Networkteam/Util/Translation/XliffFileDumper.php
+
     paths:
         - Classes
 
-    level: 1
+    level: 5
