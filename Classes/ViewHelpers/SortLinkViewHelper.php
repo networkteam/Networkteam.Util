@@ -1,4 +1,5 @@
 <?php
+
 namespace Networkteam\Util\ViewHelpers;
 
 /***************************************************************
@@ -13,7 +14,6 @@ use Neos\FluidAdaptor\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 class SortLinkViewHelper extends AbstractTagBasedViewHelper
 {
-
     /**
      * @var string
      */
@@ -39,37 +39,37 @@ class SortLinkViewHelper extends AbstractTagBasedViewHelper
     public function render(): string
     {
         $sortProperty = $this->arguments['sortProperty'];
+        /** @var ListViewConfiguration $listViewConfiguration */
         $listViewConfiguration = $this->arguments['listViewConfiguration'];
         $uriBuilder = $this->controllerContext->getUriBuilder();
 
-        $className = 'sort-asc';
-        $sortDirection = 'ASC';
+        $className = '';
         $iconHtml = '';
 
-        if ($listViewConfiguration->getSortProperty() === $sortProperty) {
-            if ($listViewConfiguration->getSortDirection() === 'ASC') {
-                $className = 'sorted sort-asc';
-                $sortDirection = 'DESC';
+        if ($sortProperty && $listViewConfiguration->getSortDirection($sortProperty) !== null) {
+            $className = 'sorted sort-' . strtolower($listViewConfiguration->getSortDirection($sortProperty));
+
+            if ($listViewConfiguration->getSortDirection($sortProperty) === ListViewConfiguration::DIRECTION_ASCENDING) {
                 $iconHtml = '<i class="icon-chevron-up"></i>';
             } else {
-                $className = 'sorted sort-desc';
-                $sortDirection = 'ASC';
                 $iconHtml = '<i class="icon-chevron-down"></i>';
             }
         }
 
         $this->tag->addAttribute('class', $this->tag->getAttribute('class') . $className);
 
-        $linkViewConfigurationArguments = array(
-            'listViewConfiguration' => array(
-                'sortProperty' => $sortProperty,
-                'sortDirection' => $sortDirection
-            )
-        );
-
         $request = $this->controllerContext->getRequest();
 
-        $arguments = Arrays::arrayMergeRecursiveOverrule($request->getArguments(), $linkViewConfigurationArguments);
+        $arguments = $request->getArguments();
+
+        $sortDirection = ListViewConfiguration::DIRECTION_DESCENDING;
+
+        if ($listViewConfiguration->getSortDirection($sortProperty) === ListViewConfiguration::DIRECTION_DESCENDING) {
+            $sortDirection = ListViewConfiguration::DIRECTION_ASCENDING;
+        }
+
+        $arguments['listViewConfiguration'] = $listViewConfiguration->toArray();
+        $arguments['listViewConfiguration']['sortDirections'] = [$sortProperty => $sortDirection];
 
         $uri = $uriBuilder->reset()->uriFor($request->getControllerActionName(), $arguments);
 
@@ -80,5 +80,4 @@ class SortLinkViewHelper extends AbstractTagBasedViewHelper
 
         return $this->tag->render();
     }
-
 }

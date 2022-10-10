@@ -1,262 +1,265 @@
 <?php
+
 namespace Networkteam\Util\Domain\DataTransferObject;
 
 /***************************************************************
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
 
-class ListViewConfiguration {
+class ListViewConfiguration
+{
+    /**
+     * All filters set will be connected by OR
+     */
+    const LOGICAL_TYPE_OR = 1;
 
-	/**
-	 * All filters set will be connected by OR
-	 */
-	const LOGICAL_TYPE_OR = 1;
+    /**
+     * All filters set will be connected by AND (default)
+     */
+    const LOGICAL_TYPE_AND = 2;
 
-	/**
-	 * All filters set will be connected by AND (default)
-	 */
-	const LOGICAL_TYPE_AND = 2;
+    /**
+     * All filters set will be connected by NOT
+     */
+    const LOGICAL_TYPE_NOT = 3;
 
-	/**
-	 * All filters set will be connected by NOT
-	 */
-	const LOGICAL_TYPE_NOT = 3;
 
-	/**
-     * Can be string or array. If array is used structure must match structure of sortProperty
+    const DIRECTION_ASCENDING = 'ASC';
+
+    const DIRECTION_DESCENDING = 'DESC';
+
+    /**
+     * Array where keys represent property name and values the sort direction
      *
      * Example for array:
      *
      *   [
-     *     0 => 'ASC',
-     *     1 => 'DESC'
+     *     'myProperty' => 'ASC',
+     *     'anotherProperty' => 'DESC'
+     *     '*' => 'ASC'
      *   ]
      *
-	 * @var mixed
-	 */
-	protected $sortDirection = 'ASC';
+     * @var array
+     */
+    protected array $sortDirections = [];
 
     /**
-     * Can be string or array. If array is used structure must match structure of sortDirection
+     * array(
+     *   'name' => array(
+     *     'operator' => 'equals',
+     *     'operand' => 'Foo'
+     *   ),
+     *   'lastUpdate' => array(
+     *     'operator' => 'greaterThan',
+     *     'operand' => '134234423'
+     *   )
+     * )
      *
-     * Example for array:
-     *
-     *   [
-     *     0 => 'foo',
-     *     1 => 'bar'
-     *   ]
-     *
-     * @var mixed
+     * @var array
      */
-	protected $sortProperty;
-
-	/**
-	 * array(
-	 *   'name' => array(
-	 *     'operator' => 'equals',
-	 *     'operand' => 'Foo'
-	 *   ),
-	 *   'lastUpdate' => array(
-	 *     'operator' => 'greaterThan',
-	 *     'operand' => '134234423'
-	 *   )
-	 * )
-	 *
-	 * @var array<string, array<string, string>>
-	 */
-	protected array $filter = [];
-
-	/**
-	 * defines the properties which can be filtered
-	 * used to build the filter form
-	 *
-	 * @var array<string, string>
-	 */
-	protected array $filterableProperties = [];
-
-	/**
-	 * @var int
-	 */
-	protected int $itemsPerPage = 20;
-
-	/**
-	 * Logical type to connect all constraints with in the query
-	 *
-	 * @var int
-	 */
-	protected int $logicalType = self::LOGICAL_TYPE_AND;
-
-	/**
-	 * Validate and set the filter configuration
-	 */
-	public function setFilter(array $filter): void
-    {
-		foreach ($filter as $name => $configuration) {
-			if (!$this->isValidFilterConfiguration($configuration)) {
-				unset($filter[$name]);
-			}
-		}
-		$this->filter = $filter;
-	}
-
-	public function getFilter(): array
-    {
-		return $this->filter;
-	}
-
-	public function hasFilter(string $name): bool
-    {
-		return isset($this->filter[$name]);
-	}
-
-	public function setItemsPerPage(int $amount): void
-    {
-		$this->itemsPerPage = $amount;
-	}
-
-	public function getItemsPerPage(): int
-    {
-		return $this->itemsPerPage;
-	}
-
-	public function setLogicalType(int $type): void
-    {
-		$this->logicalType = (int)$type;
-	}
-
-	public function getLogicalType(): int
-    {
-		return $this->logicalType;
-	}
+    protected array $filter = [];
 
     /**
-     * Can be string|array
+     * defines the properties which can be filtered
+     * used to build the filter form
      *
-     * @param mixed $sortDirection
+     * @var array
      */
-	public function setSortDirection($sortDirection): void
+    protected array $filterableProperties = [];
+
+    /**
+     * @var int
+     */
+    protected int $itemsPerPage = 20;
+
+    /**
+     * Logical type to connect all constraints with in the query
+     *
+     * @var int
+     */
+    protected int $logicalType = self::LOGICAL_TYPE_AND;
+
+    /**
+     * Validate and set the filter configuration
+     */
+    public function setFilter(array $filter): void
     {
-		if (is_array($sortDirection)) {
-            $this->sortDirection = array_map(
-                function($direction) {
-                    return in_array($direction, ['ASC', 'DESC']) ? $direction : 'ASC';
-                },
-                $sortDirection
-            );
-        } else {
-            $this->sortDirection = in_array($sortDirection, ['ASC', 'DESC']) ? $sortDirection : 'ASC';
+        foreach ($filter as $name => $configuration) {
+            if (!$this->isValidFilterConfiguration($configuration)) {
+                unset($filter[$name]);
+            }
         }
-	}
+        $this->filter = $filter;
+    }
+
+    public function getFilter(): array
+    {
+        return $this->filter;
+    }
+
+    public function hasFilter(string $name): bool
+    {
+        return isset($this->filter[$name]);
+    }
+
+    public function setItemsPerPage(int $amount): void
+    {
+        $this->itemsPerPage = $amount;
+    }
+
+    public function getItemsPerPage(): int
+    {
+        return $this->itemsPerPage;
+    }
+
+    public function setLogicalType(int $type): void
+    {
+        $this->logicalType = (int)$type;
+    }
+
+    public function getLogicalType(): int
+    {
+        return $this->logicalType;
+    }
+
+    public function setSortDirection(string $propertyName, string $sortDirection = self::DIRECTION_ASCENDING): void
+    {
+        if (in_array($sortDirection, [self::DIRECTION_ASCENDING, self::DIRECTION_DESCENDING])) {
+            $this->sortDirections[$propertyName] = $sortDirection;
+        }
+    }
+
+    public function setSortDirections(array $sortDirections): void
+    {
+		foreach ($sortDirections as $propertyName => $direction) {
+			$this->setSortDirection($propertyName, $direction);
+		}
+    }
+
+    public function getSortDirections(): array
+    {
+        return $this->sortDirections;
+    }
+
+    public function getSortDirection(string $propertyName = '*'): ?string
+    {
+        if (isset($this->sortDirections[$propertyName])) {
+            return $this->sortDirections[$propertyName];
+        }
+
+        return null;
+    }
+
+    public function getSortProperties(): array
+    {
+        return array_keys($this->sortDirections);
+    }
 
     /**
-     * Can be string|array
-     *
-     * @return mixed
+     * Resets logical type to LOGICAL_TYPE_AND
      */
-	public function getSortDirection()
+    public function resetLogicalType(): void
     {
-		return $this->sortDirection;
-	}
+        $this->logicalType = self::LOGICAL_TYPE_AND;
+    }
+
+
+    public function hasSorting(): bool
+    {
+        return count($this->sortDirections) > 0;
+    }
+
+    public function setFilterableProperties(array $filterableProperties): void
+    {
+        $this->filterableProperties = $filterableProperties;
+    }
+
+    public function getFilterableProperties(): array
+    {
+        return $this->filterableProperties;
+    }
+
+    public function getConfiguredFilters(): array
+    {
+        $configuredFilters = [];
+        foreach ($this->filterableProperties as $name => $configuration) {
+            $filter = [
+                'name' => $name,
+                'operand' => '',
+                'operator' => 'like'
+            ];
+            if (isset($this->filter[$name])) {
+                $filter['operand'] = $this->filter[$name]['operand'];
+                $filter['operator'] = $this->filter[$name]['operator'];
+            }
+            $configuredFilters[] = $filter;
+        }
+
+        return $configuredFilters;
+    }
+
+    public function addFilter(string $name, array $configuration): void
+    {
+        if ($this->isValidFilterConfiguration($configuration)) {
+            $this->filter[$name] = $configuration;
+        }
+    }
 
     /**
-     * Can be string|array
-     *
-     * @param mixed $sortField
+     * This method will convert underscores in filter properties to dots for property paths
+     * to use the property names in repositories.
      */
-	public function setSortProperty($sortField): void
+    public function getFilterWithPropertyPaths(): array
     {
-		$this->sortProperty = $sortField;
-	}
-
-	/**
-	 * Resets logical type to LOGICAL_TYPE_AND
-	 */
-	public function resetLogicalType(): void
-    {
-		$this->logicalType = self::LOGICAL_TYPE_AND;
-	}
+        $filter = $this->filter;
+        foreach ($filter as $propertyName => $propertyValue) {
+            if (strpos($propertyName, '_') !== false) {
+                unset($filter[$propertyName]);
+                $propertyName = strtr($propertyName, '_', '.');
+                $filter[$propertyName] = $propertyValue;
+            }
+        }
+        return $filter;
+    }
 
     /**
-     * @return string|array
+	 * Replaces "_" by "." in property names
      */
-	public function getSortProperty()
+    public function getSortDirectionsWithPropertyPath(): array
     {
-		return $this->sortProperty;
-	}
+        $sortDirections = [];
+        foreach ($this->sortDirections as $propertyName => $sortDirection) {
+            $propertyPath = strtr($propertyName, '_', '.');
+            $sortDirections[$propertyPath] = $sortDirection;
+        }
 
-	public function hasSorting(): bool
+        return $sortDirections;
+    }
+
+    /**
+     * Checks if given filter configuration array is valid
+     */
+    protected function isValidFilterConfiguration(array $configuration): bool
     {
-		return is_array($this->sortProperty) ? (count($this->sortProperty) > 0) : ((string)$this->sortProperty !== '');
-	}
+        return (isset($configuration['operator']) && (string)$configuration['operator'] !== '' && isset($configuration['operand']));
+    }
 
-	public function setFilterableProperties(array $filterableProperties): void
+    public function removeFilter(string $filterName): void
     {
-		$this->filterableProperties = $filterableProperties;
-	}
+        unset($this->filter[$filterName]);
+    }
 
-	public function getFilterableProperties(): array
+    /**
+     * @return array
+     */
+    public function toArray(): array
     {
-		return $this->filterableProperties;
-	}
-
-	public function getConfiguredFilters(): array
-    {
-		$configuredFilters = [];
-		foreach ($this->filterableProperties as $name => $configuration) {
-			$filter = [
-				'name' => $name,
-				'operand' => '',
-				'operator' => 'like'
-			];
-			if (isset($this->filter[$name])) {
-				$filter['operand'] = $this->filter[$name]['operand'];
-				$filter['operator'] = $this->filter[$name]['operator'];
-			}
-			$configuredFilters[] = $filter;
-		}
-
-		return $configuredFilters;
-	}
-
-	public function addFilter(string $name, array $configuration): void
-    {
-		if ($this->isValidFilterConfiguration($configuration)) {
-			$this->filter[$name] = $configuration;
-		}
-	}
-
-	/**
-	 * This method will convert underscores in filter properties to dots for property paths
-	 * to use the property names in repositories.
-	 */
-	public function getFilterWithPropertyPaths(): array
-    {
-		$filter = $this->filter;
-		foreach ($filter as $propertyName => $propertyValue) {
-			if (strpos($propertyName, '_') !== FALSE) {
-				unset($filter[$propertyName]);
-				$propertyName = strtr($propertyName, '_', '.');
-				$filter[$propertyName] = $propertyValue;
-			}
-		}
-		return $filter;
-	}
-
-	public function getSortPropertyWithPropertyPath(): string
-    {
-		return strtr($this->sortProperty, '_', '.');
-	}
-
-	/**
-	 * Checks if given filter configuration array is valid
-	 */
-	protected function isValidFilterConfiguration(array $configuration): bool
-    {
-		return (isset($configuration['operator']) && (string)$configuration['operator'] !== '' && isset($configuration['operand']));
-	}
-
-	public function removeFilter(string $filterName): void
-    {
-		unset($this->filter[$filterName]);
-	}
+        return [
+            'sortDirections' => $this->sortDirections,
+            'itemsPerPage' => $this->itemsPerPage,
+            'filter' => $this->filter,
+            'filterableProperties' => $this->filterableProperties,
+            'logicalType' => $this->logicalType
+        ];
+    }
 }

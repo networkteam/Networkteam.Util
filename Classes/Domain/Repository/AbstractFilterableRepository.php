@@ -1,4 +1,5 @@
 <?php
+
 namespace Networkteam\Util\Domain\Repository;
 
 /***************************************************************
@@ -11,7 +12,6 @@ use Neos\Flow\Persistence\QueryInterface;
 
 abstract class AbstractFilterableRepository extends \Neos\Flow\Persistence\Doctrine\Repository
 {
-
     /**
      * @var array
      */
@@ -45,8 +45,7 @@ abstract class AbstractFilterableRepository extends \Neos\Flow\Persistence\Doctr
         array $filters,
         QueryInterface $query,
         int $logicalTypeValue = ListViewConfiguration::LOGICAL_TYPE_AND
-    ): ?object
-    {
+    ): ?object {
         $constraints = array();
         foreach ($filters as $propertyName => $filter) {
             $constraint = $this->getConstraintForFilter($filter, $propertyName, $query);
@@ -90,8 +89,10 @@ abstract class AbstractFilterableRepository extends \Neos\Flow\Persistence\Doctr
     {
         $constraint = null;
         if (!isset($this->filterableProperties[$propertyName])) {
-            throw new \InvalidArgumentException('Filter for property "' . $propertyName . '" not supported',
-                1369912305);
+            throw new \InvalidArgumentException(
+                'Filter for property "' . $propertyName . '" not supported',
+                1369912305
+            );
         }
         if (!isset($filter['operator'])) {
             throw new \InvalidArgumentException('No operator for property "' . $propertyName . '"', 1369993785);
@@ -144,8 +145,10 @@ abstract class AbstractFilterableRepository extends \Neos\Flow\Persistence\Doctr
                 break;
 
             default:
-                throw new \InvalidArgumentException('Unknown operator "' . $filter['operator'] . '", allowed operators are "equals,like,is,contains,greaterThanOrEqual"',
-                    1369911739);
+                throw new \InvalidArgumentException(
+                    'Unknown operator "' . $filter['operator'] . '", allowed operators are "equals,like,is,contains,greaterThanOrEqual"',
+                    1369911739
+                );
         }
 
         return $constraint;
@@ -158,31 +161,8 @@ abstract class AbstractFilterableRepository extends \Neos\Flow\Persistence\Doctr
      */
     protected function getOrderings(ListViewConfiguration $listViewConfiguration): array
     {
-        $sortProperties = [];
-        $isSingleSortDirection = true;
-        $sortDirections = [];
-        if (is_array($listViewConfiguration->getSortProperty())) {
-            if (is_array($listViewConfiguration->getSortDirection())) {
-                if (count($listViewConfiguration->getSortProperty()) !== count($listViewConfiguration->getSortDirection())) {
-                    throw new \InvalidArgumentException('The count of properties does not match the count of directions, these must match or give the direction as string, then all properties get the same sort direction',
-                        1408113192);
-                }
-                $sortDirections = $listViewConfiguration->getSortDirection();
-                $isSingleSortDirection = false;
-            }
-
-            $rawSortProperties = $listViewConfiguration->getSortProperty();
-            foreach ($rawSortProperties as $index => $sortProperty) {
-                $sortProperty = strtr($sortProperty, '_', '.');
-                $sortProperties[$sortProperty] = $isSingleSortDirection ? $listViewConfiguration->getSortDirection() : $sortDirections[$index];
-            }
-        } else {
-            if (is_array($listViewConfiguration->getSortDirection())) {
-                throw new \InvalidArgumentException('Sort directions mut not be an array but a string', 1408539136);
-            }
-            $sortProperties = array($listViewConfiguration->getSortPropertyWithPropertyPath() => $listViewConfiguration->getSortDirection());
-        }
-
-        return $sortProperties;
+        return array_filter($listViewConfiguration->getSortDirections(), function ($propertyPath) {
+             return $propertyPath !== '*' && !empty($propertyPath);
+        }, ARRAY_FILTER_USE_KEY);
     }
 }
