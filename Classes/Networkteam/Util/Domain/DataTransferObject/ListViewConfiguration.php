@@ -32,7 +32,7 @@ class ListViewConfiguration {
      *     1 => 'DESC'
      *   ]
      *
-	 * @var mixed
+     * @var mixed
 	 */
 	protected $sortDirection = 'ASC';
 
@@ -132,7 +132,7 @@ class ListViewConfiguration {
     /**
      * Can be string|array
      *
-     * @param mixed $sortDirection
+     * @param string $sortDirection Parameter type declaration must be set to either string or array to please property mapping of Flow framework
      */
 	public function setSortDirection($sortDirection): void
     {
@@ -150,8 +150,6 @@ class ListViewConfiguration {
 
     /**
      * Can be string|array
-     *
-     * @return mixed
      */
 	public function getSortDirection()
     {
@@ -161,7 +159,7 @@ class ListViewConfiguration {
     /**
      * Can be string|array
      *
-     * @param mixed $sortField
+     * @param string $sortField Parameter type declaration must be set to either string or array to please property mapping of Flow framework
      */
 	public function setSortProperty($sortField): void
     {
@@ -176,9 +174,6 @@ class ListViewConfiguration {
 		$this->logicalType = self::LOGICAL_TYPE_AND;
 	}
 
-    /**
-     * @return string|array
-     */
 	public function getSortProperty()
     {
 		return $this->sortProperty;
