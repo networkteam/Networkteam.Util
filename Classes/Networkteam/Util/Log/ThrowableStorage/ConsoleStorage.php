@@ -54,7 +54,7 @@ final class ConsoleStorage implements ThrowableStorageInterface
 			$configurationManager = $bootstrap->getEarlyInstance(ConfigurationManager::class);
 			$serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 't3n.FlowLog.serviceContext');
 		} else {
-			$serviceContext = '';
+			$serviceContext = null;
 		}
 
 		$data = [
@@ -71,7 +71,7 @@ final class ConsoleStorage implements ThrowableStorageInterface
 			]
 		];
 
-		$output = json_encode($data);
+		$output = json_encode(array_filter($data));
 
 		if (is_resource($this->streamHandle)) {
 			fwrite($this->streamHandle, $output . PHP_EOL);
