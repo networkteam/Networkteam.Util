@@ -47,11 +47,15 @@ final class ConsoleStorage implements ThrowableStorageInterface
 
 	public function logThrowable(\Throwable $throwable, array $additionalData = [])
 	{
-		$bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
-		/** @var ConfigurationManager $configurationManager */
-		$configurationManager = $bootstrap->getEarlyInstance(ConfigurationManager::class);
-
-		$serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 't3n.FlowLog.serviceContext');
+		// make sure object manager is available
+		if (Bootstrap::$staticObjectManager instanceof ObjectManagerInterface) {
+			$bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
+			/** @var ConfigurationManager $configurationManager */
+			$configurationManager = $bootstrap->getEarlyInstance(ConfigurationManager::class);
+			$serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 't3n.FlowLog.serviceContext');
+		} else {
+			$serviceContext = null;
+		}
 
 		$data = [
 			'eventTime' => (new \DateTime('now'))->format(DATE_RFC3339),
@@ -67,7 +71,7 @@ final class ConsoleStorage implements ThrowableStorageInterface
 			]
 		];
 
-		$output = json_encode($data);
+		$output = json_encode(array_filter($data));
 
 		if (is_resource($this->streamHandle)) {
 			fwrite($this->streamHandle, $output . PHP_EOL);
