@@ -47,16 +47,21 @@ final class ConsoleStorage implements ThrowableStorageInterface
 
 	public function logThrowable(\Throwable $throwable, array $additionalData = [])
 	{
-		$bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
-		/** @var ConfigurationManager $configurationManager */
-		$configurationManager = $bootstrap->getEarlyInstance(ConfigurationManager::class);
+		if (Bootstrap::$staticObjectManager instanceof ObjectManagerInterface) {
+			$bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
+			/** @var ConfigurationManager $configurationManager */
+			$configurationManager = $bootstrap->getEarlyInstance(ConfigurationManager::class);
 
-		$serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 't3n.FlowLog.serviceContext');
+			$serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'Networkteam.Util.serviceContext');
+		} else { // @phpstan-ignore-line
+			$serviceContext = 'neos-flow';
+		}
 
 		$data = [
 			'eventTime' => (new \DateTime('now'))->format(DATE_RFC3339),
 			'serviceContext' => $serviceContext,
-			'message' => sprintf('PHP Warning: %s' . PHP_EOL . 'Stack trace:' . PHP_EOL . '%s', $throwable->getMessage(), $throwable->getTraceAsString()),
+			'message' => sprintf('PHP Warning: %s', $throwable->getMessage()),
+			'stackTrace' => $throwable->getTraceAsString(),
 			'context' => [
 				'httpRequest' => $this->getHttpRequestContext(),
 				'reportLocation' => [
@@ -91,13 +96,19 @@ final class ConsoleStorage implements ThrowableStorageInterface
 		if (!$requestHandler instanceof HttpRequestHandlerInterface) {
 			return [];
 		}
+
 		$request = $requestHandler->getHttpRequest();
 
-		return [
+		$context = [
 			'method' => $request->getMethod(),
 			'url' => (string)$request->getUri(),
-			'userAgent' => $request->getHeader('User-Agent')[0],
 		];
+
+		if ($request->hasHeader('User-Agent')) {
+			$context['userAgent'] = $request->getHeader('User-Agent')[0];
+		}
+
+		return $context;
 	}
 
 	public function setRequestInformationRenderer(\Closure $requestInformationRenderer)
