@@ -60,7 +60,8 @@ final class ConsoleStorage implements ThrowableStorageInterface
 		$data = [
 			'eventTime' => (new \DateTime('now'))->format(DATE_RFC3339),
 			'serviceContext' => $serviceContext,
-			'message' => sprintf('PHP Warning: %s' . PHP_EOL . 'Stack trace:' . PHP_EOL . '%s', $throwable->getMessage(), $throwable->getTraceAsString()),
+			'message' => sprintf('PHP Warning: %s', $throwable->getMessage()),
+			'stackTrace' => $throwable->getTraceAsString(),
 			'context' => [
 				'httpRequest' => $this->getHttpRequestContext(),
 				'reportLocation' => [
@@ -95,6 +96,7 @@ final class ConsoleStorage implements ThrowableStorageInterface
 		if (!$requestHandler instanceof HttpRequestHandlerInterface) {
 			return [];
 		}
+
 		$request = $requestHandler->getHttpRequest();
 
 		return [
