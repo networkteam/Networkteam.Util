@@ -99,11 +99,16 @@ final class ConsoleStorage implements ThrowableStorageInterface
 
 		$request = $requestHandler->getHttpRequest();
 
-		return [
+		$context = [
 			'method' => $request->getMethod(),
 			'url' => (string)$request->getUri(),
-			'userAgent' => $request->getHeader('User-Agent')[0],
 		];
+
+		if ($request->hasHeader('User-Agent')) {
+			$context['userAgent'] = $request->getHeader('User-Agent')[0];
+		}
+
+		return $context;
 	}
 
 	public function setRequestInformationRenderer(\Closure $requestInformationRenderer)
