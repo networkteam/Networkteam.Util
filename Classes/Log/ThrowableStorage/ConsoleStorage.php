@@ -47,11 +47,15 @@ final class ConsoleStorage implements ThrowableStorageInterface
 
 	public function logThrowable(\Throwable $throwable, array $additionalData = [])
 	{
-		$bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
-		/** @var ConfigurationManager $configurationManager */
-		$configurationManager = $bootstrap->getEarlyInstance(ConfigurationManager::class);
+		if ((Bootstrap::$staticObjectManager instanceof ObjectManagerInterface)) {
+			$bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
+			/** @var ConfigurationManager $configurationManager */
+			$configurationManager = $bootstrap->getEarlyInstance(ConfigurationManager::class);
 
-		$serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 't3n.FlowLog.serviceContext');
+			$serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'Networkteam.Util.serviceContext');
+		} else {
+			$serviceContext = 'neos-flow';
+		}
 
 		$data = [
 			'eventTime' => (new \DateTime('now'))->format(DATE_RFC3339),
