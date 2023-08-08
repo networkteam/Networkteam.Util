@@ -52,7 +52,7 @@ final class ConsoleStorage implements ThrowableStorageInterface
 			$bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
 			/** @var ConfigurationManager $configurationManager */
 			$configurationManager = $bootstrap->getEarlyInstance(ConfigurationManager::class);
-			$serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 't3n.FlowLog.serviceContext');
+			$serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'Networkteam.Util.serviceContext');
 		} else {
 			$serviceContext = null;
 		}
@@ -97,11 +97,16 @@ final class ConsoleStorage implements ThrowableStorageInterface
 		}
 		$request = $requestHandler->getHttpRequest();
 
-		return [
+		$context = [
 			'method' => $request->getMethod(),
 			'url' => (string)$request->getUri(),
-			'userAgent' => $request->getHeader('User-Agent')[0],
 		];
+
+		if ($request->hasHeader('User-Agent')) {
+			$context['userAgent'] = $request->getHeader('User-Agent')[0];
+		}
+
+		return $context;
 	}
 
 	public function setRequestInformationRenderer(\Closure $requestInformationRenderer)
