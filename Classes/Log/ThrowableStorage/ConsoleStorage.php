@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Networkteam\Util\Log\ThrowableStorage;
 
-use Neos\Flow\Configuration\ConfigurationManager;
 use Neos\Flow\Core\Bootstrap;
 use Neos\Flow\Http\HttpRequestHandlerInterface;
 use Neos\Flow\Log\Exception\CouldNotOpenResourceException;
@@ -48,30 +47,18 @@ final class ConsoleStorage implements ThrowableStorageInterface
 
     public function logThrowable(\Throwable $throwable, array $additionalData = [])
     {
-        if (Bootstrap::$staticObjectManager instanceof ObjectManagerInterface) {
-            $bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
-            /** @var ConfigurationManager $configurationManager */
-            $configurationManager = $bootstrap->getEarlyInstance(ConfigurationManager::class);
-
-            $serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS,
-                'Networkteam.Util.serviceContext');
-        } else { // @phpstan-ignore-line
-            $serviceContext = 'neos-flow';
-        }
-
         $data = [
             'eventTime' => (new \DateTime('now'))->format(DATE_RFC3339),
-            'serviceContext' => $serviceContext,
-            'message' => sprintf('PHP Warning: %s', $throwable->getMessage()),
-            'stackTrace' => $throwable->getTraceAsString(),
-            'context' => [
-                'httpRequest' => $this->getHttpRequestContext(),
-                'reportLocation' => [
-                    'filePath' => $throwable->getFile(),
-                    'lineNumber' => $throwable->getLine(),
-                    'functionName' => self::getFunctionNameForTrace($throwable->getTrace()),
-                ],
-            ]
+            'severity' => 'critical',
+            'message' => $throwable->getMessage(),
+            'errorLocation' => [
+                'filePath' => $throwable->getFile(),
+                'lineNumber' => $throwable->getLine(),
+                'functionName' => self::getFunctionNameForTrace($throwable->getTrace()),
+            ],
+            'httpRequest' => $this->getHttpRequestContext(),
+            'additionalData' => $additionalData,
+            'source' => 'neos-flow'
         ];
 
         $output = json_encode($data);
