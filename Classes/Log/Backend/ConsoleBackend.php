@@ -44,14 +44,14 @@ class ConsoleBackend extends AbstractBackend
     public function open(): void
     {
         $this->severityLabels = [
-            LOG_EMERG => 'EMERGENCY',
-            LOG_ALERT => 'ALERT    ',
-            LOG_CRIT => 'CRITICAL ',
-            LOG_ERR => 'ERROR    ',
-            LOG_WARNING => 'WARNING  ',
-            LOG_NOTICE => 'NOTICE   ',
-            LOG_INFO => 'INFO     ',
-            LOG_DEBUG => 'DEBUG    ',
+            LOG_EMERG => 'emergency',
+            LOG_ALERT => 'alert',
+            LOG_CRIT => 'critical',
+            LOG_ERR => 'error',
+            LOG_WARNING => 'warning',
+            LOG_NOTICE => 'notice',
+            LOG_INFO => 'info',
+            LOG_DEBUG => 'debug',
         ];
 
         $this->streamHandle = fopen('php://' . $this->streamName, 'w');
@@ -85,25 +85,18 @@ class ConsoleBackend extends AbstractBackend
             return;
         }
 
-        $severityLabel = (isset($this->severityLabels[$severity])) ? $this->severityLabels[$severity] : 'UNKNOWN  ';
-        $output = $severityLabel . ' ' . $message;
-        if (!empty($this->prefix)) {
-            $output = $this->prefix . ' ' . $output;
-        }
-        if (!empty($packageKey)) {
-            $output .= sprintf(' package=%s', $packageKey);
-        }
-        if (!empty($className)) {
-            $output .= sprintf(' class=%s', $className);
-        }
-        if (!empty($methodName)) {
-            $output .= sprintf(' method=%s', $methodName);
-        }
-        if (!empty($additionalData)) {
-            $output .= PHP_EOL . (new PlainTextFormatter($additionalData))->format();
-        }
+        $data = [
+            'eventTime' => (new \DateTime('now'))->format(DATE_RFC3339),
+            'severity' => $this->severityLabels[$severity] ?? 'unknown',
+            'message' => implode(' ', [trim($this->prefix), $message]),
+            'class' => $className,
+            'method' => $methodName,
+            'package' => $packageKey, // Drop since 'class' is FQDN?
+            'additionalData' => $additionalData,
+            'source' => 'neos-flow'
+        ];
         if (is_resource($this->streamHandle)) {
-            fputs($this->streamHandle, $output . PHP_EOL);
+            fputs($this->streamHandle, json_encode($data, JSON_THROW_ON_ERROR) . PHP_EOL);
         }
     }
 
