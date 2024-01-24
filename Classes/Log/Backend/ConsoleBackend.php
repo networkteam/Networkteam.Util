@@ -44,19 +44,20 @@ class ConsoleBackend extends AbstractBackend
     public function open(): void
     {
         $this->severityLabels = [
-            LOG_EMERG   => 'EMERGENCY',
-            LOG_ALERT   => 'ALERT    ',
-            LOG_CRIT    => 'CRITICAL ',
-            LOG_ERR     => 'ERROR    ',
+            LOG_EMERG => 'EMERGENCY',
+            LOG_ALERT => 'ALERT    ',
+            LOG_CRIT => 'CRITICAL ',
+            LOG_ERR => 'ERROR    ',
             LOG_WARNING => 'WARNING  ',
-            LOG_NOTICE  => 'NOTICE   ',
-            LOG_INFO    => 'INFO     ',
-            LOG_DEBUG   => 'DEBUG    ',
+            LOG_NOTICE => 'NOTICE   ',
+            LOG_INFO => 'INFO     ',
+            LOG_DEBUG => 'DEBUG    ',
         ];
 
         $this->streamHandle = fopen('php://' . $this->streamName, 'w');
         if (!is_resource($this->streamHandle)) {
-            throw new CouldNotOpenResourceException('Could not open stream "' . $this->streamName . '" for write access.', 1310986609);
+            throw new CouldNotOpenResourceException('Could not open stream "' . $this->streamName . '" for write access.',
+                1310986609);
         }
     }
 
@@ -72,8 +73,14 @@ class ConsoleBackend extends AbstractBackend
      * @return void
      * @api
      */
-    public function append(string $message, int $severity = LOG_INFO, $additionalData = null, string $packageKey = null, string $className = null, string $methodName = null): void
-    {
+    public function append(
+        string $message,
+        int $severity = LOG_INFO,
+        $additionalData = null,
+        string $packageKey = null,
+        string $className = null,
+        string $methodName = null
+    ): void {
         if ($severity > $this->severityThreshold) {
             return;
         }

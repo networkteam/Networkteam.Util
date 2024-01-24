@@ -10,12 +10,13 @@ use Neos\Error\Messages\Result;
 /**
  * Mailer interface
  */
-interface MailerInterface {
+interface MailerInterface
+{
 
-	/**
-	 * @param \Networkteam\Util\Mail\MailerMessageInterface $message
-	 * @return \Neos\Error\Messages\Result
-	 */
-	public function send(MailerMessageInterface $message);
+    /**
+     * @param \Networkteam\Util\Mail\MailerMessageInterface $message
+     * @return \Neos\Error\Messages\Result
+     */
+    public function send(MailerMessageInterface $message);
 
 }

@@ -162,7 +162,7 @@ abstract class AbstractFilterableRepository extends \Neos\Flow\Persistence\Doctr
     protected function getOrderings(ListViewConfiguration $listViewConfiguration): array
     {
         return array_filter($listViewConfiguration->getSortDirections(), function ($propertyPath) {
-             return $propertyPath !== '*' && !empty($propertyPath);
+            return $propertyPath !== '*' && !empty($propertyPath);
         }, ARRAY_FILTER_USE_KEY);
     }
 }

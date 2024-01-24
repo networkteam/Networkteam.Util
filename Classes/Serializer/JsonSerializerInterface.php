@@ -7,6 +7,7 @@ namespace Networkteam\Util\Serializer;
 
 use Symfony\Component\Serializer\SerializerInterface;
 
-interface JsonSerializerInterface extends SerializerInterface {
+interface JsonSerializerInterface extends SerializerInterface
+{
 
 }

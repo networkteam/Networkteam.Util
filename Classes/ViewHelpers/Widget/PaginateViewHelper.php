@@ -47,11 +47,12 @@ class PaginateViewHelper extends \Neos\FluidAdaptor\Core\Widget\AbstractWidgetVi
         parent::initializeArguments();
         $this->registerArgument('objects', QueryResultInterface::class, 'Objects', true);
         $this->registerArgument('as', 'string', 'as', true);
-        $this->registerArgument('configuration', 'array', 'Widget configuration', false, ['itemsPerPage' => 10, 'insertAbove' => false, 'insertBelow' => true, 'maximumNumberOfLinks' => 99]);
+        $this->registerArgument('configuration', 'array', 'Widget configuration', false,
+            ['itemsPerPage' => 10, 'insertAbove' => false, 'insertBelow' => true, 'maximumNumberOfLinks' => 99]);
     }
 
     public function render(): string
     {
-        return  $this->initiateSubRequest();
+        return $this->initiateSubRequest();
     }
 }
