@@ -1,10 +1,9 @@
 <?php
 namespace Networkteam\Util\Log\Backend;
 
-
 use Neos\Flow\Log\Backend\AbstractBackend;
 use Neos\Flow\Log\Exception\CouldNotOpenResourceException;
-use Neos\Flow\Log\PlainTextFormatter;
+use Networkteam\Util\Log\WebRequestContext;
 
 /**
  * An extended console log backend with additional prefix and output of package key, class and method
@@ -32,6 +31,8 @@ class ConsoleBackend extends AbstractBackend
      * @var string
      */
     protected $prefix = '';
+
+    protected string $name = '';
 
     /**
      * Carries out all actions necessary to prepare the logging backend, such as opening
@@ -85,16 +86,19 @@ class ConsoleBackend extends AbstractBackend
             return;
         }
 
-        $data = [
+        $data = array_filter([
             'eventTime' => (new \DateTime('now'))->format(DATE_RFC3339),
             'severity' => $this->severityLabels[$severity] ?? 'unknown',
+            'logger' => $this->name,
             'message' => implode(' ', [trim($this->prefix), $message]),
             'class' => $className,
             'method' => $methodName,
             'package' => $packageKey, // Drop since 'class' is FQDN?
+            'httpRequest' => WebRequestContext::getContext(),
             'additionalData' => $additionalData,
-            'source' => 'neos-flow'
-        ];
+            'source' => 'neos-flow',
+        ]);
+
         if (is_resource($this->streamHandle)) {
             fputs($this->streamHandle, json_encode($data, JSON_THROW_ON_ERROR) . PHP_EOL);
         }
@@ -129,6 +133,7 @@ class ConsoleBackend extends AbstractBackend
     /**
      * Set the prefix to prepend to every logged message
      *
+     * @deprecated in favor of setName()
      * @param string $prefix
      * @return void
      */
@@ -137,4 +142,8 @@ class ConsoleBackend extends AbstractBackend
         $this->prefix = $prefix;
     }
 
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 }

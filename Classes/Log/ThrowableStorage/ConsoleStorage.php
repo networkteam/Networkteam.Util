@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Networkteam\Util\Log\ThrowableStorage;
 
-use Neos\Flow\Core\Bootstrap;
-use Neos\Flow\Http\HttpRequestHandlerInterface;
 use Neos\Flow\Log\Exception\CouldNotOpenResourceException;
 use Neos\Flow\Log\ThrowableStorageInterface;
-use Neos\Flow\ObjectManagement\ObjectManagerInterface;
+use Networkteam\Util\Log\WebRequestContext;
 
 final class ConsoleStorage implements ThrowableStorageInterface
 {
@@ -47,19 +45,20 @@ final class ConsoleStorage implements ThrowableStorageInterface
 
     public function logThrowable(\Throwable $throwable, array $additionalData = [])
     {
-        $data = [
+        $data = array_filter([
             'eventTime' => (new \DateTime('now'))->format(DATE_RFC3339),
             'severity' => 'critical',
+            'logger' => 'throwableStorage',
             'message' => $throwable->getMessage(),
             'errorLocation' => [
-                'filePath' => $throwable->getFile(),
+                'filePath' => str_replace(FLOW_PATH_ROOT, '', $throwable->getFile()),
                 'lineNumber' => $throwable->getLine(),
                 'functionName' => self::getFunctionNameForTrace($throwable->getTrace()),
             ],
-            'httpRequest' => $this->getHttpRequestContext(),
             'additionalData' => $additionalData,
+            'httpRequest' => WebRequestContext::getContext(),
             'source' => 'neos-flow'
-        ];
+        ]);
 
         $output = json_encode($data);
 
@@ -68,36 +67,6 @@ final class ConsoleStorage implements ThrowableStorageInterface
         }
 
         return $output;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    public function getHttpRequestContext(): array
-    {
-        if (!(Bootstrap::$staticObjectManager instanceof ObjectManagerInterface)) {
-            return [];
-        }
-
-        $bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
-        /** @var Bootstrap $bootstrap */
-        $requestHandler = $bootstrap->getActiveRequestHandler();
-        if (!$requestHandler instanceof HttpRequestHandlerInterface) {
-            return [];
-        }
-
-        $request = $requestHandler->getHttpRequest();
-
-        $context = [
-            'method' => $request->getMethod(),
-            'url' => (string)$request->getUri(),
-        ];
-
-        if ($request->hasHeader('User-Agent')) {
-            $context['userAgent'] = $request->getHeader('User-Agent')[0];
-        }
-
-        return $context;
     }
 
     public function setRequestInformationRenderer(\Closure $requestInformationRenderer)
