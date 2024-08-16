@@ -1,6 +1,5 @@
 Networkteam:
   Util:
-    serviceContext: 'neos-flow'
     OpenExchangeRateConverter:
       appId: 'b05f50cd27864a519887e3141c64cb34'
       baseUrl: 'http://openexchangerates.org/api/'

@@ -5,7 +5,6 @@ namespace Networkteam\Util\Domain\DataTransferObject;
 /***************************************************************
  *  (c) 2013 networkteam GmbH - all rights reserved
  ***************************************************************/
-
 class ListViewConfiguration
 {
     /**
@@ -131,9 +130,9 @@ class ListViewConfiguration
 
     public function setSortDirections(array $sortDirections): void
     {
-		foreach ($sortDirections as $propertyName => $direction) {
-			$this->setSortDirection($propertyName, $direction);
-		}
+        foreach ($sortDirections as $propertyName => $direction) {
+            $this->setSortDirection($propertyName, $direction);
+        }
     }
 
     public function getSortDirections(): array
@@ -223,7 +222,7 @@ class ListViewConfiguration
     }
 
     /**
-	 * Replaces "_" by "." in property names
+     * Replaces "_" by "." in property names
      */
     public function getSortDirectionsWithPropertyPath(): array
     {

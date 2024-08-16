@@ -21,10 +21,10 @@ class MailMessage implements \Networkteam\Util\Mail\MailerMessageInterface
     protected $replyTo;
 
 
-	/**
-	 * @var array<MailHeader>
-	 */
-	protected array $headers;
+    /**
+     * @var array<MailHeader>
+     */
+    protected array $headers;
 
     /**
      * Returns the mimetype of the message(text/html)
@@ -73,9 +73,9 @@ class MailMessage implements \Networkteam\Util\Mail\MailerMessageInterface
     /**
      * @return array<MailHeader>
      */
-    public function getHeaders() : array
+    public function getHeaders(): array
     {
-		return $this->headers;
+        return $this->headers;
     }
 
     /**
@@ -107,11 +107,12 @@ class MailMessage implements \Networkteam\Util\Mail\MailerMessageInterface
         $this->replyTo = $replyTo;
     }
 
-	/**
-	 * @param array<string> $headers
-	 * @return void
-	 */
-	public function setHeaders(array $headers) : void {
-		$this->headers = $headers;
-	}
+    /**
+     * @param array<string> $headers
+     * @return void
+     */
+    public function setHeaders(array $headers): void
+    {
+        $this->headers = $headers;
+    }
 }

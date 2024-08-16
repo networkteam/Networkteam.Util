@@ -28,9 +28,12 @@ class TranslatedOptionsViewHelper extends \Neos\FluidAdaptor\Core\ViewHelper\Abs
     {
         parent::initializeArguments();
         $this->registerArgument('prefix', 'string', 'Prefix for translation ids (e.g. "options.foo")');
-        $this->registerArgument('translateById', 'boolean', 'Use translateById or translateByOriginalLabel', false, true);
+        $this->registerArgument('translateById', 'boolean', 'Use translateById or translateByOriginalLabel', false,
+            true);
         $this->registerArgument('package', 'string', 'Key of the package containing the source file');
-        $this->registerArgument('sourceName', 'string', 'Name of file with translations, base path is $packageKey/Resources/Private/Locale/Translations/', false, 'Main');
+        $this->registerArgument('sourceName', 'string',
+            'Name of file with translations, base path is $packageKey/Resources/Private/Locale/Translations/', false,
+            'Main');
         $this->registerArgument('locale', 'string', 'A valid locale identifier according to UTS#35');
     }
 

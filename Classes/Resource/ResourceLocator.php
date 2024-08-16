@@ -37,8 +37,7 @@ class ResourceLocator
         PersistentResource $resource = null,
         bool $localize = true,
         bool $appendCacheBuster = true
-    ): string
-    {
+    ): string {
         $cacheBuster = '';
 
         if ($resource !== null) {
