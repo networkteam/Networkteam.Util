@@ -7,7 +7,8 @@
         "symfony/serializer": "~6.3",
         "symfony/translation": "~6.3",
 
-        "jms/serializer": "3.32.5"
+        "jms/serializer": "3.32.5",
+        "ext-dom": "*"
     },
     "autoload": {
         "psr-4": {
@@ -125,9 +126,7 @@
     "require-dev": {
         "phpstan/phpstan": "^1.8",
         "neos/fluid-adaptor": "*",
-        "jms/serializer": "*",
-        "neos/swiftmailer": "*",
-        "ext-dom": "*"
+        "neos/swiftmailer": "*"
     },
     "config": {
         "allow-plugins": {
