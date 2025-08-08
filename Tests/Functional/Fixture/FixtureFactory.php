@@ -113,11 +113,11 @@ abstract class FixtureFactory {
 
 	/**
 	 *
-	 * @param string $name
+	 * @param string $methodName
 	 * @param array $arguments
 	 * @return object
 	 */
-	public function __call($methodName, array $arguments) {
+	public function __call(string $methodName, array $arguments) {
 		if (substr($methodName, 0, 5) === 'build' && strlen($methodName) > 6) {
 			$objectName = strtolower(substr($methodName, 5, 1)) . substr($methodName, 6);
 			$overrideProperties = isset($arguments[0]) ? $arguments[0] : array();
