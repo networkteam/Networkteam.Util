@@ -7,6 +7,7 @@ namespace Networkteam\Util\Tests\Unit\Service;
  ***************************************************************/
 
 use Neos\Flow\Tests\UnitTestCase;
+use Networkteam\Util\TypeConverter\JsonResourceTypeConverter;
 
 class JsonResourceTypeConverterTest extends UnitTestCase
 {
@@ -16,7 +17,7 @@ class JsonResourceTypeConverterTest extends UnitTestCase
 	 */
 	public function canConvertReturnsTrueForCorrectValues()
 	{
-		$typeConverter = new \Networkteam\Util\TypeConverter\JsonResourceTypeConverter();
+		$typeConverter = new JsonResourceTypeConverter();
 		$result = $typeConverter->canConvertFrom(array(
 			'filename' => 'abc.csv',
 			'value' => 'data:abc',
@@ -31,7 +32,7 @@ class JsonResourceTypeConverterTest extends UnitTestCase
 	 */
 	public function canConvertReturnsFalseForMultipartValues()
 	{
-		$typeConverter = new \Networkteam\Util\TypeConverter\JsonResourceTypeConverter();
+		$typeConverter = new JsonResourceTypeConverter();
 		$result = $typeConverter->canConvertFrom(array(
 			'submittedFile' => array(
 				'filename' => 'abc.csv'
@@ -52,7 +53,7 @@ class JsonResourceTypeConverterTest extends UnitTestCase
 		$mockResource = $this->getMockBuilder('Neos\Flow\ResourceManagement\PersistentResource')->getMock();
 		$mockResourceManager = $this->getMockBuilder('Neos\Flow\ResourceManagement\ResourceManager')->getMock();
 
-		$typeConverter = new \Networkteam\Util\TypeConverter\JsonResourceTypeConverter();
+		$typeConverter = new JsonResourceTypeConverter();
 		$this->inject($typeConverter, 'resourceManager', $mockResourceManager);
 
 		$mockResourceManager->expects($this->once())->method('importResourceFromContent')->with($content, 'file.txt')->will($this->returnValue($mockResource));
@@ -74,7 +75,7 @@ class JsonResourceTypeConverterTest extends UnitTestCase
 	{
 		$mockResourceManager = $this->getMockBuilder('Neos\Flow\ResourceManagement\ResourceManager')->getMock();
 
-		$typeConverter = new \Networkteam\Util\TypeConverter\JsonResourceTypeConverter();
+		$typeConverter = new JsonResourceTypeConverter();
 		$this->inject($typeConverter, 'resourceManager', $mockResourceManager);
 
 		$mockResourceManager->expects($this->never())->method('importResourceFromContent');

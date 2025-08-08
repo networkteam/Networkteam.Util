@@ -11,7 +11,7 @@ use Neos\Flow\Property\PropertyMappingConfigurationInterface;
 use Neos\Flow\ResourceManagement\ResourceManager;
 
 /**
- * An type converter for ResourcePointer objects from JSON based file uploads (no multipart)
+ * A type converter for ResourcePointer objects from JSON based file uploads (no multipart)
  *
  * @Flow\Scope("singleton")
  */
