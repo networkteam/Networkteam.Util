@@ -15,7 +15,7 @@ class XliffFileDumper extends FileDumper
 	/**
 	 * {@inheritDoc}
 	 */
-	public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = array())
+	public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = array()): string
 	{
 		$dom = new \DOMDocument('1.0', 'utf-8');
 		$dom->formatOutput = TRUE;
@@ -63,7 +63,7 @@ class XliffFileDumper extends FileDumper
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function getExtension()
+	protected function getExtension(): string
 	{
 		return 'xlf';
 	}
