@@ -1,6 +1,4 @@
 <?php
-// TODO: The Mail Tests should be redone, when the Mail-System is also redone
-
 
 namespace Networkteam\Util\Tests\Unit\Mail;
 

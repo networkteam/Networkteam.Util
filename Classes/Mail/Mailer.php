@@ -1,5 +1,4 @@
 <?php
-// TODO: The Mail Classes should be redone, to not rely on swiftmailer, since it is deprecated since Nov 2021
 
 
 namespace Networkteam\Util\Mail;
