@@ -7,6 +7,11 @@ parameters:
             message: "#^Call to an undefined method DOMNode\\:\\:setAttribute\\(\\)\\.$#"
             count: 5
             path: Classes/Translation/XliffFileDumper.php
+        -
+            message: "#^Call to function array_key_exists\\(\\) with \\'(as|configuration)\\'#"
+            count: 2
+            path: Classes/ViewHelpers/Widget/Controller/PaginateController.php
+
 
     paths:
         - Classes
