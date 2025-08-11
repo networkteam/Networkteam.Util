@@ -28,19 +28,6 @@ class SerializerFactory
      */
     protected $objectManager;
 
-    public function createJsonSerializer(): Serializer
-    {
-        if (isset($this->serializer['json']) && $this->serializer['json']) {
-            return $this->serializer['json'];
-        }
-
-        $normalizers[] = $this->objectManager->get('Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer');
-
-        $encoders[] = new JsonEncoder();
-
-        return $this->serializer['json'] = new Serializer($normalizers, $encoders);
-    }
-
     public function createJmsSerializer(): \JMS\Serializer\Serializer
     {
         if (isset($this->serializer['jms']) && $this->serializer['jms']) {
