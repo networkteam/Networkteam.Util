@@ -34,7 +34,7 @@ class SerializerFactory
             return $this->serializer['json'];
         }
 
-        $normalizers[] = $this->objectManager->get('Networkteam\Util\Serializer\Normalizer\FlowIdentityGetSetNormalizer');
+        $normalizers[] = $this->objectManager->get('Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer');
 
         $encoders[] = new JsonEncoder();
 
