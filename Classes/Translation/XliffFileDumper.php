@@ -22,11 +22,17 @@ class XliffFileDumper extends FileDumper
 
 		$xliff = $dom->createElement('xliff');
 		$xliff = $dom->appendChild($xliff);
+		if (! $xliff instanceof \DOMElement) {
+			throw new \DOMException('An Error occurred while creating xliff Element', 1754902634 );
+		}
 
 		$xliff->setAttribute('version', '1.2');
 		$xliff->setAttribute('xmlns', 'urn:oasis:names:tc:xliff:document:1.2');
 
 		$xliffFile = $xliff->appendChild($dom->createElement('file'));
+		if (! $xliffFile instanceof \DOMElement) {
+			throw new \DOMException('An Error occurred while creating file Element', 1754902679 );
+		}
 		$xliffFile->setAttribute('source-language', $messages->getLocale());
 		$xliffFile->setAttribute('datatype', 'plaintext');
 		$xliffFile->setAttribute('original', 'file.ext');
