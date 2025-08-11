@@ -14,21 +14,10 @@ use Neos\Flow\Annotations as Flow;
  */
 abstract class FixtureFactory {
 
-	/**
-	 * @var string
-	 */
 	protected $baseType = NULL;
 
-	/**
-	 * the identifier for objects in this factory
-	 * @var string
-	 */
 	protected $identifierPropertyName;
 
-	/**
-	 *
-	 * @var array
-	 */
 	protected $fixtureDefinitions = array(
 		/*
 		 * Example configuration
@@ -60,13 +49,7 @@ abstract class FixtureFactory {
 	 */
 	protected $instances = array();
 
-	/**
-	 *
-	 * @param string $objectName
-	 * @param array $overrideProperties
-	 * @return object
-	 */
-	public function buildObject($objectName, $overrideProperties = array(), $addObjectToPersistence = FALSE) {
+	public function buildObject(string $objectName, array $overrideProperties = array(), bool $addObjectToPersistence = FALSE): object {
 		if (!isset($this->fixtureDefinitions[$objectName])) {
 			throw new \Exception('Object name ' . $objectName . ' not configured in fixture definitions');
 		}
@@ -92,32 +75,16 @@ abstract class FixtureFactory {
 		return $object;
 	}
 
-	/**
-	 *
-	 * @param string $objectName
-	 * @param array $overrideProperties
-	 * @return object
-	 */
-	public function createObject($objectName, $overrideProperties = array()) {
+	public function createObject($objectName, $overrideProperties = array()): object {
 		$object = $this->buildObject($objectName, $overrideProperties, TRUE);
 		return $object;
 	}
 
-	/**
-	 * @param object $object
-	 * @return void
-	 */
-	protected function addObjectToPersistence($object) {
+	protected function addObjectToPersistence(object $object): void {
 		$this->persistenceManager->add($object);
 	}
 
-	/**
-	 *
-	 * @param string $methodName
-	 * @param array $arguments
-	 * @return object
-	 */
-	public function __call(string $methodName, array $arguments) {
+	public function __call(string $methodName, array $arguments): object {
 		if (substr($methodName, 0, 5) === 'build' && strlen($methodName) > 6) {
 			$objectName = strtolower(substr($methodName, 5, 1)) . substr($methodName, 6);
 			$overrideProperties = isset($arguments[0]) ? $arguments[0] : array();
@@ -151,11 +118,9 @@ abstract class FixtureFactory {
 	}
 
 	/**
-	 * @param mixed $objectIdentification
-	 * @return object
-	 * @throws \InvalidArgumentException
+	 * @throws \InvalidArgumentException|\Exception
 	 */
-	public function get($objectIdentification) {
+	public function get(mixed $objectIdentification): object {
 		if ($objectIdentification instanceof $this->baseType) {
 			$object = $objectIdentification;
 		} elseif (is_array($objectIdentification)) {
@@ -171,11 +136,7 @@ abstract class FixtureFactory {
 		return $object;
 	}
 
-	/**
-	 * @param string $objectName
-	 * @param $overrideProperties
-	 */
-	public function findOrCreate($objectName, $overrideProperties = array()) {
+	public function findOrCreate(string $objectName, array $overrideProperties = array()): object {
 		$object = NULL;
 		if (isset($overrideProperties[$this->identifierPropertyName])) {
 			$object = $this->getExistingObject($overrideProperties[$this->identifierPropertyName]);
@@ -190,11 +151,7 @@ abstract class FixtureFactory {
 		return $this->createObject($objectName, $overrideProperties);
 	}
 
-	/**
-	 * @param string $objectIdentifier
-	 * @return object
-	 */
-	protected function getExistingObject($objectIdentifier) {
+	protected function getExistingObject(string $objectIdentifier): object {
 		$cacheIdentifier = $this->createCacheIdentifier($objectIdentifier);
 
 		if (isset($this->instances[$cacheIdentifier])) {
@@ -204,18 +161,11 @@ abstract class FixtureFactory {
 		return $this->persistenceManager->getObjectByIdentifier($objectIdentifier, $this->baseType);
 	}
 
-	/**
-	 * @param string $objectIdentifier
-	 * @return string
-	 */
-	protected function createCacheIdentifier($objectIdentifier) {
+	protected function createCacheIdentifier(string $objectIdentifier): string {
 		return md5($this->baseType . $objectIdentifier);
 	}
 
-	/**
-	 * @return string
-	 */
-	protected function getDefaultObjectName() {
+	protected function getDefaultObjectName(): string {
 		if ($this->fixtureDefinitions === array()) {
 			throw new \Exception('No fixture definitions in ' . gettype($this));
 		}
