@@ -5,11 +5,12 @@
     "require": {
         "neos/flow": "~6.0 || ~7.0 || ~8.0 || ~9.0",
         "symfony/serializer": "~6.3",
-        "symfony/translation": "~6.3",
-
-        "jms/serializer": "*",
-        "ext-dom": "*",
-        "neos/swiftmailer": "*"
+        "symfony/translation": "~6.3"
+    },
+    "suggest": {
+        "jms/serializer": "This is required to use the SerializerFactory.",
+        "ext-dom": "This is required to use the XliffFileDumper.",
+        "neos/swiftmailer": "This is required to use the Mail-Classes."
     },
     "autoload": {
         "psr-4": {
