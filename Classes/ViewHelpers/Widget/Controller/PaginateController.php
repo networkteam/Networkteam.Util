@@ -68,7 +68,7 @@ class PaginateController extends AbstractWidgetController
     public function initializeAction()
     {
         $this->objects = $this->widgetConfiguration['objects'];
-		if ($this->widgetConfiguration['configuration'] != null) {
+		if (array_key_exists('configuration', $this->widgetConfiguration)) {
 			$this->configuration = \Neos\Utility\Arrays::arrayMergeRecursiveOverrule($this->configuration,
 				$this->widgetConfiguration['configuration'], true);
 		}
@@ -97,7 +97,7 @@ class PaginateController extends AbstractWidgetController
         }
         $modifiedObjects = $query->execute();
 
-		if ($this->widgetConfiguration['as'] != null) {
+		if (array_key_exists('as', $this->widgetConfiguration)) {
 			$this->view->assign('contentArguments', array(
 				$this->widgetConfiguration['as'] => $modifiedObjects
 			));
