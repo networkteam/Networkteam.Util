@@ -5,13 +5,15 @@ namespace Networkteam\Util\ViewHelpers\Widget\Controller;
  *  (c) 2014 networkteam GmbH - all rights reserved
  ***************************************************************/
 
+use \Neos\FluidAdaptor\Core\Widget\AbstractWidgetController;
+use \Neos\Flow\Persistence\QueryResultInterface;
 /**
  */
-class PaginateController extends \Neos\FluidAdaptor\Core\Widget\AbstractWidgetController
+class PaginateController extends AbstractWidgetController
 {
 
     /**
-     * @var \Neos\Flow\Persistence\QueryResultInterface
+     * @var QueryResultInterface
      */
     protected $objects;
 
@@ -66,8 +68,10 @@ class PaginateController extends \Neos\FluidAdaptor\Core\Widget\AbstractWidgetCo
     public function initializeAction()
     {
         $this->objects = $this->widgetConfiguration['objects'];
-        $this->configuration = \Neos\Utility\Arrays::arrayMergeRecursiveOverrule($this->configuration,
-            $this->widgetConfiguration['configuration'], true);
+		if ($this->widgetConfiguration['configuration'] != null) {
+			$this->configuration = \Neos\Utility\Arrays::arrayMergeRecursiveOverrule($this->configuration,
+				$this->widgetConfiguration['configuration'], true);
+		}
         $this->numberOfPages = (int)(ceil(count($this->objects) / (integer)$this->configuration['itemsPerPage']));
         $this->maximumNumberOfLinks = (integer)$this->configuration['maximumNumberOfLinks'];
     }
@@ -93,9 +97,11 @@ class PaginateController extends \Neos\FluidAdaptor\Core\Widget\AbstractWidgetCo
         }
         $modifiedObjects = $query->execute();
 
-        $this->view->assign('contentArguments', array(
-            $this->widgetConfiguration['as'] => $modifiedObjects
-        ));
+		if ($this->widgetConfiguration['as'] != null) {
+			$this->view->assign('contentArguments', array(
+				$this->widgetConfiguration['as'] => $modifiedObjects
+			));
+		}
         $this->view->assign('configuration', $this->configuration);
         $this->view->assign('pagination', $this->buildPagination());
     }
