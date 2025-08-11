@@ -5,13 +5,15 @@ namespace Networkteam\Util\ViewHelpers\Widget\Controller;
  *  (c) 2014 networkteam GmbH - all rights reserved
  ***************************************************************/
 
+use \Neos\FluidAdaptor\Core\Widget\AbstractWidgetController;
+use \Neos\Flow\Persistence\QueryResultInterface;
 /**
  */
-class PaginateController extends \Neos\FluidAdaptor\Core\Widget\AbstractWidgetController
+class PaginateController extends AbstractWidgetController
 {
 
     /**
-     * @var \Neos\Flow\Persistence\QueryResultInterface
+     * @var QueryResultInterface
      */
     protected $objects;
 
