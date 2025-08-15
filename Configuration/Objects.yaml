@@ -1,12 +1,3 @@
-Networkteam\Util\Serializer\JsonSerializerInterface:
-  scope: singleton
-  factoryObjectName: Networkteam\Util\Factory\SerializerFactory
-  factoryMethodName: createJsonSerializer
-
-Networkteam\Util\Persistence\SequenceGeneratorInterface:
-  scope: singleton
-  className: Networkteam\Util\Persistence\MysqlSequenceGenerator
-
 Networkteam\Util\Log\MailerLoggerInterface:
   scope: singleton
   factoryObjectName: Neos\Flow\Log\PsrLoggerFactoryInterface
