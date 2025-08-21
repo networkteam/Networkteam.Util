@@ -22,8 +22,10 @@ final class ConsoleStorage implements ThrowableStorageInterface
 	/**
 	 * @throws CouldNotOpenResourceException
 	 */
-	public function __construct(string $streamName)
-	{
+	public function __construct(
+		string $streamName,
+		protected bool $addStacktrace = false
+	) {
 		$this->streamHandle = fopen($streamName, 'w');
 
 		if (!is_resource($this->streamHandle)) {
@@ -38,11 +40,13 @@ final class ConsoleStorage implements ThrowableStorageInterface
 		}
 
 		$streamName = $options['streamName'];
-
 		if (strpos($streamName, 'php://') === 0) {
 			$streamName = substr($streamName, 6);
 		}
-		return new static('php://' . $streamName);
+
+		$addStacktrace = (bool)($options['addStacktrace'] ?? false);
+
+		return new static('php://' . $streamName, $addStacktrace);
 	}
 
 	public function logThrowable(\Throwable $throwable, array $additionalData = [])
@@ -58,19 +62,22 @@ final class ConsoleStorage implements ThrowableStorageInterface
 		}
 
 		$data = [
-			'eventTime' => (new \DateTime('now'))->format(DATE_RFC3339),
-			'serviceContext' => $serviceContext,
-			'message' => sprintf('PHP Warning: %s', $throwable->getMessage()),
-			'stackTrace' => $throwable->getTraceAsString(),
+			'message' => sprintf('PHP Exception: %s', $throwable->getMessage()),
 			'context' => [
-				'httpRequest' => $this->getHttpRequestContext(),
 				'reportLocation' => [
 					'filePath' => $throwable->getFile(),
 					'lineNumber' => $throwable->getLine(),
 					'functionName' => self::getFunctionNameForTrace($throwable->getTrace()),
 				],
-			]
+				'httpRequest' => $this->getHttpRequestContext(),
+			],
+			'eventTime' => (new \DateTime('now'))->format(DATE_RFC3339),
+			'serviceContext' => $serviceContext,
 		];
+
+		if ($this->addStacktrace === true) {
+			$data['stacktrace'] = $throwable->getTraceAsString();
+		}
 
 		$output = json_encode($data);
 
