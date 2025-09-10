@@ -8,6 +8,11 @@ parameters:
             count: 5
             path: Classes/Translation/XliffFileDumper.php
 
+        -
+            message: "#^Offset \\'(as|configuration)\\' does not exist#"
+            count: 2
+            path: Classes/ViewHelpers/Widget/Controller/PaginateController.php
+
     paths:
         - Classes
 
