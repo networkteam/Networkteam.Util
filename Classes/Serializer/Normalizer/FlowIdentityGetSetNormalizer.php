@@ -7,9 +7,10 @@ namespace Networkteam\Util\Serializer\Normalizer;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Persistence\PersistenceManagerInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
-class FlowIdentityGetSetNormalizer extends GetSetMethodNormalizer
+class FlowIdentityGetSetNormalizer extends AbstractObjectNormalizer
 {
 
     /**
@@ -19,20 +20,41 @@ class FlowIdentityGetSetNormalizer extends GetSetMethodNormalizer
     protected $persistenceManager;
 
     /**
-     * @param object $object
-     * @param string $format
-     * @param array $context
-     * @return array
+     * @var GetSetMethodNormalizer
+     * @Flow\Inject
      */
-    public function normalize($object, $format = null, array $context = [])
-    {
-        $attributes = parent::normalize($object, $format, $context);
+    protected $getSetMethodNormalizer;
 
-        $identifier = $this->persistenceManager->getIdentifierByObject($object);
+
+    public function normalize(mixed $data, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    {
+        $attributes = parent::normalize($data, $format, $context);
+
+        $identifier = $this->persistenceManager->getIdentifierByObject($data);
         if ($identifier) {
             $attributes['__identifier'] = $identifier;
         }
 
         return $attributes;
+    }
+
+    protected function extractAttributes(object $object, ?string $format = null, array $context = []): array
+    {
+        return $this->getSetMethodNormalizer->extractAttributes($object, $format, $context);
+    }
+
+    protected function getAttributeValue(object $object, string $attribute, ?string $format = null, array $context = []): mixed
+    {
+        return $this->getSetMethodNormalizer->getAttributeValue($object, $attribute, $format, $context);
+    }
+
+    protected function setAttributeValue(object $object, string $attribute, mixed $value, ?string $format = null, array $context = []): void
+    {
+        $this->getSetMethodNormalizer->setAttributeValue($object, $attribute, $value, $format, $context);
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return $this->getSetMethodNormalizer->getSupportedTypes($format);
     }
 }
