@@ -35,9 +35,9 @@ class Mailer implements MailerInterface
 	protected $throwableStorage;
 
 	/**
-	 * @var Message
+	 * @var Message|null
 	 */
-	protected Message $message;
+	protected ?Message $message = null;
 
 	/**
 	 * Inject the settings
@@ -156,6 +156,10 @@ class Mailer implements MailerInterface
 	 */
 	protected function getMessage()
 	{
-		return $this->message;
+		if ($this->message instanceof Message) {
+			return $this->message;
+		}
+
+		return new Message();
 	}
 }
